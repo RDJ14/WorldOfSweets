@@ -1,0 +1,14 @@
+
+1. As a child/parent, I want all the players play on one machine, so that the game is easy to play locally. 
+2. As a child/parent, I want the ability to have multiple tokens on one square, so that it’s too complicating to move on the board. 
+3. As a child/parent, I want that a player cannot quit mid game, so that the game will always have a winner
+4. As a child, I want to not be able to pass on my turn, so that the game is kept simple. 
+5. As a child, I want even distribution of colors in the deck, so that the game has a fun amount of variety. 
+6. As a child/parent, I want the players to go in chronological order to take their turns, so that the game is kept simple to understand. 
+7. As a child, I want that there’s a maximum number of 4 and a minimum number of 2, so that there’s always a reasonable number of players playing. 
+8. As a parent, I want the board to be not too long, so that the game doesn’t take too long
+9. As a child, I want the board to be long enough, so that it will be fun
+10. As a child, I want there to be no time limit, so I can take as long as I need to play the game.
+11. As a child, I want the game to be colorful and fun-looking, so that it’s more fun and engrossing to play
+
+(1 = highest priority, 11 = lowest priority)
