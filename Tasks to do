@@ -1,0 +1,22 @@
+Tasks to do
+-	We need to make a board
+  o	Colorful/fun looking
+  o	Zig zag
+  o	20 squares to start with for now
+  o	squares in repeating order of (red, yellow, blue, green, orange)
+  o	last square is grandma’s house
+  o	tokens on board (do not need to move for the first deliverable)
+-	We need to make a deck
+  o	Even distribution in deck
+    	12 of each color
+    	10 singles, 2 doubles for each color
+    	(red, yellow, blue, green, orange)
+  o	Random output
+  o	Function like a deck
+    	Stack
+  o	Discard pile
+    	They get reshuffled in once the main deck is done
+  o	Show last card dealt
+
+-	Players
+o	User is asked how many players are playing
