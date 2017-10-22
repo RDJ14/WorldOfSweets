@@ -71,7 +71,7 @@ public class Card{
           }
           else{
             color_image_location = "CardImage/Orange-double.png";
-            color_text = "orange";
+            color_text = "orange double";
           }
           break;
       }
