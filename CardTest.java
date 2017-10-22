@@ -41,6 +41,6 @@ public class CardTest{
     testCardOrangeDouble.discard();
     testCardOrangeSingle.discard();
 
-    exit(0);
+    System.exit(0);
   }
 }
