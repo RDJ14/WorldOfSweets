@@ -1,3 +1,5 @@
+package com.mcteamface.worldofsweats;
+
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;

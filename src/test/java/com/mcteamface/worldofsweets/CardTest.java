@@ -1,3 +1,5 @@
+package com.mcteamface.worldofsweats;
+
 import java.util.Scanner;
 
 public class CardTest{
