@@ -12,7 +12,7 @@ public class Buttons extends JFrame implements ActionListener{
     JButton b3;
     
 	public static void main(String[] args) {
-		Buttons a = new Buttons();
+		Buttons buttonFrame = new Buttons();
 
 	}
 		
