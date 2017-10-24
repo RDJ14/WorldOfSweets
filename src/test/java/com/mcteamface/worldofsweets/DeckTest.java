@@ -1,4 +1,5 @@
 package com.mcteamface.worldofsweats;
+import com.mcteamface.worldofsweats.Deck;
 
 public class DeckTest{
 

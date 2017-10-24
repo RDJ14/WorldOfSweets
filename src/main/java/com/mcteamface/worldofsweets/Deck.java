@@ -26,11 +26,13 @@ public class Deck{
   Card lastDrawnCard;
   protected JButton cardButton;
   protected JButton emptyDeck;
+  protected int hasDrawn;
 
   public Deck(){
     deck = new ArrayList<Card>();
     display = new JFrame();
     cardToDraw = 0;
+    hasDrawn = 0;
     //create single cards
     for(int i = 0; i < COLOR_SINGLE; i++)
     {
@@ -111,6 +113,7 @@ public class Deck{
   }
 
   public void enableDraw(){
+    hasDrawn = 0;
     cardButton.setEnabled(true);
   }
 
@@ -118,10 +121,13 @@ public class Deck{
       cardButton.doClick();
     }
 
-
+public void hasDrawn(){
+  return hasDrawn == 1;
+}
   private class drawAction implements ActionListener{
 
     public void actionPerformed(ActionEvent e){
+      hasDrawn = 1;
       if(cardToDraw < DECK_SIZE) {
         if(cardToDraw > 0)
         {
