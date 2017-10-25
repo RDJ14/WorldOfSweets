@@ -1,14 +1,15 @@
-package com.mcteamface.worldofsweats;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
 public class Buttons extends JFrame implements ActionListener{
 	int numPlayers;
 	JLabel playerMessage;
 	JPanel panel;
+	
 	JButton b1;
     JButton b2;
     JButton b3;
@@ -19,6 +20,7 @@ public class Buttons extends JFrame implements ActionListener{
 	}
 
 	public Buttons() {
+		JFrame frame = this; 
         setSize(400, 400);
         // Create JButton and JPanel
         playerMessage = new JLabel("Select Number of Players:");
@@ -37,6 +39,7 @@ public class Buttons extends JFrame implements ActionListener{
     		public void actionPerformed(ActionEvent e) {
     			numPlayers = 2;
     			playerMessage.setText("Playing with "+numPlayers+" players");
+    			frame.dispose();
 
     		}
     	};
@@ -46,6 +49,7 @@ public class Buttons extends JFrame implements ActionListener{
     		public void actionPerformed(ActionEvent e) {
     			numPlayers = 3;
     			playerMessage.setText("Playing with "+numPlayers+" players");
+    			frame.dispose();
 
     		}
     	};
@@ -55,7 +59,7 @@ public class Buttons extends JFrame implements ActionListener{
     		public void actionPerformed(ActionEvent e) {
     			numPlayers = 4;
     			playerMessage.setText("Playing with "+numPlayers+" players");
-
+    			frame.dispose();
     		}
     	};
 
