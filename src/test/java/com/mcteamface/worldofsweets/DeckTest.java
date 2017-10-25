@@ -1,5 +1,5 @@
-package com.mcteamface.worldofsweats;
-import com.mcteamface.worldofsweats.Deck;
+package com.mcteamface.worldofsweets;
+import com.mcteamface.worldofsweets.Deck;
 
 public class DeckTest{
 
@@ -9,8 +9,9 @@ public class DeckTest{
       boolean allPassed = testDeckDraw();
       if(allPassed){
         System.out.println("All Tests Passed");
+        System.exit(0);
       }
-      System.exit(0);
+      else System.exit(1);
    }
 
 

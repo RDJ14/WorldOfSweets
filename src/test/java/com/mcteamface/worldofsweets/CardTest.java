@@ -1,4 +1,4 @@
-package com.mcteamface.worldofsweats;
+package com.mcteamface.worldofsweets;
 
 import java.util.Scanner;
 

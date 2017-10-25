@@ -1,4 +1,4 @@
-package com.mcteamface.worldofsweats;
+package com.mcteamface.worldofsweets;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -10,8 +10,9 @@ public class Buttons extends JFrame implements ActionListener{
 	JLabel playerMessage;
 	JPanel panel;
 	JButton b1;
-    JButton b2;
-    JButton b3;
+  JButton b2;
+  JButton b3;
+	volatile boolean playersSelected;
 
 	public static void main(String[] args) {
 		Buttons buttonFrame = new Buttons();
@@ -21,6 +22,7 @@ public class Buttons extends JFrame implements ActionListener{
 	public Buttons() {
         setSize(400, 400);
         // Create JButton and JPanel
+				playersSelected = false;
         playerMessage = new JLabel("Select Number of Players:");
         panel = new JPanel();
         b1 = new JButton("2");
@@ -36,6 +38,7 @@ public class Buttons extends JFrame implements ActionListener{
     		@Override
     		public void actionPerformed(ActionEvent e) {
     			numPlayers = 2;
+					playersSelected = true;
     			playerMessage.setText("Playing with "+numPlayers+" players");
 
     		}
@@ -45,6 +48,7 @@ public class Buttons extends JFrame implements ActionListener{
     		@Override
     		public void actionPerformed(ActionEvent e) {
     			numPlayers = 3;
+					playersSelected = true;
     			playerMessage.setText("Playing with "+numPlayers+" players");
 
     		}
@@ -54,6 +58,7 @@ public class Buttons extends JFrame implements ActionListener{
     		@Override
     		public void actionPerformed(ActionEvent e) {
     			numPlayers = 4;
+					playersSelected = true;
     			playerMessage.setText("Playing with "+numPlayers+" players");
 
     		}
@@ -83,4 +88,11 @@ public class Buttons extends JFrame implements ActionListener{
 
 	}
 
+	public boolean havePlayerSelected(){
+		return playersSelected;
+	}
+
+	public int getNumPlayers(){
+		return numPlayers;
+	}
 }

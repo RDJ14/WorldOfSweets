@@ -1,4 +1,4 @@
-package com.mcteamface.worldofsweats;
+package com.mcteamface.worldofsweets;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.awt.event.*;
 import javax.imageio.*;
 import java.io.File;
+import java.net.URL;
 
 public class Deck{
 
@@ -18,21 +19,22 @@ public class Deck{
   static final int COLOR_DOUBLE = 2;
   static final int SPECIAL_CARDS = 0;
   static final int DECK_SIZE = ((COLOR_SINGLE + COLOR_DOUBLE) * NUMBER_COLORS) + SPECIAL_CARDS;
+
   ArrayList<Card> deck;
   JFrame display;
   protected int cardToDraw;
   JPanel cardPanel;
   JPanel emptyPanel;
-  Card lastDrawnCard;
+  volatile Card lastDrawnCard;
   protected JButton cardButton;
   protected JButton emptyDeck;
-  protected int hasDrawn;
+  volatile boolean hasDrawn;
 
   public Deck(){
     deck = new ArrayList<Card>();
     display = new JFrame();
     cardToDraw = 0;
-    hasDrawn = 0;
+    hasDrawn = false;
     //create single cards
     for(int i = 0; i < COLOR_SINGLE; i++)
     {
@@ -69,9 +71,11 @@ public class Deck{
     Collections.shuffle(deck);
     BufferedImage cardBack;
     try{
-      cardBack = ImageIO.read(new File("CardImage/Card-back.jpg"));
-
-      cardButton = new JButton(new ImageIcon(cardBack));
+      URL cardBackLoc = Deck.class.getClassLoader().getResource("images/Card-back.jpg");
+      //cardBack = ImageIO.read(new File("images/Card-back.jpg"));
+      cardBack = ImageIO.read(cardBackLoc);
+      cardButton = new JButton();
+      cardButton.setIcon(new ImageIcon(cardBack));
       cardButton.setBorder(BorderFactory.createEmptyBorder());
       cardButton.setContentAreaFilled(false);
       cardButton.addActionListener(new drawAction());
@@ -101,6 +105,7 @@ public class Deck{
   }
 
   protected void shuffle(){
+    cardToDraw = 0;
     Collections.shuffle(this.deck);
   }
 
@@ -109,11 +114,12 @@ public class Deck{
   }
 
   public void disableDraw(){
+    lastDrawnCard = null;
     cardButton.setEnabled(false);
   }
 
   public void enableDraw(){
-    hasDrawn = 0;
+    //hasDrawn = 0;
     cardButton.setEnabled(true);
   }
 
@@ -121,13 +127,18 @@ public class Deck{
       cardButton.doClick();
     }
 
-public void hasDrawn(){
-  return hasDrawn == 1;
-}
-  private class drawAction implements ActionListener{
+  public boolean hasDrawn(){
+    return hasDrawn;
+  }
+  public void setHasDrawn(boolean flag)
+  {
+    this.hasDrawn = flag;
+  }
+
+  protected class drawAction implements ActionListener{
 
     public void actionPerformed(ActionEvent e){
-      hasDrawn = 1;
+      hasDrawn = true;
       if(cardToDraw < DECK_SIZE) {
         if(cardToDraw > 0)
         {
@@ -154,6 +165,7 @@ public void hasDrawn(){
       }
     }
 
+
   }
 
   private class emptyDeckAction implements ActionListener{
@@ -161,7 +173,6 @@ public void hasDrawn(){
     public void actionPerformed(ActionEvent e){
       Card discardLastCard = deck.get(cardToDraw - 1);
       discardLastCard.discard();
-
       Collections.shuffle(deck);
       cardToDraw = 0;
       display.getContentPane().removeAll();
