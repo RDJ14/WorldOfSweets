@@ -1,7 +1,6 @@
-								    <<<<<<< HEAD
+
 package com.mcteamface.worldofsweets;
-=======
->>>>>>> 2f30ebbbffc6bc556517840a93fdca6076997b7c
+
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
