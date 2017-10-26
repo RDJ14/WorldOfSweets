@@ -1,14 +1,19 @@
+								    <<<<<<< HEAD
 package com.mcteamface.worldofsweets;
+=======
+>>>>>>> 2f30ebbbffc6bc556517840a93fdca6076997b7c
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
 public class Buttons extends JFrame implements ActionListener{
 	int numPlayers;
 	JLabel playerMessage;
 	JPanel panel;
+	
 	JButton b1;
   JButton b2;
   JButton b3;
@@ -20,6 +25,7 @@ public class Buttons extends JFrame implements ActionListener{
 	}
 
 	public Buttons() {
+		JFrame frame = this; 
         setSize(400, 400);
         // Create JButton and JPanel
 				playersSelected = false;
@@ -40,6 +46,7 @@ public class Buttons extends JFrame implements ActionListener{
     			numPlayers = 2;
 					playersSelected = true;
     			playerMessage.setText("Playing with "+numPlayers+" players");
+    			frame.dispose();
 
     		}
     	};
@@ -50,6 +57,7 @@ public class Buttons extends JFrame implements ActionListener{
     			numPlayers = 3;
 					playersSelected = true;
     			playerMessage.setText("Playing with "+numPlayers+" players");
+    			frame.dispose();
 
     		}
     	};
@@ -60,7 +68,7 @@ public class Buttons extends JFrame implements ActionListener{
     			numPlayers = 4;
 					playersSelected = true;
     			playerMessage.setText("Playing with "+numPlayers+" players");
-
+    			frame.dispose();
     		}
     	};
 
