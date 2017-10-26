@@ -1,7 +1,5 @@
-								    <<<<<<< HEAD
 package com.mcteamface.worldofsweets;
-=======
->>>>>>> 2f30ebbbffc6bc556517840a93fdca6076997b7c
+
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -13,7 +11,7 @@ public class Buttons extends JFrame implements ActionListener{
 	int numPlayers;
 	JLabel playerMessage;
 	JPanel panel;
-	
+
 	JButton b1;
   JButton b2;
   JButton b3;
@@ -25,7 +23,7 @@ public class Buttons extends JFrame implements ActionListener{
 	}
 
 	public Buttons() {
-		JFrame frame = this; 
+		JFrame frame = this;
         setSize(400, 400);
         // Create JButton and JPanel
 				playersSelected = false;

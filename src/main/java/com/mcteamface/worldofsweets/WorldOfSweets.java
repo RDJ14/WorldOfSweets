@@ -9,7 +9,7 @@ public class WorldOfSweets{
       int numPlayers = 0;
       while(!numPlayersSelected){
         numPlayersSelected = numPlayersButton.havePlayerSelected();
-        if(numPlayersSelected){
+        if(numPlayers != 0){
           numPlayers = numPlayersButton.getNumPlayers();
           numPlayersButton.dispose();
           break;
