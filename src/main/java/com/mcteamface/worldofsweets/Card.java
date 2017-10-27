@@ -100,4 +100,12 @@ public class Card{
     display.dispose();
     return;
   }
+
+  public Color getColor(){
+    return this.color;
+  }
+
+  public boolean isSingle(){
+    return single;
+  }
 }

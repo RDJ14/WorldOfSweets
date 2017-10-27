@@ -119,7 +119,7 @@ public class Deck{
   }
 
   public void enableDraw(){
-    //hasDrawn = 0;
+    hasDrawn = false;
     cardButton.setEnabled(true);
   }
 
@@ -135,10 +135,12 @@ public class Deck{
     this.hasDrawn = flag;
   }
 
+  public void dispose(){
+    display.dispose();
+  }
   protected class drawAction implements ActionListener{
 
     public void actionPerformed(ActionEvent e){
-      hasDrawn = true;
       if(cardToDraw < DECK_SIZE) {
         if(cardToDraw > 0)
         {
@@ -149,6 +151,7 @@ public class Deck{
         lastDrawnCard = drawCard;
         drawCard.draw();
         cardToDraw++;
+        hasDrawn = true;
         if(cardToDraw == DECK_SIZE)
         {
           display.getContentPane().removeAll();
@@ -171,6 +174,7 @@ public class Deck{
   private class emptyDeckAction implements ActionListener{
 
     public void actionPerformed(ActionEvent e){
+      System.out.println("SHUFFLING");
       Card discardLastCard = deck.get(cardToDraw - 1);
       discardLastCard.discard();
       Collections.shuffle(deck);

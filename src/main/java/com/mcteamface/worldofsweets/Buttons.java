@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
 public class Buttons extends JFrame implements ActionListener{
-	int numPlayers;
+	volatile int numPlayers;
 	JLabel playerMessage;
 	JPanel panel;
 

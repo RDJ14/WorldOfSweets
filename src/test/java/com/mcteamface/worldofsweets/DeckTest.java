@@ -1,104 +1,78 @@
 package com.mcteamface.worldofsweets;
 import com.mcteamface.worldofsweets.Deck;
 
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 public class DeckTest{
 
 
-
-  public static void main(String[] args) {
-      boolean allPassed = testDeckDraw();
-      if(allPassed){
-        System.out.println("All Tests Passed");
-        System.exit(0);
-      }
-      else System.exit(1);
-   }
-
-
-  public static boolean testDeckDraw(){
+  @Test
+  public void fullDraw(){
     Deck testDeck = new Deck();
+    int redSingles = 0;
+    int blueSingles = 0;
+    int greenSingles = 0;
+    int yellowSingles = 0;
+    int orangeSingles = 0;
 
-    int blue_singles = 0;
-    int blue_doubles = 0;
-    int red_singles = 0;
-    int red_doubles = 0;
-    int green_singles = 0;
-    int green_doubles = 0;
-    int yellow_singles = 0;
-    int yellow_doubles = 0;
-    int orange_singles = 0;
-    int orange_doubles = 0;
+    int redDoubles = 0;
+    int blueDoubles = 0;
+    int greenDoubles = 0;
+    int yellowDoubles = 0;
+    int orangeDoubles = 0;
 
     for(int i = 0; i < 60; i++){
       testDeck.simulateDraw();
       Card drawn = testDeck.lastDraw();
-      if(drawn.color == Color.BLUE)
-      {
-        if(drawn.single) blue_singles++;
-        if(!drawn.single) blue_doubles++;
-      }
-      else if(drawn.color == Color.RED){
-        if(drawn.single) red_singles++;
-        if(!drawn.single) red_doubles++;
-      }
-      else if(drawn.color == Color.GREEN){
-        if(drawn.single) green_singles++;
-        if(!drawn.single) green_doubles++;
-      }
-      else if(drawn.color == Color.YELLOW){
-        if(drawn.single) yellow_singles++;
-        if(!drawn.single) yellow_doubles++;
-      }
-      else if(drawn.color == Color.ORANGE){
-        if(drawn.single) orange_singles++;
-        if(!drawn.single) orange_doubles++;
-      }
-    }
+      if((drawn.getColor() == Color.RED) && (drawn.isSingle())) redSingles++;
+      if((drawn.getColor() == Color.RED) && !(drawn.isSingle())) redDoubles++;
+      if((drawn.getColor() == Color.BLUE) && (drawn.isSingle())) blueSingles++;
+      if((drawn.getColor() == Color.BLUE) && !(drawn.isSingle())) blueDoubles++;
+      if((drawn.getColor() == Color.GREEN) && (drawn.isSingle())) greenSingles++;
+      if((drawn.getColor() == Color.GREEN) && !(drawn.isSingle())) greenDoubles++;
+      if((drawn.getColor() == Color.YELLOW) && (drawn.isSingle())) yellowSingles++;
+      if((drawn.getColor() == Color.YELLOW) && !(drawn.isSingle())) yellowDoubles++;
+      if((drawn.getColor() == Color.ORANGE) && (drawn.isSingle())) orangeSingles++;
+      if((drawn.getColor() == Color.ORANGE) && !(drawn.isSingle())) orangeDoubles++;
 
+    }
+    assert(redSingles == 10);
+    assert(blueSingles == 10);
+    assert(greenSingles == 10);
+    assert(yellowSingles == 10);
+    assert(orangeSingles == 10);
 
-    boolean allPassed = true;
-    if(blue_singles != 10){
-      System.out.println("Blue singles Failed");
-      allPassed = false;
-    }
-    if(yellow_singles != 10){
-      System.out.println("Yellow singles Failed");
-      allPassed = false;
-    }
-    if(green_singles != 10) {
-      System.out.println("Green singles Failed");
-      allPassed = false;
-    }
-    if(red_singles != 10) {
-      System.out.println("Red singles Failed");
-      allPassed = false;
-    }
-    if(orange_singles != 10) {
-      System.out.println("Orange singles Failed");
-      allPassed = false;
-    }
+    assert(redDoubles == 2);
+    assert(blueDoubles == 2);
+    assert(greenDoubles == 2);
+    assert(yellowDoubles == 2);
+    assert(orangeDoubles == 2);
 
-    if(blue_doubles != 2) {
-      System.out.println("Blue doubles Failed");
-      allPassed = false;
-    }
-    if(yellow_doubles != 2) {
-      System.out.println("Yellow doubles Failed");
-      allPassed = false;
-    }
-    if(red_doubles != 2) {
-      System.out.println("Red doubles Failed");
-      allPassed = false;
-    }
-    if(green_doubles != 2) {
-      System.out.println("Green doubles Failed");
-      allPassed = false;
-    }
-    if(orange_doubles != 2) {
-      System.out.println("Orange doubles Failed");
-      allPassed = false;
-    }
-    return allPassed;
+    testDeck.dispose();
+  }
+
+  @Test
+  public void disableDeckTest(){
+    Deck testDeck = new Deck();
+    testDeck.disableDraw();
+    testDeck.simulateDraw();
+
+    Card testCard = testDeck.lastDraw();
+
+    assert(testCard == null);
+
+  }
+
+  @Test
+  public void enablingDeckTest(){
+    Deck testDeck = new Deck();
+    testDeck.disableDraw();
+
+    testDeck.enableDraw();
+    testDeck.simulateDraw();
+    Card testCard = testDeck.lastDraw();
+
+    assert(testCard != null);
   }
 
 }
