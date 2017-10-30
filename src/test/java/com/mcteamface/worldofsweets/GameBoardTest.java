@@ -1,4 +1,5 @@
 package com.mcteamface.worldofsweets;
+import com.mcteamface.worldofsweets.GameBoard;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
