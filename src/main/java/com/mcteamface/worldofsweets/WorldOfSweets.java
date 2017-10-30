@@ -19,7 +19,7 @@ public class WorldOfSweets{
         players.add(new Player(i, "", 0));
       }
       Deck testDeck = new Deck();
-      GameBoard board = new GameBoard();
+      GameBoard board = new GameBoard(numPlayers);
       board.setVisible(true);
 
       boolean gamePlay = true;
