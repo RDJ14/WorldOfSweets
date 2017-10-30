@@ -1,16 +1,12 @@
 package com.mcteamface.worldofsweets;
 
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.*; //for color and flowlayout
-import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
+
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.Border;
 import javax.swing.*; //for borderfactory
-import java.awt.GridLayout;
-import javax.swing.JLabel;
+
 import java.awt.Color;
 import java.net.URL;
 
@@ -210,55 +206,56 @@ public class GameBoard extends JFrame {
 		lblNewLabel_1.setBackground(Color.YELLOW);
 		contentPane.add(lblNewLabel_1);
 
-		JPanel panel = new JPanel();
-		panel.setFont(new Font("Papyrus", Font.BOLD | Font.ITALIC, 19));
-		panel.setBackground(Color.RED);
-		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		contentPane.add(panel);
+		JPanel startPanel = new JPanel();
+		startPanel.setOpaque(true);
+		startPanel.setBorder(border);
+		startPanel.setBackground(Color.RED);
+		contentPane.add(startPanel);
 		
 		//adding player tokens...make this better later
 		if (players == 1) {
-			JButton lblNewLabel_20 = new JButton("Player");
-			panel.add(lblNewLabel_20);
+			JButton token1 = new JButton("Player1");
+			startPanel.add(token1);
 		}
 		if (players == 2) {
-			JButton lblNewLabel_20 = new JButton("Player");
-			panel.add(lblNewLabel_20);
+			JButton token1 = new JButton("Player1");
+			startPanel.add(token1);
 			
-			JButton lblNewLabel = new JButton("Player");
-			panel.add(lblNewLabel);
+			JButton token2 = new JButton("Player2");
+			startPanel.add(token2);
 		}
 		if (players == 3) {
-			JButton lblNewLabel_20 = new JButton("Player");
-			panel.add(lblNewLabel_20);
+			JButton token1 = new JButton("Player1");
+			startPanel.add(token1);
 			
-			JButton lblNewLabel = new JButton("Player");
-			panel.add(lblNewLabel);
+			JButton token2 = new JButton("Player2");
+			startPanel.add(token2);
 			
-			JButton lblNewLabel_21 = new JButton("Player");
-			panel.add(lblNewLabel_21);
+			JButton token3 = new JButton("Player3");
+			startPanel.add(token3);
+			
 		}
 		if (players == 4) {
-			JButton lblNewLabel_20 = new JButton("Player");
-			panel.add(lblNewLabel_20);
+			JButton token1 = new JButton("Player1");
+			startPanel.add(token1);
 			
-			JButton lblNewLabel = new JButton("Player");
-			panel.add(lblNewLabel);
+			JButton token2 = new JButton("Player2");
+			startPanel.add(token2);
 			
-			JButton lblNewLabel_21 = new JButton("Player");
-			panel.add(lblNewLabel_21);
+			JButton token3 = new JButton("Player3");
+			startPanel.add(token3);
 			
-			JButton lblPlayer = new JButton("Player");
-			panel.add(lblPlayer);
+			JButton token4 = new JButton("Player4");
+			startPanel.add(token4);
+	
 		}
-		
-		
-		txtStart = new JTextField();
+				
+		JLabel txtStart = new JLabel();
 		txtStart.setForeground(Color.BLACK);
 		txtStart.setBackground(Color.RED);
 		txtStart.setFont(new Font("Papyrus", Font.PLAIN, 19));
 		txtStart.setText("START");
-		panel.add(txtStart);
+		startPanel.add(txtStart);
 	}
 
 }
