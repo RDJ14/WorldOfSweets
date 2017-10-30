@@ -83,7 +83,7 @@ public class GameBoard extends JFrame {
 		lblNewLabel_16.setBackground(Color.GREEN);
 		contentPane.add(lblNewLabel_16);
 
-		URL grandmaHouse = Deck.class.getClassLoader().getResource("images/GrandmaHouse.jpg");
+		URL grandmaHouse = GameBoard.class.getClassLoader().getResource("images/GrandmaHouse.jpg");
 
 		ImageIcon housePic = new ImageIcon(grandmaHouse); //absolute path just for testing
 		Image img = housePic.getImage();
