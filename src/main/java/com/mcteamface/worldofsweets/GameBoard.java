@@ -26,7 +26,7 @@ public class GameBoard extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public GameBoard() {
+	public GameBoard(int players) {
 
 		//resizing left image
 		ImageIcon left = new ImageIcon("left.png"); //absolute pathing only for testing
@@ -210,13 +210,56 @@ public class GameBoard extends JFrame {
 		lblNewLabel_1.setBackground(Color.YELLOW);
 		contentPane.add(lblNewLabel_1);
 
-		JLabel lblNewLabel = new JLabel("START");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Papyrus", Font.BOLD | Font.ITALIC, 19));
-		lblNewLabel.setOpaque(true);
-		lblNewLabel.setBorder(border);
-		lblNewLabel.setBackground(Color.RED);
-		contentPane.add(lblNewLabel);
+		JPanel panel = new JPanel();
+		panel.setFont(new Font("Papyrus", Font.BOLD | Font.ITALIC, 19));
+		panel.setBackground(Color.RED);
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		contentPane.add(panel);
+		
+		//adding player tokens...make this better later
+		if (players == 1) {
+			JButton lblNewLabel_20 = new JButton("Player");
+			panel.add(lblNewLabel_20);
+		}
+		if (players == 2) {
+			JButton lblNewLabel_20 = new JButton("Player");
+			panel.add(lblNewLabel_20);
+			
+			JButton lblNewLabel = new JButton("Player");
+			panel.add(lblNewLabel);
+		}
+		if (players == 3) {
+			JButton lblNewLabel_20 = new JButton("Player");
+			panel.add(lblNewLabel_20);
+			
+			JButton lblNewLabel = new JButton("Player");
+			panel.add(lblNewLabel);
+			
+			JButton lblNewLabel_21 = new JButton("Player");
+			panel.add(lblNewLabel_21);
+		}
+		if (players == 4) {
+			JButton lblNewLabel_20 = new JButton("Player");
+			panel.add(lblNewLabel_20);
+			
+			JButton lblNewLabel = new JButton("Player");
+			panel.add(lblNewLabel);
+			
+			JButton lblNewLabel_21 = new JButton("Player");
+			panel.add(lblNewLabel_21);
+			
+			JButton lblPlayer = new JButton("Player");
+			panel.add(lblPlayer);
+		}
+		
+		
+		txtStart = new JTextField();
+		txtStart.setForeground(Color.BLACK);
+		txtStart.setBackground(Color.RED);
+		txtStart.setFont(new Font("Papyrus", Font.PLAIN, 19));
+		txtStart.setText("START");
+		panel.add(txtStart);
+		txtStart.setColumns(10);
 	}
 
 }
