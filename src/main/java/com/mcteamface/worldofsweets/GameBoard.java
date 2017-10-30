@@ -259,7 +259,6 @@ public class GameBoard extends JFrame {
 		txtStart.setFont(new Font("Papyrus", Font.PLAIN, 19));
 		txtStart.setText("START");
 		panel.add(txtStart);
-		txtStart.setColumns(10);
 	}
 
 }
