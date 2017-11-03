@@ -5,12 +5,14 @@ public class Player{
   int playersNumber;
   String playersName;
   int position;
+  boolean sugarRush;
   //Image playersToken;
 
   public Player(int playersNumber, String playersName, int position){
       this.playersNumber = playersNumber;
       this.playersName = playersName;
       this.position = position;
+      sugarRush = false;
   }
 
   public void setPlayersName(String playersName){
@@ -24,6 +26,14 @@ public class Player{
   //TODO
   public void setToken(String filePath){
 
+  }
+
+  public void setSugarRush(boolean flag){
+    sugarRush = flag;
+  }
+
+  public boolean getSugarRush(){
+    return sugarRush;
   }
 
   public int getPosition(){

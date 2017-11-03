@@ -29,8 +29,6 @@ public class WorldOfSweets{
 
       while(gamePlay){
 
-        //TO DO
-        //Alternate turns
         int currentTurn = playersTurn % numPlayers;
         players.get(currentTurn);
         //TODO
@@ -49,7 +47,6 @@ public class WorldOfSweets{
           {
             testDeck.disableDraw();
             counter++;
-            System.out.println("Card: " +drawn.color + " Card Number: " +counter ); //testing
             drawn = testDeck.lastDraw();
             break;
           }

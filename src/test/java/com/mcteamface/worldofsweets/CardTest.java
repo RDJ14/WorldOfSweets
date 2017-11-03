@@ -95,5 +95,22 @@ public class CardTest{
     assert(orangeDouble.isSingle() == false);
     orangeDouble.discard();
   }
+  @Test
+  public void sugarRushTest(){
+    Card sugarRush = new Card(SpecialType.RUSH);
+    sugarRush.draw();
+    assert(sugarRush.isSpecial());
+    assert(sugarRush.type == SpecialType.RUSH);
+    sugarRush.discard();
+  }
+
+  @Test
+  public void candySwapTest(){
+    Card candySwap = new Card(SpecialType.SWAP);
+    candySwap.draw();
+    assert(candySwap.isSpecial());
+    assert(candySwap.type == SpecialType.SWAP);
+    candySwap.discard();
+  }
 
 }

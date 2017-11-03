@@ -14,16 +14,23 @@ enum Color{
   ORANGE
 }
 
+enum SpecialType{
+  RUSH,
+  SWAP
+}
+
 public class Card{
 
   boolean single;
   Color color;
+  SpecialType type;
+  boolean isSpecial;
   JFrame display;
 
   public Card(boolean single, Color color){
       this.single = single;
       this.color = color;
-
+      this.isSpecial = false;
       URL color_image_location = null;
       String color_text = " ";
       switch(this.color){
@@ -90,6 +97,33 @@ public class Card{
       display.setVisible(false);
   }
 
+  public Card(SpecialType type){
+    this.type = type;
+    this.isSpecial = true;
+    URL image_location = null;
+    String color_text = " ";
+    switch(type){
+      case RUSH:
+        image_location = Deck.class.getClassLoader().getResource("images/SugarRush.png");
+        color_text = "Sugar Rush! Move forward as if this was a card of the same color tile you are on.)";
+        break;
+      case SWAP:
+        image_location = Deck.class.getClassLoader().getResource("images/Swap.png");
+        color_text = "Cand Mix Up! Switch places with the player directly in front of you!";
+        break;
+    }
+    display = new JFrame();
+    JPanel panel = new JPanel(new BorderLayout());
+    ImageIcon color_image = new ImageIcon(image_location);
+    JLabel label = new JLabel("", color_image, JLabel.CENTER);
+    JLabel you_drew = new JLabel(color_text);
+    panel.add(label, BorderLayout.CENTER);
+    panel.add(you_drew, BorderLayout.SOUTH);
+    display.add(panel);
+    display.pack();
+    display.setVisible(false);
+  }
+
   public void draw(){
     display.setVisible(true);
     return;
@@ -107,5 +141,9 @@ public class Card{
 
   public boolean isSingle(){
     return single;
+  }
+
+  public boolean isSpecial(){
+    return isSpecial;
   }
 }

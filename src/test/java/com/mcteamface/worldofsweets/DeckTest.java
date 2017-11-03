@@ -3,6 +3,7 @@ import com.mcteamface.worldofsweets.Deck;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+
 public class DeckTest{
 
 
@@ -21,19 +22,23 @@ public class DeckTest{
     int yellowDoubles = 0;
     int orangeDoubles = 0;
 
-    for(int i = 0; i < 60; i++){
+    int special = 0;
+    for(int i = 0; i < 62; i++){
       testDeck.simulateDraw();
       Card drawn = testDeck.lastDraw();
-      if((drawn.getColor() == Color.RED) && (drawn.isSingle())) redSingles++;
-      if((drawn.getColor() == Color.RED) && !(drawn.isSingle())) redDoubles++;
-      if((drawn.getColor() == Color.BLUE) && (drawn.isSingle())) blueSingles++;
-      if((drawn.getColor() == Color.BLUE) && !(drawn.isSingle())) blueDoubles++;
-      if((drawn.getColor() == Color.GREEN) && (drawn.isSingle())) greenSingles++;
-      if((drawn.getColor() == Color.GREEN) && !(drawn.isSingle())) greenDoubles++;
-      if((drawn.getColor() == Color.YELLOW) && (drawn.isSingle())) yellowSingles++;
-      if((drawn.getColor() == Color.YELLOW) && !(drawn.isSingle())) yellowDoubles++;
-      if((drawn.getColor() == Color.ORANGE) && (drawn.isSingle())) orangeSingles++;
-      if((drawn.getColor() == Color.ORANGE) && !(drawn.isSingle())) orangeDoubles++;
+      if(drawn.isSpecial()){
+        special++;
+      }
+      else if((drawn.getColor() == Color.RED) && (drawn.isSingle())) redSingles++;
+      else if((drawn.getColor() == Color.RED) && !(drawn.isSingle())) redDoubles++;
+      else if((drawn.getColor() == Color.BLUE) && (drawn.isSingle())) blueSingles++;
+      else if((drawn.getColor() == Color.BLUE) && !(drawn.isSingle())) blueDoubles++;
+      else if((drawn.getColor() == Color.GREEN) && (drawn.isSingle())) greenSingles++;
+      else if((drawn.getColor() == Color.GREEN) && !(drawn.isSingle())) greenDoubles++;
+      else if((drawn.getColor() == Color.YELLOW) && (drawn.isSingle())) yellowSingles++;
+      else if((drawn.getColor() == Color.YELLOW) && !(drawn.isSingle())) yellowDoubles++;
+      else if((drawn.getColor() == Color.ORANGE) && (drawn.isSingle())) orangeSingles++;
+      else if((drawn.getColor() == Color.ORANGE) && !(drawn.isSingle())) orangeDoubles++;
 
     }
     assert(redSingles == 10);
@@ -48,6 +53,7 @@ public class DeckTest{
     assert(yellowDoubles == 2);
     assert(orangeDoubles == 2);
 
+    assert(special == 2);
     testDeck.dispose();
   }
 

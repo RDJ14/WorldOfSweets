@@ -17,7 +17,7 @@ public class Deck{
   static final int NUMBER_COLORS = 5;
   static final int COLOR_SINGLE = 10;
   static final int COLOR_DOUBLE = 2;
-  static final int SPECIAL_CARDS = 0;
+  static final int SPECIAL_CARDS = 2;
   static final int DECK_SIZE = ((COLOR_SINGLE + COLOR_DOUBLE) * NUMBER_COLORS) + SPECIAL_CARDS;
 
   ArrayList<Card> deck;
@@ -67,6 +67,12 @@ public class Deck{
       deck.add(yellowCard);
     }
 
+    Card sugarRush = new Card(SpecialType.RUSH);
+    Card swap = new Card(SpecialType.SWAP);
+
+    deck.add(sugarRush);
+    deck.add(swap);
+    
     //initial shuffle
     Collections.shuffle(deck);
     BufferedImage cardBack;
