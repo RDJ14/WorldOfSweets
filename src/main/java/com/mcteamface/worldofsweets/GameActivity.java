@@ -5,6 +5,10 @@ import javax.swing.*;
 public class GameActivity extends JFrame {
 	public GameActivity() {
 		setBounds(100, 100, 773, 548);
+
+		GameBoardView board = new GameBoardView(2);
+		setContentPane(board);
+
 		// ArrayList<Player> players = new ArrayList<Player>();
     // for(int i = 1; i <= numPlayers; i++){
     //   players.add(new Player(i, "", 0));
