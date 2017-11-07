@@ -3,10 +3,10 @@ package com.mcteamface.worldofsweets;
 import javax.swing.*;
 
 public class GameActivity extends JFrame {
-	public GameActivity() {
+	public GameActivity(int numberOfPlayers) {
 		setBounds(100, 100, 773, 548);
 
-		GameBoardView board = new GameBoardView(2);
+		GameBoardView board = new GameBoardView(numberOfPlayers);
 		setContentPane(board);
 
 		// ArrayList<Player> players = new ArrayList<Player>();

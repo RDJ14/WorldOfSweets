@@ -10,7 +10,7 @@ public class WorldOfSweets {
 			@Override
 			public void playersChosen(int numPlayers) {
         numPlayersButton.dispose();
-        GameActivity GameActivity = new GameActivity();
+        GameActivity GameActivity = new GameActivity(numPlayers);
 			}
 		});
   }

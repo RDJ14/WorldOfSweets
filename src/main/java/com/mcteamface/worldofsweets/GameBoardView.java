@@ -10,11 +10,8 @@ import java.awt.Color;
 import java.net.URL;
 
 public class GameBoardView extends JLayeredPane {
-	int p;
 	public GameBoardView(int players) {
-
 		//resizing left image
-		p = players;
 		ImageIcon left = new ImageIcon("left.png"); //absolute pathing only for testing
 		Image leftImg = left.getImage();
 		Image newLeftImage = leftImg.getScaledInstance(150, 80, java.awt.Image.SCALE_SMOOTH);
@@ -233,7 +230,6 @@ public class GameBoardView extends JLayeredPane {
 
 			JButton token4 = new JButton("Player4");
 			startPanel.add(token4);
-
 		}
 
 		JLabel txtStart = new JLabel();
@@ -244,5 +240,4 @@ public class GameBoardView extends JLayeredPane {
 		txtStart.setText("START");
 		startPanel.add(txtStart);
 	}
-
 }

@@ -39,8 +39,7 @@ public class ChoosePlayersActivity extends JFrame {
 			mPanel.add(mButtons[i]);
 		}
 
-    // And JPanel needs to be added to the JFrame itself!
-    getContentPane().add(mPanel);
+		setContentPane(mPanel);
     setVisible(true);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
