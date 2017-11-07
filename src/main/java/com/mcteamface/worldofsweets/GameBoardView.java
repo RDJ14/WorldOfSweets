@@ -5,26 +5,36 @@ import java.awt.*; //for color and flowlayout
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.Border;
 import javax.swing.*; //for borderfactory
+import javax.imageio.*;
 
 import java.awt.Color;
 import java.net.URL;
 
 public class GameBoardView extends JLayeredPane {
+	// Arrays are mutalable so please don't mutate this ;)
+	private static final Color[] COLOR_ORDER = new Color[] {
+		Color.RED,
+		Color.YELLOW,
+		Color.BLUE,
+		Color.GREEN,
+		Color.ORANGE
+	};
+
 	public GameBoardView(int players) {
-		//resizing left image
-		ImageIcon left = new ImageIcon("left.png"); //absolute pathing only for testing
+		// Resize left image.
+		ImageIcon left = new ImageIcon(getClass().getResource("/images/left.png"));
 		Image leftImg = left.getImage();
 		Image newLeftImage = leftImg.getScaledInstance(150, 80, java.awt.Image.SCALE_SMOOTH);
 		left = new ImageIcon(newLeftImage);
 
-		//resizing right image
-		ImageIcon right = new ImageIcon("right.png"); //absolute pathing only for testing
+		// Resize right image.
+		ImageIcon right = new ImageIcon(getClass().getResource("/images/right.png"));
 		Image rightImg = right.getImage();
 		Image newRightImage = rightImg.getScaledInstance(150, 80, java.awt.Image.SCALE_SMOOTH);
 		right = new ImageIcon(newRightImage);
 
-		//resizing up image
-		ImageIcon up = new ImageIcon("up.png"); // absolute pathing only for testing
+		// Resize up image.
+		ImageIcon up = new ImageIcon(getClass().getResource("/images/up.png"));
 		Image upImg = up.getImage();
 		Image newUpImage = upImg.getScaledInstance(80, 120, java.awt.Image.SCALE_SMOOTH);
 		up = new ImageIcon(newUpImage);
