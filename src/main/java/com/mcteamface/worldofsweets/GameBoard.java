@@ -1,6 +1,5 @@
 package com.mcteamface.worldofsweets;
 
-
 import java.awt.*; //for color and flowlayout
 
 import javax.swing.border.EmptyBorder;
@@ -25,7 +24,7 @@ public class GameBoard extends JFrame {
 	public GameBoard(int players) {
 
 		//resizing left image
-		p = players; 
+		p = players;
 		ImageIcon left = new ImageIcon("left.png"); //absolute pathing only for testing
 		Image leftImg = left.getImage();
 		Image newLeftImage = leftImg.getScaledInstance(150, 80, java.awt.Image.SCALE_SMOOTH);
@@ -254,6 +253,7 @@ public class GameBoard extends JFrame {
 		JLabel txtStart = new JLabel();
 		txtStart.setForeground(Color.BLACK);
 		txtStart.setBackground(Color.RED);
+		// How dare you...
 		txtStart.setFont(new Font("Papyrus", Font.PLAIN, 19));
 		txtStart.setText("START");
 		startPanel.add(txtStart);
