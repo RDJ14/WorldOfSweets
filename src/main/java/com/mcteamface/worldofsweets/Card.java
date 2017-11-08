@@ -20,8 +20,9 @@ enum SpecialType{
 }
 
 public class Card{
-
+	
   boolean single;
+  int c=0;
   Color color;
   SpecialType type;
   boolean isSpecial;
@@ -35,6 +36,7 @@ public class Card{
       String color_text = " ";
       switch(this.color){
         case RED:
+        	this.c=1;
           if(single){
             color_image_location = Deck.class.getClassLoader().getResource("images/Red-single.png");
             color_text = "red single";
@@ -45,6 +47,7 @@ public class Card{
           }
           break;
         case YELLOW:
+        	this.c=2;
           if(single){
             color_image_location = Deck.class.getClassLoader().getResource("images/Yellow-single.png");
             color_text = "yellow single";
@@ -55,6 +58,7 @@ public class Card{
           }
           break;
         case BLUE:
+        	this.c=3;
           if(single){
             color_image_location = Deck.class.getClassLoader().getResource("images/Blue-single.png");
             color_text = "blue single";
@@ -65,6 +69,7 @@ public class Card{
           }
           break;
         case GREEN:
+        	this.c=4;
           if(single){
             color_image_location = Deck.class.getClassLoader().getResource("images/Green-single.png");
             color_text = "green single";
@@ -75,6 +80,7 @@ public class Card{
           }
           break;
         case ORANGE:
+        	this.c=5;
           if(single){
             color_image_location = Deck.class.getClassLoader().getResource("images/Orange-single.png");
             color_text = "orange single";

@@ -72,7 +72,7 @@ public class Deck{
 
     deck.add(sugarRush);
     deck.add(swap);
-
+    
     //initial shuffle
     Collections.shuffle(deck);
     BufferedImage cardBack;
