@@ -47,6 +47,7 @@ public class WorldOfSweets{
         boolean userDrew = false;
         boolean aCardWasDrawn = false;
         String c="";
+        int n;
         Color boardColor;
         Color cardColor = null;
         while(!userDrew)
@@ -57,6 +58,17 @@ public class WorldOfSweets{
           if(drawn != null)
           {
               Color s = drawn.c;
+              String type = null;
+              if(drawn.isSpecial) {
+            	  n=3;
+            	  type = drawn.type.toString();
+              }
+              else if(drawn.isSingle()) {
+            	  n=1;
+              }
+              else{
+            	  n=2;
+              }
               System.out.println(s.toString());
               //System.out.println(board.curColor.toString());
               
@@ -65,9 +77,20 @@ public class WorldOfSweets{
             
             counter++;
             drawn = testDeck.lastDraw();
-            while(s.toString()!=board.getStringColor()) {
-            	//System.out.println(board.curColor.toString());
+            if(n!=3) {
+            	while(s.toString()!=board.getStringColor()) {
+                	
+                }
             }
+            else {
+            	if(type=="RUSH") {
+            		board.moveMiddle(currentTurn+1);
+            	}
+            	else {
+            		
+            	}
+            }
+            
             board.cc = "BLACK";
             board.revertCur();
             

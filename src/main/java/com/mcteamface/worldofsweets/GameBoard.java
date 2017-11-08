@@ -226,6 +226,21 @@ public class GameBoard extends JFrame {
 	public void revertCur() {
 		curColor = Color.black;
 	}
+	
+	public void moveMiddle(int n) {
+		int pos = PlayerPosition[n];
+		JButton a = players[n];
+		a.setVisible(false);
+		JButton comp = new JButton(Integer.toString(n+1));
+		ActionListener buttonListener = new ButtonListener();
+		comp.addActionListener(buttonListener);
+		Board[(h*w)/2].add(comp);
+		players[n]=comp;
+		PlayerPosition[n] = (h*w)/2;
+		contentPane.revalidate();
+		contentPane.repaint();
+		
+	}
 	public void MovePlayerForward(int n) {
 		int pos = PlayerPosition[n];
 		pos-=1;
@@ -238,6 +253,7 @@ public class GameBoard extends JFrame {
 		curColor = Board[pos].getBackground();
 		contentPane.revalidate();
 		contentPane.repaint();
+		players[n] = comp;
 		if(pos==0) {
 			curColor = Color.DARK_GRAY;
 			JOptionPane.showMessageDialog(contentPane, "Player "+n+1+", you win!");
