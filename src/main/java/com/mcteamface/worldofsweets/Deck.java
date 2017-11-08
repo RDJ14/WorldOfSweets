@@ -69,10 +69,11 @@ public class Deck{
 
     Card sugarRush = new Card(SpecialType.RUSH);
     Card swap = new Card(SpecialType.SWAP);
+    for(int i = 0; i < 3; i++)
+      deck.add(sugarRush);
+    for(int i = 0; i < 5; i++)
+      deck.add(swap);
 
-    deck.add(sugarRush);
-    deck.add(swap);
-    
     //initial shuffle
     Collections.shuffle(deck);
     BufferedImage cardBack;

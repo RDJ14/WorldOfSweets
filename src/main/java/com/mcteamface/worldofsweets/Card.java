@@ -20,7 +20,7 @@ enum SpecialType{
 }
 
 public class Card{
-	
+
   boolean single;
   Color c;
   Color color;
@@ -112,11 +112,11 @@ public class Card{
     switch(type){
       case RUSH:
         image_location = Deck.class.getClassLoader().getResource("images/SugarRush.png");
-        color_text = "Sugar Rush! Move forward as if this was a card of the same color tile you are on.)";
+        color_text = "Sugar Rush! Move to the middle tile.)";
         break;
       case SWAP:
         image_location = Deck.class.getClassLoader().getResource("images/Swap.png");
-        color_text = "Cand Mix Up! Switch places with the player directly in front of you!";
+        color_text = "Cand Mix Up! Your turn is skipped!";
         break;
     }
     display = new JFrame();
