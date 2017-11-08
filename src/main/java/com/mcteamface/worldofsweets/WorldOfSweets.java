@@ -2,6 +2,12 @@
 package com.mcteamface.worldofsweets;
 
 import java.util.ArrayList;
+
+//import javax.smartcardio.Card;
+
+//import javax.smartcardio.Card;
+
+
 public class WorldOfSweets{
 
     public static void main(String[] args) {
@@ -28,8 +34,11 @@ public class WorldOfSweets{
       int playersTurn = 0;
 
       while(gamePlay){
-    	  board.disableAll();
+    	
+    	 
         int currentTurn = playersTurn % numPlayers;
+        board.nextPlayerMessage(currentTurn+1);
+        board.disableAll();
         players.get(currentTurn);
         //TODO
         //Make this message part of the board or a pop up
@@ -47,29 +56,37 @@ public class WorldOfSweets{
           testDeck.enableDraw();
           if(drawn != null)
           {
+              Color s = drawn.c;
+              System.out.println(s.toString());
+              //System.out.println(board.curColor.toString());
+              
         	  board.playerDisable(currentTurn+1);
             testDeck.disableDraw();
+            
             counter++;
             drawn = testDeck.lastDraw();
-            //String a = drawn.getColor();
+            while(s.toString()!=board.getStringColor()) {
+            	//System.out.println(board.curColor.toString());
+            }
+            board.cc = "BLACK";
+            board.revertCur();
+            
+            //currentTurn++;
+
             //System.out.println(drawn.getColor());
+            
             //cardColor = drawn.getColor();
             //boardColor = board.curColor;
 
-            board.disableAll();
+
             break;
           }
         }
-        while(true) {
-        	//System.out.println(boardColor);
-        	//System.out.println(cardColor);
-        	break;
-        	
-        }
         
+        drawn = null;
         //TO DO
         //Play Game
-
+        
         testDeck.enableDraw();
       }
     }

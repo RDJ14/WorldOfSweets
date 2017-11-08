@@ -20,7 +20,13 @@ public class GameBoard extends JFrame {
 	int p;
 	int w = 7;
 	int h = 7;
-	Color curColor;
+	String cc="BLACK";
+	Color blue = Color.BLUE;
+	Color yellow = Color.YELLOW;
+	Color orange = Color.ORANGE;
+	Color red = Color.RED;
+	Color green = Color.GREEN;
+	Color curColor = Color.black;
 	boolean movingLeft=true;
 	/**
 	 * Launch the application.
@@ -64,7 +70,25 @@ public class GameBoard extends JFrame {
 		}
 		boardFlipColors();
 	}
-	
+	public String getStringColor() {
+		
+		if(curColor.equals(blue)) {
+			cc="BLUE";
+		}
+		if(curColor==orange) {
+			cc="ORANGE";
+		}
+		if(curColor==red) {
+			cc="RED";
+		}
+		if(curColor==green) {
+			cc="GREEN";
+		}
+		if(curColor==yellow) {
+			cc="YELLOW";
+		}
+		return cc.replace(" ", "");
+	}
 	public void boardFlipColors() {
 		int color = 0;
 		for(int i = 0; i <h;i++) {
@@ -195,7 +219,13 @@ public class GameBoard extends JFrame {
 		startPanel.add(txtStart);
 		*/
 	}
-
+	
+	public void  nextPlayerMessage(int n) {
+		JOptionPane.showMessageDialog(contentPane, "Player "+n+", It's your turn!");
+	}
+	public void revertCur() {
+		curColor = Color.black;
+	}
 	public void MovePlayerForward(int n) {
 		int pos = PlayerPosition[n];
 		pos-=1;
