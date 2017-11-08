@@ -12,7 +12,7 @@ import javax.imageio.*;
 import java.io.File;
 import java.net.URL;
 
-public class Deck{
+public class Deck extends JPanel {
 
   static final int NUMBER_COLORS = 5;
   static final int COLOR_SINGLE = 10;
@@ -21,7 +21,6 @@ public class Deck{
   static final int DECK_SIZE = ((COLOR_SINGLE + COLOR_DOUBLE) * NUMBER_COLORS) + SPECIAL_CARDS;
 
   ArrayList<Card> deck;
-  JFrame display;
   protected int cardToDraw;
   JPanel cardPanel;
   JPanel emptyPanel;
@@ -30,14 +29,12 @@ public class Deck{
   protected JButton emptyDeck;
   volatile boolean hasDrawn;
 
-  public Deck(){
+  public Deck() {
     deck = new ArrayList<Card>();
-    display = new JFrame();
     cardToDraw = 0;
     hasDrawn = false;
     //create single cards
-    for(int i = 0; i < COLOR_SINGLE; i++)
-    {
+    for (int i = 0; i < COLOR_SINGLE; i++) {
       Card blueCard = new Card(true, Color.BLUE);
       Card greenCard =  new Card(true, Color.GREEN);
       Card redCard = new Card(true, Color.RED);
@@ -52,8 +49,7 @@ public class Deck{
     }
 
     //create double cards
-    for(int i = 0; i < COLOR_DOUBLE; i++)
-    {
+    for (int i = 0; i < COLOR_DOUBLE; i++) {
       Card blueCard = new Card(false, Color.BLUE);
       Card greenCard = new Card(false, Color.GREEN);
       Card redCard = new Card(false, Color.RED);
@@ -76,80 +72,65 @@ public class Deck{
     //initial shuffle
     Collections.shuffle(deck);
     BufferedImage cardBack;
-    try{
-      URL cardBackLoc = Deck.class.getClassLoader().getResource("images/Card-back.jpg");
-      //cardBack = ImageIO.read(new File("images/Card-back.jpg"));
-      cardBack = ImageIO.read(cardBackLoc);
-      cardButton = new JButton();
-      cardButton.setIcon(new ImageIcon(cardBack));
-      cardButton.setBorder(BorderFactory.createEmptyBorder());
-      cardButton.setContentAreaFilled(false);
-      cardButton.addActionListener(new drawAction());
-      JLabel drawText = new JLabel("Click the candy to draw a card!");
+    cardButton = new JButton();
+    cardButton.setIcon(new ImageIcon(getClass().getResource("/images/Card-back.jpg")));
+    cardButton.setBorder(BorderFactory.createEmptyBorder());
+    cardButton.setContentAreaFilled(false);
+    cardButton.addActionListener(new drawAction());
+    JLabel drawText = new JLabel("Click the candy to draw a card!");
 
-      cardPanel= new JPanel(new BorderLayout());
-      cardPanel.add(cardButton, BorderLayout.CENTER);
-      cardPanel.add(drawText, BorderLayout.SOUTH);
+    cardPanel = new JPanel(new BorderLayout());
+    cardPanel.add(cardButton, BorderLayout.CENTER);
+    cardPanel.add(drawText, BorderLayout.SOUTH);
 
-      emptyPanel = new JPanel(new BorderLayout());
+    emptyPanel = new JPanel(new BorderLayout());
 
-      emptyDeck = new JButton("Click here to shuffle!");
-      emptyDeck.addActionListener(new emptyDeckAction());
-      JLabel emptyMessage = new JLabel("All cards have been drawn!");
+    emptyDeck = new JButton("Click here to shuffle!");
+    emptyDeck.addActionListener(new emptyDeckAction());
+    JLabel emptyMessage = new JLabel("All cards have been drawn!");
 
-      emptyPanel.add(emptyDeck, BorderLayout.CENTER);
-      emptyPanel.add(emptyMessage, BorderLayout.SOUTH);
+    emptyPanel.add(emptyDeck, BorderLayout.CENTER);
+    emptyPanel.add(emptyMessage, BorderLayout.SOUTH);
 
-
-      display.add(cardPanel);
-      display.pack();
-      display.setVisible(true);
-    }
-    catch(Exception e){
-      System.out.println(e);
-    }
+    add(cardPanel);
   }
 
-  protected void shuffle(){
+  protected void shuffle() {
     cardToDraw = 0;
     Collections.shuffle(this.deck);
   }
 
-  public Card lastDraw(){
+  public Card lastDraw() {
     return lastDrawnCard;
   }
 
-  public void disableDraw(){
+  public void disableDraw() {
     lastDrawnCard = null;
     cardButton.setEnabled(false);
   }
 
-  public void enableDraw(){
+  public void enableDraw() {
     hasDrawn = false;
     cardButton.setEnabled(true);
   }
 
-  public void simulateDraw(){
-      cardButton.doClick();
-    }
+  public void simulateDraw() {
+    cardButton.doClick();
+  }
 
-  public boolean hasDrawn(){
+  public boolean hasDrawn() {
     return hasDrawn;
   }
-  public void setHasDrawn(boolean flag)
-  {
+
+  public void setHasDrawn(boolean flag) {
     this.hasDrawn = flag;
   }
 
-  public void dispose(){
-    display.dispose();
-  }
-  protected class drawAction implements ActionListener{
+  protected class drawAction implements ActionListener {
 
-    public void actionPerformed(ActionEvent e){
-      if(cardToDraw < DECK_SIZE) {
-        if(cardToDraw > 0)
-        {
+    public void actionPerformed(ActionEvent e) {
+      if (cardToDraw < DECK_SIZE) {
+        if (cardToDraw > 0) {
           Card cardToDiscard = deck.get(cardToDraw - 1);
           cardToDiscard.discard();
         }
@@ -158,38 +139,26 @@ public class Deck{
         drawCard.draw();
         cardToDraw++;
         hasDrawn = true;
-        if(cardToDraw == DECK_SIZE)
-        {
-          display.getContentPane().removeAll();
-          display.add(emptyPanel);
-          display.pack();
-          display.setVisible(true);
+        if (cardToDraw == DECK_SIZE) {
+          // getContentPane().removeAll();
+          add(emptyPanel);
         }
-      }
-      else {
-        display.getContentPane().removeAll();
-        display.add(emptyPanel);
-        display.pack();
-        display.setVisible(true);
+      } else {
+        // getContentPane().removeAll();
+        add(emptyPanel);
       }
     }
-
-
   }
 
-  private class emptyDeckAction implements ActionListener{
-
-    public void actionPerformed(ActionEvent e){
+  private class emptyDeckAction implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
       System.out.println("SHUFFLING");
       Card discardLastCard = deck.get(cardToDraw - 1);
       discardLastCard.discard();
       Collections.shuffle(deck);
       cardToDraw = 0;
-      display.getContentPane().removeAll();
-      display.add(cardPanel);
-      display.pack();
-      display.setVisible(true);
+      // getContentPane().removeAll();
+      add(cardPanel);
     }
-
   }
 }

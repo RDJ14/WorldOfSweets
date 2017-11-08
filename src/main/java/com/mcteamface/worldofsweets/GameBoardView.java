@@ -55,7 +55,6 @@ public class GameBoardView extends JLayeredPane {
 
 		for (int i = 0; i < WIDTH * HEIGHT; i++) {
 			int snakeCoord = gridToSnake(i);
-			System.out.println(snakeCoord);
 			// Last tile is "Grandma's House".
 			if (snakeCoord == WIDTH * HEIGHT - 1) {
 				JLabel label = new JLabel("");
