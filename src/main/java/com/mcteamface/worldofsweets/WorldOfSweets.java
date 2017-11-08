@@ -34,8 +34,8 @@ public class WorldOfSweets{
       int playersTurn = 0;
 
       while(gamePlay){
-    	
-    	 
+
+
         int currentTurn = playersTurn % numPlayers;
         board.nextPlayerMessage(currentTurn+1);
         board.disableAll();
@@ -52,7 +52,7 @@ public class WorldOfSweets{
         Color cardColor = null;
         while(!userDrew)
         {
-        	
+
           drawn = testDeck.lastDraw();
           testDeck.enableDraw();
           if(drawn != null)
@@ -69,17 +69,18 @@ public class WorldOfSweets{
               else{
             	  n=2;
               }
-              System.out.println(s.toString());
+              if(s != null)
+                System.out.println(s.toString());
               //System.out.println(board.curColor.toString());
-              
+
         	  board.playerDisable(currentTurn+1);
             testDeck.disableDraw();
-            
+
             counter++;
             drawn = testDeck.lastDraw();
             if(n!=3) {
             	while(s.toString()!=board.getStringColor()) {
-                	
+
                 }
             }
             else {
@@ -87,17 +88,17 @@ public class WorldOfSweets{
             		board.moveMiddle(currentTurn+1);
             	}
             	else {
-            		
+
             	}
             }
-            
+
             board.cc = "BLACK";
             board.revertCur();
-            
+
             //currentTurn++;
 
             //System.out.println(drawn.getColor());
-            
+
             //cardColor = drawn.getColor();
             //boardColor = board.curColor;
 
@@ -105,11 +106,11 @@ public class WorldOfSweets{
             break;
           }
         }
-        
+
         drawn = null;
         //TO DO
         //Play Game
-        
+
         testDeck.enableDraw();
       }
     }
