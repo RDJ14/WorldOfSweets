@@ -54,7 +54,6 @@ public class DeckTest{
     assert(orangeDoubles == 2);
 
     assert(special == 2);
-    testDeck.dispose();
   }
 
   @Test
