@@ -1,5 +1,6 @@
 package com.mcteamface.worldofsweets;
 
+//FOR UI ELEMENTS
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;
@@ -11,6 +12,11 @@ import java.awt.event.*;
 import javax.imageio.*;
 import java.io.File;
 import java.net.URL;
+
+//FOR SAVING DECK
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Deck{
 
@@ -67,12 +73,19 @@ public class Deck{
       deck.add(yellowCard);
     }
 
-    Card sugarRush = new Card(SpecialType.RUSH);
-    Card swap = new Card(SpecialType.SWAP);
-    for(int i = 0; i < 3; i++)
-      deck.add(sugarRush);
-    for(int i = 0; i < 5; i++)
-      deck.add(swap);
+    Card licorice = new Card(SpecialType.LICORICE);
+    Card ice_cream = new Card(SpecialType.ICECREAM);
+    Card cookie = new Card(SpecialType.COOKIE);
+    Card chocolate = new Card(SpecialType.CHOCOLATE);
+    Card mint = new Card(SpecialType.MINT);
+    deck.add(licorice);
+    deck.add(ice_cream);
+    deck.add(cookie);
+    deck.add(chocolate);
+    deck.add(mint);
+
+    Card skip = new Card(SpecialType.SKIP);
+    for(int i = 0; i < 5; i++) deck.add(skip);
 
     //initial shuffle
     Collections.shuffle(deck);
@@ -144,6 +157,10 @@ public class Deck{
 
   public void dispose(){
     display.dispose();
+  }
+
+  public boolean save(){
+
   }
   protected class drawAction implements ActionListener{
 

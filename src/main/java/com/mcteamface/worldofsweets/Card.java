@@ -15,8 +15,12 @@ enum Color{
 }
 
 enum SpecialType{
-  RUSH,
-  SWAP
+  LICORICE,
+  MINT,
+  CHOCOLATE,
+  ICECREAM,
+  COOKIE,
+  SKIP
 }
 
 public class Card{
@@ -110,11 +114,27 @@ public class Card{
     URL image_location = null;
     String color_text = " ";
     switch(type){
-      case RUSH:
-        image_location = Deck.class.getClassLoader().getResource("images/SugarRush.png");
-        color_text = "Sugar Rush! Move to the middle tile.)";
+      case LICORICE:
+        image_location = Deck.class.getClassLoader().getResource("images/licorice.png");
+        color_text = "Licorice! Move to the Licorice tile!)";
         break;
-      case SWAP:
+      case MINT:
+        image_location = Deck.class.getClassLoader().getResource("images/mint.png");
+        color_text = "Mint! Move to the Mint tile!)";
+        break;
+      case CHOCOLATE:
+        image_location = Deck.class.getClassLoader().getResource("images/chocolate.png");
+        color_text = "Chocolate! Move to the Chocolate tile!)";
+        break;
+      case ICECREAM:
+        image_location = Deck.class.getClassLoader().getResource("images/icecream.png");
+        color_text = "Ice Cream! Move to the Ice Cream tile!)";
+        break;
+      case COOKIE:
+        image_location = Deck.class.getClassLoader().getResource("images/cookie.png");
+        color_text = "Cookie! Move to the Cookie tile!)";
+        break;
+      case SKIP:
         image_location = Deck.class.getClassLoader().getResource("images/Swap.png");
         color_text = "Cand Mix Up! Your turn is skipped!";
         break;
