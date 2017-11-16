@@ -14,9 +14,10 @@ import java.io.File;
 import java.net.URL;
 
 //FOR SAVING DECK
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+
+
+
 
 public class Deck{
 
@@ -26,9 +27,11 @@ public class Deck{
   static final int SPECIAL_CARDS = 8;
   static final int DECK_SIZE = ((COLOR_SINGLE + COLOR_DOUBLE) * NUMBER_COLORS) + SPECIAL_CARDS;
 
+  private static final String FILENAME = "deck.dat";
+
   ArrayList<Card> deck;
   JFrame display;
-  protected int cardToDraw;
+  volatile protected int cardToDraw;
   JPanel cardPanel;
   JPanel emptyPanel;
   volatile Card lastDrawnCard;
@@ -61,7 +64,8 @@ public class Deck{
     for(int i = 0; i < COLOR_DOUBLE; i++)
     {
       Card blueCard = new Card(false, Color.BLUE);
-      Card greenCard = new Card(false, Color.GREEN);
+    //  Card greenCard = new Card(false, Color.GREEN);
+      Card greenCard = new Card(11);
       Card redCard = new Card(false, Color.RED);
       Card orangeCard = new Card(false, Color.ORANGE);
       Card yellowCard = new Card(false, Color.YELLOW);
@@ -160,8 +164,59 @@ public class Deck{
   }
 
   public boolean save(){
-
+    ObjectOutputStream oos = null;
+    try{
+      oos = new ObjectOutputStream(new FileOutputStream(FILENAME));
+      System.out.println("Writing Card to Draw: " +cardToDraw);
+      oos.writeObject(cardToDraw);
+      for(int i = 0; i < DECK_SIZE; i++){
+        Card temp = deck.get(i);
+        int cardNum = temp.toInt();
+        oos.writeObject(cardNum);
+      }
+      oos.close();
+    }catch(Exception e){
+      return false;
+    }
+    return true;
   }
+
+  public boolean load(){
+    deck.clear();
+    try{
+      ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILENAME));
+      cardToDraw = (int) ois.readObject();
+      //bad data, card counter doesn't match deck size
+      if(cardToDraw < 0 || cardToDraw > DECK_SIZE - 1){
+        ois.close();
+        return false;
+      }
+      for(int i = 0; i < DECK_SIZE; i++){
+        int cardNum = (int) ois.readObject();
+        System.out.println("Card Number Read: " +cardNum);
+        Card temp = new Card(cardNum);
+        System.out.println("Card Color: " +temp.getColor());
+        System.out.println("Card Double? " +temp.isSingle());
+        if(temp == null)
+        {
+          ois.close();
+          return false;
+        }
+        deck.add(temp);
+      }
+      //bad data, not enough cards in the deck
+      if(deck.size() < DECK_SIZE){
+        ois.close();
+        return false;
+      }
+    } catch(Exception e){
+      //No saved File or another file issue
+      //can't load
+        return false;
+    }
+    return true;
+  }
+
   protected class drawAction implements ActionListener{
 
     public void actionPerformed(ActionEvent e){

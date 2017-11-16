@@ -32,7 +32,6 @@ public class WorldOfSweets{
       Card drawn;
       int counter = 0;
       int playersTurn = 0;
-
       while(gamePlay){
 
 
