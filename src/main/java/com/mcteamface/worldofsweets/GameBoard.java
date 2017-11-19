@@ -13,13 +13,20 @@ import java.net.URL;
 public class GameBoard extends JFrame {
 	Border border = BorderFactory.createLineBorder(Color.black, 2);
 	private JLayeredPane contentPane;
+	boolean turnTaken = false;
 	JPanel[][] board;
 	JPanel[] Board;
 	JButton[] players;
+	int onDouble = 2;
 	int PlayerPosition[];
 	int p;
 	int w = 7;
 	int h = 7;
+	final int chocolateSpot = 9;
+	final int cookieSpot = 15;
+	final int icecreamSpot = 22;
+	final int licoriceSpot = 29;
+	final int mintSpot = 38;
 	String cc="BLACK";
 	Color blue = Color.BLUE;
 	Color yellow = Color.YELLOW;
@@ -70,7 +77,10 @@ public class GameBoard extends JFrame {
 		}
 		boardFlipColors();
 	}
-	public String getStringColor() {
+
+	
+	
+public String getStringColor() {
 		
 		if(curColor.equals(blue)) {
 			cc="BLUE";
@@ -87,12 +97,38 @@ public class GameBoard extends JFrame {
 		if(curColor==yellow) {
 			cc="YELLOW";
 		}
-		return cc.replace(" ", "");
+		String ret = cc;
+		return ret.replace(" ", "");
 	}
+	
+	private boolean specialSpot(int spot) {
+		boolean isSpecial = false;
+		
+		if(spot == chocolateSpot) {
+			isSpecial = true;
+		}
+		if(spot == cookieSpot) {
+			isSpecial = true;
+		}
+		if(spot == licoriceSpot) {
+			isSpecial = true;
+		}
+		if(spot == mintSpot) {
+			isSpecial = true;
+		}
+		if(spot == icecreamSpot) {
+			isSpecial = true;
+		}
+		return isSpecial;
+	}
+
 	public void boardFlipColors() {
 		int color = 0;
 		for(int i = 0; i <h;i++) {
 			for(int j = 0;j<w;j++) {
+				if(specialSpot(color)) {
+					
+				}
 					if(color%5 == 0) {
 						board[i][j].setBackground(Color.RED);
 					}
@@ -242,6 +278,7 @@ public class GameBoard extends JFrame {
 		
 	}
 	public void MovePlayerForward(int n) {
+		
 		int pos = PlayerPosition[n];
 		pos-=1;
 		JButton comp = new JButton(Integer.toString(n+1));
@@ -254,6 +291,7 @@ public class GameBoard extends JFrame {
 		contentPane.revalidate();
 		contentPane.repaint();
 		players[n] = comp;
+		turnTaken = true;
 		if(pos==0) {
 			curColor = Color.DARK_GRAY;
 			JOptionPane.showMessageDialog(contentPane, "Player "+n+1+", you win!");

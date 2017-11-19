@@ -78,9 +78,26 @@ public class WorldOfSweets{
             counter++;
             drawn = testDeck.lastDraw();
             if(n!=3) {
-            	while(s.toString()!=board.getStringColor()) {
+            	if(n==1) {
+                	while(s.toString()!=board.getStringColor()) {
 
-                }
+                    }
+            	}
+            	else {
+                	while(s.toString()!=board.getStringColor()) {
+
+                    }
+                	
+                	while(s.toString()==board.getStringColor()) {
+                		
+                	}
+               
+                	while(s.toString()!=board.getStringColor()) {
+                		
+                    }
+                	
+            	}
+
             }
             else {
             	if(type=="RUSH") {
