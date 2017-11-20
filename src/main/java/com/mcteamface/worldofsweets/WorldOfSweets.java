@@ -18,7 +18,7 @@ public class WorldOfSweets{
     public static void main(String[] args) {
     	
     	GameTimer gt = new GameTimer(); 
-    	
+    	gt.load();
       Buttons numPlayersButton = new Buttons();
       int numPlayers = 0;
       while(numPlayers == 0){
@@ -145,7 +145,8 @@ public class WorldOfSweets{
 
             //cardColor = drawn.getColor();
             //boardColor = board.curColor;
-
+            
+            gt.save();
 
             break;
           }

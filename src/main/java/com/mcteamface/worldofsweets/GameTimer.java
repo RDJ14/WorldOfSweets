@@ -20,6 +20,7 @@ public class GameTimer implements ActionListener {
     Timer timer;
     int seconds;
     long elapsed;
+    long newStartTime;
 
     public boolean save() {
     	ObjectOutputStream oos = null;
@@ -36,7 +37,7 @@ public class GameTimer implements ActionListener {
     public boolean load(){
         try{
           ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILENAME));
-          startTime = (long) ois.readObject();
+          newStartTime = (long) ois.readObject();
           System.out.println("new start time: " + startTime);
           
             if(startTime == 0)
@@ -59,7 +60,6 @@ public class GameTimer implements ActionListener {
         frame.getContentPane().add(timeDisplay);
         frame.pack();
         frame.setVisible(true);
-        
         startTime=System.currentTimeMillis()/1000;
         seconds=1;
         timer=new Timer(1000, this);
@@ -74,7 +74,7 @@ public class GameTimer implements ActionListener {
         elapsed=now-startTime;
         seconds++;
         timeDisplay.setText(elapsed+" Seconds since start");
-        timer.setInitialDelay((int)(startTime+seconds*1000-now));
+        timer.setInitialDelay((int)(newStartTime+seconds*1000-now));
         timer.start();
     }
 }
