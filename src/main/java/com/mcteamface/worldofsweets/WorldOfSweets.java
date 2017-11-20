@@ -200,9 +200,7 @@ public class WorldOfSweets{
         drawn = null;
         //TO DO
         //Play Game
-        testdeck.save();
-        gt.save();
-        gameboard.writeOutGameData();
+
         testDeck.enableDraw();
       }
     }
