@@ -1,6 +1,9 @@
 
 package com.mcteamface.worldofsweets;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 //import javax.smartcardio.Card;
@@ -11,6 +14,7 @@ import java.util.ArrayList;
 public class WorldOfSweets{
 
     public static void main(String[] args) {
+    	
       Buttons numPlayersButton = new Buttons();
       int numPlayers = 0;
       while(numPlayers == 0){
@@ -78,13 +82,49 @@ public class WorldOfSweets{
             counter++;
             drawn = testDeck.lastDraw();
             if(n!=3) {
-            	while(s.toString()!=board.getStringColor()) {
+            	if(n==1) {
+                	while(s.toString()!=board.getStringColor()) {
 
-                }
+                    }
+            	}
+            	else {
+                	while(s.toString()!=board.getStringColor()) {
+
+                    }
+                	
+                	while(s.toString()==board.getStringColor()) {
+                		
+                	}
+               
+                	while(s.toString()!=board.getStringColor()) {
+                		
+                    }
+                	
+            	}
+
             }
             else {
             	if(type=="RUSH") {
-            		board.moveMiddle(currentTurn+1);
+            		board.moveMiddle(currentTurn);
+            	}
+            	if(type=="LICORICE") {
+            		System.out.println("Licorice");
+            		board.specialSquare(type, currentTurn);
+            	}
+            	if(type=="COOKIE") {
+            		System.out.println("cookie");
+            		board.specialSquare(type, currentTurn);
+            	}
+            	if(type=="ICECREAM") {
+            		System.out.println("icecream");
+            		board.specialSquare(type, currentTurn);
+            	}
+            	if(type=="CHOCOLATE") {
+            		System.out.println("chocolate");
+            		board.specialSquare(type, currentTurn);
+            	}
+            	if(type=="MINT") {
+            		board.specialSquare(type, currentTurn);
             	}
             	else {
 
@@ -112,5 +152,36 @@ public class WorldOfSweets{
 
         testDeck.enableDraw();
       }
+    }
+    
+    public GameBoard loadSaveFile() {
+    	BufferedReader br = null;
+		FileReader fr = null;
+		
+		try {
+			fr = new FileReader("gameboard.txt");
+			br = new BufferedReader(fr);
+
+			String sCurrentLine;
+			sCurrentLine = br.readLine();
+			int numPlayers = Integer.parseInt(sCurrentLine);
+			int[] positions = new int[numPlayers];
+			for(int i = 0; i<numPlayers;i++) {
+				sCurrentLine = br.readLine();
+				positions[i] = Integer.parseInt(sCurrentLine);
+			}
+			int[] specialSquares = new int[5];
+			for(int i =0;i<5;i++) {
+				sCurrentLine = br.readLine();
+				specialSquares[i] = Integer.parseInt(sCurrentLine);
+			}
+			br.close();
+			fr.close();
+			return new GameBoard(numPlayers, specialSquares, positions);
+		} catch (IOException e) {
+			
+			return null;
+
+		}
     }
 }

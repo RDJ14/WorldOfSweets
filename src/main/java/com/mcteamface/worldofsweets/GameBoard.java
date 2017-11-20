@@ -4,22 +4,39 @@ package com.mcteamface.worldofsweets;
 import java.awt.*; //for color and flowlayout
 
 import javax.swing.border.EmptyBorder;
+
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
+
 import javax.swing.border.Border;
 import javax.swing.*; //for borderfactory
-import java.awt.event.*; 
+import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.awt.Color;
 import java.net.URL;
+import java.util.Random;
 
 public class GameBoard extends JFrame {
 	Border border = BorderFactory.createLineBorder(Color.black, 2);
 	private JLayeredPane contentPane;
+	boolean turnTaken = false;
+	JLabel specialSquares[] = new JLabel[5];
 	JPanel[][] board;
 	JPanel[] Board;
 	JButton[] players;
+	int onDouble = 2;
 	int PlayerPosition[];
 	int p;
 	int w = 7;
 	int h = 7;
+	int chocolateSpot = 8;
+	int cookieSpot = 14;
+	int icecreamSpot = 23;
+	int licoriceSpot = 29;
+	int mintSpot = 38;
 	String cc="BLACK";
 	Color blue = Color.BLUE;
 	Color yellow = Color.YELLOW;
@@ -70,7 +87,10 @@ public class GameBoard extends JFrame {
 		}
 		boardFlipColors();
 	}
-	public String getStringColor() {
+
+	
+	
+public String getStringColor() {
 		
 		if(curColor.equals(blue)) {
 			cc="BLUE";
@@ -87,12 +107,91 @@ public class GameBoard extends JFrame {
 		if(curColor==yellow) {
 			cc="YELLOW";
 		}
-		return cc.replace(" ", "");
+		String ret = cc;
+		return ret.replace(" ", "");
 	}
+	
+	private boolean specialSpot(int spot) {
+		boolean isSpecial = false;
+		
+		if(spot == chocolateSpot) {
+			isSpecial = true;
+		}
+		if(spot == cookieSpot) {
+			isSpecial = true;
+		}
+		if(spot == licoriceSpot) {
+			isSpecial = true;
+		}
+		if(spot == mintSpot) {
+			isSpecial = true;
+		}
+		if(spot == icecreamSpot) {
+			isSpecial = true;
+		}
+		return isSpecial;
+	}
+
 	public void boardFlipColors() {
 		int color = 0;
+		int count = 0;
 		for(int i = 0; i <h;i++) {
 			for(int j = 0;j<w;j++) {
+				if(specialSpot(count)) {
+					board[i][j].setBackground(Color.WHITE);
+					if(count == licoriceSpot) {
+						URL chocolate = Deck.class.getClassLoader().getResource("images/licorice.png");
+						ImageIcon housePic = new ImageIcon(chocolate); //absolute path just for testing
+						Image img = housePic.getImage();
+						Image newImage = img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+						housePic = new ImageIcon(newImage);
+						JLabel label = new JLabel("", housePic, JLabel.CENTER);
+						specialSquares[0]=label;
+						board[i][j].add(label, BorderLayout.CENTER);
+					}
+					if(count == icecreamSpot) {
+						URL chocolate = Deck.class.getClassLoader().getResource("images/icecream.png");
+						ImageIcon housePic = new ImageIcon(chocolate); //absolute path just for testing
+						Image img = housePic.getImage();
+						Image newImage = img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+						housePic = new ImageIcon(newImage);
+						JLabel label = new JLabel("", housePic, JLabel.CENTER);
+						specialSquares[1]=label;
+						board[i][j].add(label, BorderLayout.CENTER);
+					}
+					if(count == mintSpot) {
+						URL chocolate = Deck.class.getClassLoader().getResource("images/mint.png");
+						ImageIcon housePic = new ImageIcon(chocolate); //absolute path just for testing
+						Image img = housePic.getImage();
+						Image newImage = img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+						housePic = new ImageIcon(newImage);
+						JLabel label = new JLabel("", housePic, JLabel.CENTER);
+						board[i][j].add(label, BorderLayout.SOUTH);
+						specialSquares[2]=label;
+					}
+					if(count == cookieSpot) {
+						URL chocolate = Deck.class.getClassLoader().getResource("images/cookie.png");
+						ImageIcon housePic = new ImageIcon(chocolate); //absolute path just for testing
+						Image img = housePic.getImage();
+						Image newImage = img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+						housePic = new ImageIcon(newImage);
+						JLabel label = new JLabel("", housePic, JLabel.CENTER);
+						board[i][j].add(label, BorderLayout.CENTER);
+						specialSquares[3]=label;
+					}
+					if(count==chocolateSpot) {
+
+						URL chocolate = Deck.class.getClassLoader().getResource("images/chocolate.png");
+						ImageIcon housePic = new ImageIcon(chocolate); //absolute path just for testing
+						Image img = housePic.getImage();
+						Image newImage = img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+						housePic = new ImageIcon(newImage);
+						JLabel label = new JLabel("", housePic, JLabel.CENTER);
+						board[i][j].add(label, BorderLayout.CENTER);
+						specialSquares[4]=label;
+					}
+				}
+				else {
 					if(color%5 == 0) {
 						board[i][j].setBackground(Color.RED);
 					}
@@ -109,6 +208,8 @@ public class GameBoard extends JFrame {
 						board[i][j].setBackground(Color.ORANGE);
 					}
 					color++;
+				}
+				count++;		
 			}
 			
 		}
@@ -192,10 +293,42 @@ public class GameBoard extends JFrame {
 		}
 	}
 	
+	
+	public GameBoard(int players, int[] specialSquares, int[] playerPositions) {
+		p = players;
+		licoriceSpot = specialSquares[0];
+		icecreamSpot = specialSquares[1];
+		mintSpot = specialSquares[2];
+		cookieSpot = specialSquares[3];
+		chocolateSpot = specialSquares[4];
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setBounds(100, 100, 773, 548);
+		setBounds(100, 100, 1000, 1000);
+		contentPane = new JLayeredPane();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(new GridLayout(h, w, 0, 0));
+		makeBoard(w,h);
+		addPlayerTokens(p);
+		
+		for(int i = 0; i<players;i++) {
+			placePlayers(i, playerPositions[i]);
+		}
+
+	}
+	
+	
+	
 	public GameBoard(int players) {
 
 		//resizing left image
-		p = players; 
+		p = players;
+		Random rng = new Random();
+		licoriceSpot = licoriceSpot +rng.nextInt(3);
+		icecreamSpot += rng.nextInt(3);
+		mintSpot += rng.nextInt(3);
+		cookieSpot += rng.nextInt(3);
+		chocolateSpot += rng.nextInt(3);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//setBounds(100, 100, 773, 548);
 		setBounds(100, 100, 1000, 1000);
@@ -207,19 +340,96 @@ public class GameBoard extends JFrame {
 		makeBoard(w,h);
 		addPlayerTokens(p);
 		
+		}
+	
+	
+	/*
+	public GameBoard readInGameData() {
+		BufferedReader br = null;
+		FileReader fr = null;
 		
-		//adding player tokens...make this better later
-/*
-		JPanel startPanel = new JPanel();
-		JLabel txtStart = new JLabel();
-		txtStart.setForeground(Color.BLACK);
-		txtStart.setBackground(Color.RED);
-		txtStart.setFont(new Font("Papyrus", Font.PLAIN, 19));
-		txtStart.setText("START");
-		startPanel.add(txtStart);
-		*/
+		try {
+			fr = new FileReader("gameboard.txt");
+			br = new BufferedReader(fr);
+
+			String sCurrentLine;
+			sCurrentLine = br.readLine();
+			int numPlayers = Integer.parseInt(sCurrentLine);
+			int[] positions = new int[numPlayers];
+			for(int i = 0; i<numPlayers;i++) {
+				sCurrentLine = br.readLine();
+				positions[i] = Integer.parseInt(sCurrentLine);
+			}
+			int[] specialSquares = new int[5];
+			for(int i =0;i<5;i++) {
+				sCurrentLine = br.readLine();
+				specialSquares[i] = Integer.parseInt(sCurrentLine);
+			}
+			br.close();
+			fr.close();
+			return new GameBoard(numPlayers, specialSquares, positions);
+		} catch (IOException e) {
+			
+			return null;
+
+		}
+		 
+	}
+	*/
+	
+	public void writeOutGameData() {
+		BufferedWriter writer = null;
+		try
+		{
+		    writer = new BufferedWriter( new FileWriter("gameboard.txt", true));
+		    writer.write(Integer.toString(p));
+		    writer.newLine();
+		    for(int i =0; i<PlayerPosition.length;i++) {
+		    	writer.write(Integer.toString(PlayerPosition[i]));
+		    	writer.newLine();
+		    }
+		    writer.write(Integer.toString(licoriceSpot));
+		    writer.newLine();
+		    writer.write(Integer.toString(icecreamSpot));
+		    writer.newLine();
+		    writer.write(Integer.toString(mintSpot));
+		    writer.newLine();
+		    writer.write(Integer.toString(cookieSpot));
+		    writer.newLine();
+		    writer.write(Integer.toString(chocolateSpot));
+		    writer.newLine();
+			
+		    
+
+		}
+		catch ( IOException e)
+		{
+		}
+		finally
+		{
+		    try
+		    {
+		        if ( writer != null)
+		        writer.close( );
+		    }
+		    catch ( IOException e)
+		    {
+		    }
+		}
+
 	}
 	
+	public void placePlayers(int player, int playerPosition) {
+		JButton comp = new JButton(Integer.toString(player+1));
+		ActionListener buttonListener = new ButtonListener();
+		comp.addActionListener(buttonListener);
+		Board[playerPosition].add(comp);
+		players[player]=comp;
+		PlayerPosition[player] = playerPosition;
+		contentPane.revalidate();
+		contentPane.repaint();
+
+	}
 	public void  nextPlayerMessage(int n) {
 		JOptionPane.showMessageDialog(contentPane, "Player "+n+", It's your turn!");
 	}
@@ -241,9 +451,52 @@ public class GameBoard extends JFrame {
 		contentPane.repaint();
 		
 	}
+	public void specialSquare(String square, int player) {
+		int pos = PlayerPosition[player];
+		JButton b = players[player];
+		b.setVisible(false);
+		JButton comp = new JButton(Integer.toString(player+1));
+		ActionListener buttonListener = new ButtonListener();
+		comp.addActionListener(buttonListener);
+		int posToMove = 0;
+		if(square=="LICORICE") {
+			System.out.println("YESSSSS");
+			posToMove = licoriceSpot;
+			//specialSquares[0].add(comp);
+		}
+		if(square=="ICECREAM") {
+			posToMove = icecreamSpot;
+			//specialSquares[1].add(comp);
+		}
+		if(square=="MINT") {
+			posToMove = mintSpot;
+			//specialSquares[2].add(comp);
+		}
+		if(square=="COOKIE") {
+			posToMove = cookieSpot;
+			//specialSquares[3].add(comp);
+		}
+		if(square=="CHOCOLATE") {
+			posToMove = chocolateSpot;
+			//specialSquares[4].add(comp);
+		}
+		System.out.println(posToMove);
+		Board[posToMove].add(comp);
+		//specialSquares[0].add(comp);
+		players[player] = comp;
+		PlayerPosition[player] = posToMove;
+		contentPane.revalidate();
+		contentPane.repaint();
+		
+	}
+	
 	public void MovePlayerForward(int n) {
+		
 		int pos = PlayerPosition[n];
 		pos-=1;
+		if(specialSpot(pos)) {
+			//pos-=1;
+		}
 		JButton comp = new JButton(Integer.toString(n+1));
 		ActionListener buttonListener = new ButtonListener();
 		comp.addActionListener(buttonListener);
@@ -254,9 +507,29 @@ public class GameBoard extends JFrame {
 		contentPane.revalidate();
 		contentPane.repaint();
 		players[n] = comp;
+		/*
+		if(specialSpot(pos)) {
+			if(pos==licoriceSpot) {
+				specialSquares[0].add(comp);
+			}
+			if(pos==icecreamSpot) {
+				specialSquares[1].add(comp);
+			}
+			if(pos==mintSpot) {
+				specialSquares[2].add(comp);
+			}
+			if(pos==cookieSpot) {
+				specialSquares[3].add(comp);
+			}
+			if(pos==chocolateSpot) {
+				specialSquares[4].add(comp);
+			}
+		}
+		*/
+		turnTaken = true;
 		if(pos==0) {
 			curColor = Color.DARK_GRAY;
-			JOptionPane.showMessageDialog(contentPane, "Player "+n+1+", you win!");
+			JOptionPane.showMessageDialog(contentPane, "Player "+(n+1)+", you win!");
 
 		}
 		

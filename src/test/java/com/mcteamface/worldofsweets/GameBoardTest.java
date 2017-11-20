@@ -28,6 +28,45 @@ public class GameBoardTest {
 		assert(g.p == 4);
 	}
 
-
+	@Test
+	public void test5() {
+		GameBoard g = new GameBoard(2);
+		assert(g.cookieSpot!=g.licoriceSpot);
+	}
+	@Test
+	public void test6() {
+		GameBoard g = new GameBoard(2);
+		assert(g.cookieSpot!=g.icecreamSpot);
+	}
+	@Test
+	public void test7() {
+		GameBoard g = new GameBoard(2);
+		assert(g.cookieSpot!=g.mintSpot);
+	}
+	@Test
+	public void test8() {
+		GameBoard g = new GameBoard(2);
+		assert(g.cookieSpot!=g.chocolateSpot);
+	}
+	@Test
+	public void test9() {
+		GameBoard g = new GameBoard(2);
+		assert(g.mintSpot!=g.licoriceSpot);
+	}
+	@Test
+	public void test10() {
+		GameBoard g = new GameBoard(2);
+		assert(g.cookieSpot!=g.licoriceSpot);
+	}
+	@Test
+	public void test11() {
+		GameBoard g = new GameBoard(2);
+		assert(g.chocolateSpot!=g.licoriceSpot);
+	}
+	@Test
+	public void test12() {
+		GameBoard g = new GameBoard(2);
+		assert(g.icecreamSpot!=g.licoriceSpot);
+	}
 
 }
