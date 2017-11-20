@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.*;
+
 //import javax.smartcardio.Card;
 
 //import javax.smartcardio.Card;
@@ -15,6 +16,9 @@ import javax.swing.*;
 public class WorldOfSweets{
 
     public static void main(String[] args) {
+
+
+    	GameTimer gt = new GameTimer();
 
       Buttons numPlayersButton = new Buttons();
       int numPlayers = 0;
@@ -41,7 +45,14 @@ public class WorldOfSweets{
                   JOptionPane.ERROR_MESSAGE);
             }
             board = loadSaveFile();
-            if(board == null) {
+            else if(board == null) {
+              loadGame = false;
+              JOptionPane.showMessageDialog(frame,
+                  "The save file does not exist or has been corrupted. You can start a new game",
+                  "Inane error",
+                  JOptionPane.ERROR_MESSAGE);
+            }
+            else if(!gt.load()){
               loadGame = false;
               JOptionPane.showMessageDialog(frame,
                   "The save file does not exist or has been corrupted. You can start a new game",
@@ -72,6 +83,7 @@ public class WorldOfSweets{
       }
       board.setVisible(true);
 
+      gt.createAndShowGUI();
       boolean gamePlay = true;
       Card drawn;
       int counter = 0;
