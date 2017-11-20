@@ -20,7 +20,7 @@ import java.io.*;
 
 
 
-public class Deck{
+public class Deck extends JPanel {
 
   static final int NUMBER_COLORS = 5;
   static final int COLOR_SINGLE = 10;

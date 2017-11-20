@@ -18,7 +18,7 @@ import java.awt.Color;
 import java.net.URL;
 import java.util.Random;
 
-public class GameBoard extends JFrame {
+public class GameBoard extends JLayeredPane {
 	Border border = BorderFactory.createLineBorder(Color.black, 2);
 	private JLayeredPane contentPane;
 	boolean turnTaken = false;
@@ -45,13 +45,8 @@ public class GameBoard extends JFrame {
 	Color curColor = Color.black;
 	boolean movingLeft=true;
 	/**
-	 * Launch the application.
-	 */
-
-
-	/**
-	 * Create the frame.
-	 */
+	* Launch the application.
+	*/
 
 	public void makeBoard(int width, int height) {
 
@@ -89,7 +84,7 @@ public class GameBoard extends JFrame {
 
 
 
-public String getStringColor() {
+	public String getStringColor() {
 
 		if(curColor.equals(blue)) {
 			cc="BLUE";
@@ -300,12 +295,9 @@ public String getStringColor() {
 		mintSpot = specialSquares[2];
 		cookieSpot = specialSquares[3];
 		chocolateSpot = specialSquares[4];
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//setBounds(100, 100, 773, 548);
-		setBounds(100, 100, 1000, 1000);
 		contentPane = new JLayeredPane();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		add(contentPane);
 		contentPane.setLayout(new GridLayout(h, w, 0, 0));
 		makeBoard(w,h);
 		addPlayerTokens(p);
@@ -328,223 +320,222 @@ public String getStringColor() {
 		mintSpot += rng.nextInt(3);
 		cookieSpot += rng.nextInt(3);
 		chocolateSpot += rng.nextInt(3);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//setBounds(100, 100, 773, 548);
 		setBounds(100, 100, 1000, 1000);
 		contentPane = new JLayeredPane();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		add(contentPane);
 		contentPane.setLayout(new GridLayout(h, w, 0, 0));
 
 		makeBoard(w,h);
 		addPlayerTokens(p);
 
-		}
+	}
 
 
 	/*
 	public GameBoard readInGameData() {
-		BufferedReader br = null;
-		FileReader fr = null;
+	BufferedReader br = null;
+	FileReader fr = null;
 
-		try {
-			fr = new FileReader("gameboard.txt");
-			br = new BufferedReader(fr);
+	try {
+	fr = new FileReader("gameboard.txt");
+	br = new BufferedReader(fr);
 
-			String sCurrentLine;
-			sCurrentLine = br.readLine();
-			int numPlayers = Integer.parseInt(sCurrentLine);
-			int[] positions = new int[numPlayers];
-			for(int i = 0; i<numPlayers;i++) {
-				sCurrentLine = br.readLine();
-				positions[i] = Integer.parseInt(sCurrentLine);
-			}
-			int[] specialSquares = new int[5];
-			for(int i =0;i<5;i++) {
-				sCurrentLine = br.readLine();
-				specialSquares[i] = Integer.parseInt(sCurrentLine);
-			}
-			br.close();
-			fr.close();
-			return new GameBoard(numPlayers, specialSquares, positions);
-		} catch (IOException e) {
+	String sCurrentLine;
+	sCurrentLine = br.readLine();
+	int numPlayers = Integer.parseInt(sCurrentLine);
+	int[] positions = new int[numPlayers];
+	for(int i = 0; i<numPlayers;i++) {
+	sCurrentLine = br.readLine();
+	positions[i] = Integer.parseInt(sCurrentLine);
+}
+int[] specialSquares = new int[5];
+for(int i =0;i<5;i++) {
+sCurrentLine = br.readLine();
+specialSquares[i] = Integer.parseInt(sCurrentLine);
+}
+br.close();
+fr.close();
+return new GameBoard(numPlayers, specialSquares, positions);
+} catch (IOException e) {
 
-			return null;
+return null;
 
+}
+
+}
+*/
+
+public void writeOutGameData() {
+	BufferedWriter writer = null;
+	try
+	{
+		writer = new BufferedWriter( new FileWriter("gameboard.txt", true));
+		writer.write(Integer.toString(p));
+		writer.newLine();
+		for(int i =0; i<PlayerPosition.length;i++) {
+			writer.write(Integer.toString(PlayerPosition[i]));
+			writer.newLine();
 		}
+		writer.write(Integer.toString(licoriceSpot));
+		writer.newLine();
+		writer.write(Integer.toString(icecreamSpot));
+		writer.newLine();
+		writer.write(Integer.toString(mintSpot));
+		writer.newLine();
+		writer.write(Integer.toString(cookieSpot));
+		writer.newLine();
+		writer.write(Integer.toString(chocolateSpot));
+		writer.newLine();
+
+
 
 	}
-	*/
-
-	public void writeOutGameData() {
-		BufferedWriter writer = null;
+	catch ( IOException e)
+	{
+	}
+	finally
+	{
 		try
 		{
-		    writer = new BufferedWriter( new FileWriter("gameboard.txt", true));
-		    writer.write(Integer.toString(p));
-		    writer.newLine();
-		    for(int i =0; i<PlayerPosition.length;i++) {
-		    	writer.write(Integer.toString(PlayerPosition[i]));
-		    	writer.newLine();
-		    }
-		    writer.write(Integer.toString(licoriceSpot));
-		    writer.newLine();
-		    writer.write(Integer.toString(icecreamSpot));
-		    writer.newLine();
-		    writer.write(Integer.toString(mintSpot));
-		    writer.newLine();
-		    writer.write(Integer.toString(cookieSpot));
-		    writer.newLine();
-		    writer.write(Integer.toString(chocolateSpot));
-		    writer.newLine();
-
-
-
+			if ( writer != null)
+			writer.close( );
 		}
 		catch ( IOException e)
 		{
 		}
-		finally
-		{
-		    try
-		    {
-		        if ( writer != null)
-		        writer.close( );
-		    }
-		    catch ( IOException e)
-		    {
-		    }
-		}
-
 	}
 
-	public void placePlayers(int player, int playerPosition) {
-		JButton comp = new JButton(Integer.toString(player+1));
-		ActionListener buttonListener = new ButtonListener();
-		comp.addActionListener(buttonListener);
-		Board[playerPosition].add(comp);
-		players[player]=comp;
-		PlayerPosition[player] = playerPosition;
-		contentPane.revalidate();
-		contentPane.repaint();
+}
 
-	}
-	public void  nextPlayerMessage(int n) {
-		JOptionPane.showMessageDialog(contentPane, "Player "+n+", It's your turn!");
-	}
-	public void revertCur() {
-		curColor = Color.black;
-	}
+public void placePlayers(int player, int playerPosition) {
+	JButton comp = new JButton(Integer.toString(player+1));
+	ActionListener buttonListener = new ButtonListener();
+	comp.addActionListener(buttonListener);
+	Board[playerPosition].add(comp);
+	players[player]=comp;
+	PlayerPosition[player] = playerPosition;
+	contentPane.revalidate();
+	contentPane.repaint();
 
-	public void moveMiddle(int n) {
-		int pos = PlayerPosition[n];
-		JButton a = players[n];
-		a.setVisible(false);
-		JButton comp = new JButton(Integer.toString(n+1));
-		ActionListener buttonListener = new ButtonListener();
-		comp.addActionListener(buttonListener);
-		Board[(h*w)/2].add(comp);
-		players[n]=comp;
-		PlayerPosition[n] = (h*w)/2;
-		contentPane.revalidate();
-		contentPane.repaint();
+}
+public void  nextPlayerMessage(int n) {
+	JOptionPane.showMessageDialog(contentPane, "Player "+n+", It's your turn!");
+}
+public void revertCur() {
+	curColor = Color.black;
+}
 
-	}
-	public void specialSquare(String square, int player) {
-		int pos = PlayerPosition[player];
-		JButton b = players[player];
-		b.setVisible(false);
-		JButton comp = new JButton(Integer.toString(player+1));
-		ActionListener buttonListener = new ButtonListener();
-		comp.addActionListener(buttonListener);
-		int posToMove = 0;
-		if(square=="LICORICE") {
-			System.out.println("YESSSSS");
-			posToMove = licoriceSpot;
-			//specialSquares[0].add(comp);
-		}
-		if(square=="ICECREAM") {
-			posToMove = icecreamSpot;
-			//specialSquares[1].add(comp);
-		}
-		if(square=="MINT") {
-			posToMove = mintSpot;
-			//specialSquares[2].add(comp);
-		}
-		if(square=="COOKIE") {
-			posToMove = cookieSpot;
-			//specialSquares[3].add(comp);
-		}
-		if(square=="CHOCOLATE") {
-			posToMove = chocolateSpot;
-			//specialSquares[4].add(comp);
-		}
-		System.out.println(posToMove);
-		Board[posToMove].add(comp);
+public void moveMiddle(int n) {
+	int pos = PlayerPosition[n];
+	JButton a = players[n];
+	a.setVisible(false);
+	JButton comp = new JButton(Integer.toString(n+1));
+	ActionListener buttonListener = new ButtonListener();
+	comp.addActionListener(buttonListener);
+	Board[(h*w)/2].add(comp);
+	players[n]=comp;
+	PlayerPosition[n] = (h*w)/2;
+	contentPane.revalidate();
+	contentPane.repaint();
+
+}
+public void specialSquare(String square, int player) {
+	int pos = PlayerPosition[player];
+	JButton b = players[player];
+	b.setVisible(false);
+	JButton comp = new JButton(Integer.toString(player+1));
+	ActionListener buttonListener = new ButtonListener();
+	comp.addActionListener(buttonListener);
+	int posToMove = 0;
+	if(square=="LICORICE") {
+		System.out.println("YESSSSS");
+		posToMove = licoriceSpot;
 		//specialSquares[0].add(comp);
-		players[player] = comp;
-		PlayerPosition[player] = posToMove;
-		contentPane.revalidate();
-		contentPane.repaint();
+	}
+	if(square=="ICECREAM") {
+		posToMove = icecreamSpot;
+		//specialSquares[1].add(comp);
+	}
+	if(square=="MINT") {
+		posToMove = mintSpot;
+		//specialSquares[2].add(comp);
+	}
+	if(square=="COOKIE") {
+		posToMove = cookieSpot;
+		//specialSquares[3].add(comp);
+	}
+	if(square=="CHOCOLATE") {
+		posToMove = chocolateSpot;
+		//specialSquares[4].add(comp);
+	}
+	System.out.println(posToMove);
+	Board[posToMove].add(comp);
+	//specialSquares[0].add(comp);
+	players[player] = comp;
+	PlayerPosition[player] = posToMove;
+	contentPane.revalidate();
+	contentPane.repaint();
 
+}
+
+public void MovePlayerForward(int n) {
+
+	int pos = PlayerPosition[n];
+	pos-=1;
+	if(specialSpot(pos)) {
+		//pos-=1;
+	}
+	JButton comp = new JButton(Integer.toString(n+1));
+	ActionListener buttonListener = new ButtonListener();
+	comp.addActionListener(buttonListener);
+	Board[pos].add(comp);
+	comp.setVisible(true);
+	PlayerPosition[n] = pos;
+	curColor = Board[pos].getBackground();
+	contentPane.revalidate();
+	contentPane.repaint();
+	players[n] = comp;
+	/*
+	if(specialSpot(pos)) {
+	if(pos==licoriceSpot) {
+	specialSquares[0].add(comp);
+}
+if(pos==icecreamSpot) {
+specialSquares[1].add(comp);
+}
+if(pos==mintSpot) {
+specialSquares[2].add(comp);
+}
+if(pos==cookieSpot) {
+specialSquares[3].add(comp);
+}
+if(pos==chocolateSpot) {
+specialSquares[4].add(comp);
+}
+}
+*/
+turnTaken = true;
+if(pos==0) {
+	curColor = Color.DARK_GRAY;
+	JOptionPane.showMessageDialog(contentPane, "Player "+(n+1)+", you win!");
+
+}
+
+}
+class ButtonListener implements ActionListener {
+
+	// Every time we click the button, it will perform
+	// the following action.
+	public void actionPerformed(ActionEvent e) {
+
+		JButton source = (JButton) e.getSource();
+		String currentText = source.getText();
+		int num = Integer.parseInt(currentText);
+		MovePlayerForward(num-1);
+		source.setVisible(false);
 	}
 
-	public void MovePlayerForward(int n) {
-
-		int pos = PlayerPosition[n];
-		pos-=1;
-		if(specialSpot(pos)) {
-			//pos-=1;
-		}
-		JButton comp = new JButton(Integer.toString(n+1));
-		ActionListener buttonListener = new ButtonListener();
-		comp.addActionListener(buttonListener);
-		Board[pos].add(comp);
-		comp.setVisible(true);
-		PlayerPosition[n] = pos;
-		curColor = Board[pos].getBackground();
-		contentPane.revalidate();
-		contentPane.repaint();
-		players[n] = comp;
-		/*
-		if(specialSpot(pos)) {
-			if(pos==licoriceSpot) {
-				specialSquares[0].add(comp);
-			}
-			if(pos==icecreamSpot) {
-				specialSquares[1].add(comp);
-			}
-			if(pos==mintSpot) {
-				specialSquares[2].add(comp);
-			}
-			if(pos==cookieSpot) {
-				specialSquares[3].add(comp);
-			}
-			if(pos==chocolateSpot) {
-				specialSquares[4].add(comp);
-			}
-		}
-		*/
-		turnTaken = true;
-		if(pos==0) {
-			curColor = Color.DARK_GRAY;
-			JOptionPane.showMessageDialog(contentPane, "Player "+(n+1)+", you win!");
-
-		}
-
-	}
-	class ButtonListener implements ActionListener {
-
-		// Every time we click the button, it will perform
-		// the following action.
-		public void actionPerformed(ActionEvent e) {
-
-		    JButton source = (JButton) e.getSource();
-		    String currentText = source.getText();
-		    int num = Integer.parseInt(currentText);
-		    MovePlayerForward(num-1);
-		    source.setVisible(false);
-		}
-
-	  }
+}
 }
