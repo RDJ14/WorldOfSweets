@@ -14,7 +14,9 @@ public class Buttons extends JFrame implements ActionListener{
 	JButton b1;
   JButton b2;
   JButton b3;
+	JButton loadButton;
 	volatile boolean playersSelected;
+	volatile boolean loadGame;
 
 	public static void main(String[] args) {
 		Buttons buttonFrame = new Buttons();
@@ -31,7 +33,7 @@ public class Buttons extends JFrame implements ActionListener{
         b1 = new JButton("2");
         b2 = new JButton("3");
         b3 = new JButton("4");
-
+				loadButton = new JButton("Load Game");
         /*
          *Not sure where to put ActionListener
          */
@@ -69,11 +71,18 @@ public class Buttons extends JFrame implements ActionListener{
     		}
     	};
 
+			ActionListener loadEvent = new ActionListener (){
+				@Override
+				public void actionPerformed(ActionEvent e){
+					loadGame = true;
+					frame.dispose();
+				}
+			};
 
         b1.addActionListener(b1Event);
         b2.addActionListener(b2Event);
         b3.addActionListener(b3Event);
-
+				loadButton.addActionListener(loadEvent);
 
 
         // Add button to JPanel
@@ -81,6 +90,7 @@ public class Buttons extends JFrame implements ActionListener{
         panel.add(b1);
         panel.add(b2);
         panel.add(b3);
+				panel.add(loadButton);
         // And JPanel needs to be added to the JFrame itself!
         this.getContentPane().add(panel);
         setVisible(true);
@@ -99,5 +109,13 @@ public class Buttons extends JFrame implements ActionListener{
 
 	public int getNumPlayers(){
 		return numPlayers;
+	}
+
+	public boolean loadGameSelect(){
+		return loadGame;
+	}
+
+	public void disableLoad(){
+		loadButton.setEnabled(false);
 	}
 }

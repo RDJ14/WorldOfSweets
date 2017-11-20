@@ -5,7 +5,6 @@ import java.awt.*; //for color and flowlayout
 
 import javax.swing.border.EmptyBorder;
 
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 
 import javax.swing.border.Border;
 import javax.swing.*; //for borderfactory
@@ -53,9 +52,9 @@ public class GameBoard extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	
+
 	public void makeBoard(int width, int height) {
-		
+
 		board = new JPanel[h][w];
 		Board = new JPanel[h*w];
 		int vertical = 0;
@@ -88,10 +87,10 @@ public class GameBoard extends JFrame {
 		boardFlipColors();
 	}
 
-	
-	
+
+
 public String getStringColor() {
-		
+
 		if(curColor.equals(blue)) {
 			cc="BLUE";
 		}
@@ -110,10 +109,10 @@ public String getStringColor() {
 		String ret = cc;
 		return ret.replace(" ", "");
 	}
-	
+
 	private boolean specialSpot(int spot) {
 		boolean isSpecial = false;
-		
+
 		if(spot == chocolateSpot) {
 			isSpecial = true;
 		}
@@ -209,12 +208,12 @@ public String getStringColor() {
 					}
 					color++;
 				}
-				count++;		
+				count++;
 			}
-			
+
 		}
 	}
-	
+
 	public void playerDisable(int p) {
 		for(int i =0;i<players.length;i++) {
 			if(i!=p-1){
@@ -239,7 +238,7 @@ public String getStringColor() {
 			square.add(label, BorderLayout.CENTER);
 		}
 		else {
-			
+
 			square.setOpaque(true);
 			square.setBorder(border);
 			if(color == 0) {
@@ -259,19 +258,19 @@ public String getStringColor() {
 			}
 			square.setEnabled(false);
 		}
-		
+
 		square.setLocation(1000, vert);
 		contentPane.add(square);
 		if(height%2==0) {
 			board[height][width]=square;
 			Board[height*7+width]=square;
 		}
-		
+
 		else {
 			board[height][(w-width)-1]=square;
 			Board[height*7+((w-width)-1)] = square;
 		}
-		
+
 	}
 	public void disableAll(){
 		for(int i = 0; i<players.length;i++) {
@@ -289,11 +288,11 @@ public String getStringColor() {
 			players[i] = t;
 			String a = Integer.toString(h-1)+Integer.toString(w-1);
 			PlayerPosition[i] = Integer.parseInt(a);
-			PlayerPosition[i] = h*w-1;		
+			PlayerPosition[i] = h*w-1;
 		}
 	}
-	
-	
+
+
 	public GameBoard(int players, int[] specialSquares, int[] playerPositions) {
 		p = players;
 		licoriceSpot = specialSquares[0];
@@ -310,15 +309,15 @@ public String getStringColor() {
 		contentPane.setLayout(new GridLayout(h, w, 0, 0));
 		makeBoard(w,h);
 		addPlayerTokens(p);
-		
+
 		for(int i = 0; i<players;i++) {
 			placePlayers(i, playerPositions[i]);
 		}
 
 	}
-	
-	
-	
+
+
+
 	public GameBoard(int players) {
 
 		//resizing left image
@@ -336,18 +335,18 @@ public String getStringColor() {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridLayout(h, w, 0, 0));
-		
+
 		makeBoard(w,h);
 		addPlayerTokens(p);
-		
+
 		}
-	
-	
+
+
 	/*
 	public GameBoard readInGameData() {
 		BufferedReader br = null;
 		FileReader fr = null;
-		
+
 		try {
 			fr = new FileReader("gameboard.txt");
 			br = new BufferedReader(fr);
@@ -369,14 +368,14 @@ public String getStringColor() {
 			fr.close();
 			return new GameBoard(numPlayers, specialSquares, positions);
 		} catch (IOException e) {
-			
+
 			return null;
 
 		}
-		 
+
 	}
 	*/
-	
+
 	public void writeOutGameData() {
 		BufferedWriter writer = null;
 		try
@@ -398,8 +397,8 @@ public String getStringColor() {
 		    writer.newLine();
 		    writer.write(Integer.toString(chocolateSpot));
 		    writer.newLine();
-			
-		    
+
+
 
 		}
 		catch ( IOException e)
@@ -418,7 +417,7 @@ public String getStringColor() {
 		}
 
 	}
-	
+
 	public void placePlayers(int player, int playerPosition) {
 		JButton comp = new JButton(Integer.toString(player+1));
 		ActionListener buttonListener = new ButtonListener();
@@ -436,7 +435,7 @@ public String getStringColor() {
 	public void revertCur() {
 		curColor = Color.black;
 	}
-	
+
 	public void moveMiddle(int n) {
 		int pos = PlayerPosition[n];
 		JButton a = players[n];
@@ -449,7 +448,7 @@ public String getStringColor() {
 		PlayerPosition[n] = (h*w)/2;
 		contentPane.revalidate();
 		contentPane.repaint();
-		
+
 	}
 	public void specialSquare(String square, int player) {
 		int pos = PlayerPosition[player];
@@ -487,11 +486,11 @@ public String getStringColor() {
 		PlayerPosition[player] = posToMove;
 		contentPane.revalidate();
 		contentPane.repaint();
-		
+
 	}
-	
+
 	public void MovePlayerForward(int n) {
-		
+
 		int pos = PlayerPosition[n];
 		pos-=1;
 		if(specialSpot(pos)) {
@@ -532,7 +531,7 @@ public String getStringColor() {
 			JOptionPane.showMessageDialog(contentPane, "Player "+(n+1)+", you win!");
 
 		}
-		
+
 	}
 	class ButtonListener implements ActionListener {
 
@@ -546,6 +545,6 @@ public String getStringColor() {
 		    MovePlayerForward(num-1);
 		    source.setVisible(false);
 		}
-	  
+
 	  }
 }
