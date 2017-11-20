@@ -10,7 +10,9 @@ import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 import javax.swing.border.Border;
 import javax.swing.*; //for borderfactory
 import java.awt.event.*;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.awt.Color;
@@ -341,27 +343,60 @@ public String getStringColor() {
 		}
 	
 	
+	/*
+	public GameBoard readInGameData() {
+		BufferedReader br = null;
+		FileReader fr = null;
+		
+		try {
+			fr = new FileReader("gameboard.txt");
+			br = new BufferedReader(fr);
+
+			String sCurrentLine;
+			sCurrentLine = br.readLine();
+			int numPlayers = Integer.parseInt(sCurrentLine);
+			int[] positions = new int[numPlayers];
+			for(int i = 0; i<numPlayers;i++) {
+				sCurrentLine = br.readLine();
+				positions[i] = Integer.parseInt(sCurrentLine);
+			}
+			int[] specialSquares = new int[5];
+			for(int i =0;i<5;i++) {
+				sCurrentLine = br.readLine();
+				specialSquares[i] = Integer.parseInt(sCurrentLine);
+			}
+			br.close();
+			fr.close();
+			return new GameBoard(numPlayers, specialSquares, positions);
+		} catch (IOException e) {
+			
+			return null;
+
+		}
+		 
+	}
+	*/
+	
 	public void writeOutGameData() {
 		BufferedWriter writer = null;
 		try
 		{
 		    writer = new BufferedWriter( new FileWriter("gameboard.txt", true));
-		    
-		    writer.write(p);
+		    writer.write(Integer.toString(p));
 		    writer.newLine();
 		    for(int i =0; i<PlayerPosition.length;i++) {
-		    	writer.write(PlayerPosition[i]);
+		    	writer.write(Integer.toString(PlayerPosition[i]));
 		    	writer.newLine();
 		    }
-		    writer.write(licoriceSpot);
+		    writer.write(Integer.toString(licoriceSpot));
 		    writer.newLine();
-		    writer.write(icecreamSpot);
+		    writer.write(Integer.toString(icecreamSpot));
 		    writer.newLine();
-		    writer.write(mintSpot);
+		    writer.write(Integer.toString(mintSpot));
 		    writer.newLine();
-		    writer.write(cookieSpot);
+		    writer.write(Integer.toString(cookieSpot));
 		    writer.newLine();
-		    writer.write(chocolateSpot);
+		    writer.write(Integer.toString(chocolateSpot));
 		    writer.newLine();
 			
 		    
