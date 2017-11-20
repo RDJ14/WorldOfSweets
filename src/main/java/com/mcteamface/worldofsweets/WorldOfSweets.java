@@ -101,26 +101,26 @@ public class WorldOfSweets{
             }
             else {
             	if(type=="RUSH") {
-            		board.moveMiddle(currentTurn+1);
+            		board.moveMiddle(currentTurn);
             	}
             	if(type=="LICORICE") {
             		System.out.println("Licorice");
-            		board.specialSquare(type, currentTurn+1);
+            		board.specialSquare(type, currentTurn);
             	}
             	if(type=="COOKIE") {
             		System.out.println("cookie");
-            		board.specialSquare(type, currentTurn+1);
+            		board.specialSquare(type, currentTurn);
             	}
             	if(type=="ICECREAM") {
             		System.out.println("icecream");
-            		board.specialSquare(type, currentTurn+1);
+            		board.specialSquare(type, currentTurn);
             	}
             	if(type=="CHOCOLATE") {
             		System.out.println("chocolate");
-            		board.specialSquare(type, currentTurn+1);
+            		board.specialSquare(type, currentTurn);
             	}
             	if(type=="MINT") {
-            		board.specialSquare(type, currentTurn+1);
+            		board.specialSquare(type, currentTurn);
             	}
             	else {
 

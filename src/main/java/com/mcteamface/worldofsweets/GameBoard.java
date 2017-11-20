@@ -4,6 +4,9 @@ package com.mcteamface.worldofsweets;
 import java.awt.*; //for color and flowlayout
 
 import javax.swing.border.EmptyBorder;
+
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
+
 import javax.swing.border.Border;
 import javax.swing.*; //for borderfactory
 import java.awt.event.*; 
@@ -135,7 +138,7 @@ public String getStringColor() {
 						URL chocolate = Deck.class.getClassLoader().getResource("images/licorice.png");
 						ImageIcon housePic = new ImageIcon(chocolate); //absolute path just for testing
 						Image img = housePic.getImage();
-						Image newImage = img.getScaledInstance(150, 120, java.awt.Image.SCALE_SMOOTH);
+						Image newImage = img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 						housePic = new ImageIcon(newImage);
 						JLabel label = new JLabel("", housePic, JLabel.CENTER);
 						specialSquares[0]=label;
@@ -145,7 +148,7 @@ public String getStringColor() {
 						URL chocolate = Deck.class.getClassLoader().getResource("images/icecream.png");
 						ImageIcon housePic = new ImageIcon(chocolate); //absolute path just for testing
 						Image img = housePic.getImage();
-						Image newImage = img.getScaledInstance(150, 120, java.awt.Image.SCALE_SMOOTH);
+						Image newImage = img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 						housePic = new ImageIcon(newImage);
 						JLabel label = new JLabel("", housePic, JLabel.CENTER);
 						specialSquares[1]=label;
@@ -155,17 +158,17 @@ public String getStringColor() {
 						URL chocolate = Deck.class.getClassLoader().getResource("images/mint.png");
 						ImageIcon housePic = new ImageIcon(chocolate); //absolute path just for testing
 						Image img = housePic.getImage();
-						Image newImage = img.getScaledInstance(150, 120, java.awt.Image.SCALE_SMOOTH);
+						Image newImage = img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 						housePic = new ImageIcon(newImage);
 						JLabel label = new JLabel("", housePic, JLabel.CENTER);
-						board[i][j].add(label, BorderLayout.CENTER);
+						board[i][j].add(label, BorderLayout.SOUTH);
 						specialSquares[2]=label;
 					}
 					if(count == cookieSpot) {
 						URL chocolate = Deck.class.getClassLoader().getResource("images/cookie.png");
 						ImageIcon housePic = new ImageIcon(chocolate); //absolute path just for testing
 						Image img = housePic.getImage();
-						Image newImage = img.getScaledInstance(150, 120, java.awt.Image.SCALE_SMOOTH);
+						Image newImage = img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 						housePic = new ImageIcon(newImage);
 						JLabel label = new JLabel("", housePic, JLabel.CENTER);
 						board[i][j].add(label, BorderLayout.CENTER);
@@ -176,7 +179,7 @@ public String getStringColor() {
 						URL chocolate = Deck.class.getClassLoader().getResource("images/chocolate.png");
 						ImageIcon housePic = new ImageIcon(chocolate); //absolute path just for testing
 						Image img = housePic.getImage();
-						Image newImage = img.getScaledInstance(150, 120, java.awt.Image.SCALE_SMOOTH);
+						Image newImage = img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 						housePic = new ImageIcon(newImage);
 						JLabel label = new JLabel("", housePic, JLabel.CENTER);
 						board[i][j].add(label, BorderLayout.CENTER);
@@ -350,27 +353,29 @@ public String getStringColor() {
 		comp.addActionListener(buttonListener);
 		int posToMove = 0;
 		if(square=="LICORICE") {
+			System.out.println("YESSSSS");
 			posToMove = licoriceSpot;
-			specialSquares[0].add(comp);
+			//specialSquares[0].add(comp);
 		}
 		if(square=="ICECREAM") {
 			posToMove = icecreamSpot;
-			specialSquares[1].add(comp);
+			//specialSquares[1].add(comp);
 		}
 		if(square=="MINT") {
 			posToMove = mintSpot;
-			specialSquares[2].add(comp);
+			//specialSquares[2].add(comp);
 		}
 		if(square=="COOKIE") {
 			posToMove = cookieSpot;
-			specialSquares[3].add(comp);
+			//specialSquares[3].add(comp);
 		}
 		if(square=="CHOCOLATE") {
 			posToMove = chocolateSpot;
-			specialSquares[4].add(comp);
+			//specialSquares[4].add(comp);
 		}
+		System.out.println(posToMove);
 		Board[posToMove].add(comp);
-		specialSquares[0].add(comp);
+		//specialSquares[0].add(comp);
 		players[player] = comp;
 		PlayerPosition[player] = posToMove;
 		contentPane.revalidate();
@@ -383,7 +388,7 @@ public String getStringColor() {
 		int pos = PlayerPosition[n];
 		pos-=1;
 		if(specialSpot(pos)) {
-			pos-=1;
+			//pos-=1;
 		}
 		JButton comp = new JButton(Integer.toString(n+1));
 		ActionListener buttonListener = new ButtonListener();
@@ -417,7 +422,7 @@ public String getStringColor() {
 		turnTaken = true;
 		if(pos==0) {
 			curColor = Color.DARK_GRAY;
-			JOptionPane.showMessageDialog(contentPane, "Player "+n+1+", you win!");
+			JOptionPane.showMessageDialog(contentPane, "Player "+(n+1)+", you win!");
 
 		}
 		
