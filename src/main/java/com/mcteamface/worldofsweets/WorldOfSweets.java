@@ -5,8 +5,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.*;
 
 //import javax.smartcardio.Card;
 
@@ -16,24 +16,71 @@ import javax.swing.JFrame;
 public class WorldOfSweets{
 
     public static void main(String[] args) {
-    	
-    	GameTimer gt = new GameTimer(); 
-    	
+
+
+    	GameTimer gt = new GameTimer();
+
       Buttons numPlayersButton = new Buttons();
       int numPlayers = 0;
+      boolean loadGame = false;
       while(numPlayers == 0){
         numPlayers = numPlayersButton.getNumPlayers();
-        if(numPlayers != 0){
+        loadGame = numPlayersButton.loadGameSelect();
+        if(numPlayers != 0 || loadGame){
           break;
         }
       }
-
       ArrayList<Player> players = new ArrayList<Player>();
-      for(int i = 1; i <= numPlayers; i++){
-        players.add(new Player(i, "", 0));
+      Deck testDeck = null;
+      GameBoard board = null;
+      if(loadGame){
+            JFrame frame = new JFrame();
+            testDeck = new Deck();
+            testDeck.setVisible(false);
+            board = loadSaveFile();
+            if(board == null) {
+              loadGame = false;
+              JOptionPane.showMessageDialog(frame,
+                  "The save file does not exist or has been corrupted. You can start a new game",
+                  "Inane error",
+                  JOptionPane.ERROR_MESSAGE);      
+	    }
+	   else if(!testDeck.load()) {
+              loadGame = false;
+              JOptionPane.showMessageDialog(frame,
+                  "The save file does not exist or has been corrupted. You can start a new game",
+                  "Inane error",
+                  JOptionPane.ERROR_MESSAGE);
+            }
+            else if(!gt.load()){
+              loadGame = false;
+              JOptionPane.showMessageDialog(frame,
+                  "The save file does not exist or has been corrupted. You can start a new game",
+                  "Inane error",
+                  JOptionPane.ERROR_MESSAGE);
+            }
+            if(!loadGame){
+              Buttons numPlayersButton2 = new Buttons();
+              numPlayersButton2.disableLoad();
+              while(numPlayers == 0){
+                numPlayers = numPlayersButton2.getNumPlayers();
+                if(numPlayers != 0){
+                  break;
+                }
+              }
+              for(int i = 1; i <= numPlayers; i++){
+                players.add(new Player(i, "", 0));
+              }
+              board = new GameBoard(numPlayers);
+              testDeck = new Deck();
+            } else testDeck.setVisible(true);
+      } else{
+        board = new GameBoard(numPlayers);
+        testDeck = new Deck();
+        for(int i = 1; i <= numPlayers; i++){
+          players.add(new Player(i, "", 0));
+        }
       }
-      Deck testDeck = new Deck();
-      GameBoard board = new GameBoard(numPlayers);
       board.setVisible(true);
 
       gt.createAndShowGUI();
@@ -43,7 +90,6 @@ public class WorldOfSweets{
       int playersTurn = 0;
       while(gamePlay){
 
-    	  
         int currentTurn = playersTurn % numPlayers;
         board.nextPlayerMessage(currentTurn+1);
         board.disableAll();
@@ -96,15 +142,15 @@ public class WorldOfSweets{
                 	while(s.toString()!=board.getStringColor()) {
 
                     }
-                	
+
                 	while(s.toString()==board.getStringColor()) {
-                		
+
                 	}
-               
+
                 	while(s.toString()!=board.getStringColor()) {
-                		
+
                     }
-                	
+
             	}
 
             }
@@ -158,11 +204,11 @@ public class WorldOfSweets{
         testDeck.enableDraw();
       }
     }
-    
-    public GameBoard loadSaveFile() {
-    	BufferedReader br = null;
+
+    public static GameBoard loadSaveFile() {
+    BufferedReader br = null;
 		FileReader fr = null;
-		
+
 		try {
 			fr = new FileReader("gameboard.txt");
 			br = new BufferedReader(fr);
@@ -182,9 +228,12 @@ public class WorldOfSweets{
 			}
 			br.close();
 			fr.close();
+      if(numPlayers == 0) return null;
+      if(numPlayers > 4) return null;
+      if(numPlayers < 2) return null;
 			return new GameBoard(numPlayers, specialSquares, positions);
 		} catch (IOException e) {
-			
+
 			return null;
 
 		}

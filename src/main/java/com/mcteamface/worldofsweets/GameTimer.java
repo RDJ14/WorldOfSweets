@@ -18,8 +18,8 @@ public class GameTimer implements ActionListener {
     JLabel timeDisplay;
     long startTime;
     Timer timer;
-    int seconds;
-    long elapsed;
+    volatile int seconds;
+    volatile long elapsed;
 
     public boolean save() {
     	ObjectOutputStream oos = null;
@@ -38,20 +38,20 @@ public class GameTimer implements ActionListener {
           ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILENAME));
           startTime = (long) ois.readObject();
           System.out.println("new start time: " + startTime);
-          
+
             if(startTime == 0)
             {
               ois.close();
               return false;
             }
-           
+
         } catch(Exception e){
-          
+
             return false;
         }
         return true;
       }
-    
+
     public void createAndShowGUI()  {
         JFrame frame=new JFrame("Stopwatch");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,7 +59,7 @@ public class GameTimer implements ActionListener {
         frame.getContentPane().add(timeDisplay);
         frame.pack();
         frame.setVisible(true);
-        
+
         startTime=System.currentTimeMillis()/1000;
         seconds=1;
         timer=new Timer(1000, this);
