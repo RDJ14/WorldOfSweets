@@ -9,7 +9,10 @@ import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 
 import javax.swing.border.Border;
 import javax.swing.*; //for borderfactory
-import java.awt.event.*; 
+import java.awt.event.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.awt.Color;
 import java.net.URL;
 import java.util.Random;
@@ -289,6 +292,31 @@ public String getStringColor() {
 	}
 	
 	
+	public GameBoard(int players, int[] specialSquares, int[] playerPositions) {
+		p = players;
+		licoriceSpot = specialSquares[0];
+		icecreamSpot = specialSquares[1];
+		mintSpot = specialSquares[2];
+		cookieSpot = specialSquares[3];
+		chocolateSpot = specialSquares[4];
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setBounds(100, 100, 773, 548);
+		setBounds(100, 100, 1000, 1000);
+		contentPane = new JLayeredPane();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(new GridLayout(h, w, 0, 0));
+		makeBoard(w,h);
+		addPlayerTokens(p);
+		
+		for(int i = 0; i<players;i++) {
+			placePlayers(i, playerPositions[i]);
+		}
+
+	}
+	
+	
+	
 	public GameBoard(int players) {
 
 		//resizing left image
@@ -310,19 +338,63 @@ public String getStringColor() {
 		makeBoard(w,h);
 		addPlayerTokens(p);
 		
-		
-		//adding player tokens...make this better later
-/*
-		JPanel startPanel = new JPanel();
-		JLabel txtStart = new JLabel();
-		txtStart.setForeground(Color.BLACK);
-		txtStart.setBackground(Color.RED);
-		txtStart.setFont(new Font("Papyrus", Font.PLAIN, 19));
-		txtStart.setText("START");
-		startPanel.add(txtStart);
-		*/
+		}
+	
+	
+	public void writeOutGameData() {
+		BufferedWriter writer = null;
+		try
+		{
+		    writer = new BufferedWriter( new FileWriter("gameboard.txt", true));
+		    
+		    writer.write(p);
+		    writer.newLine();
+		    for(int i =0; i<PlayerPosition.length;i++) {
+		    	writer.write(PlayerPosition[i]);
+		    	writer.newLine();
+		    }
+		    writer.write(licoriceSpot);
+		    writer.newLine();
+		    writer.write(icecreamSpot);
+		    writer.newLine();
+		    writer.write(mintSpot);
+		    writer.newLine();
+		    writer.write(cookieSpot);
+		    writer.newLine();
+		    writer.write(chocolateSpot);
+		    writer.newLine();
+			
+		    
+
+		}
+		catch ( IOException e)
+		{
+		}
+		finally
+		{
+		    try
+		    {
+		        if ( writer != null)
+		        writer.close( );
+		    }
+		    catch ( IOException e)
+		    {
+		    }
+		}
+
 	}
 	
+	public void placePlayers(int player, int playerPosition) {
+		JButton comp = new JButton(Integer.toString(player+1));
+		ActionListener buttonListener = new ButtonListener();
+		comp.addActionListener(buttonListener);
+		Board[playerPosition].add(comp);
+		players[player]=comp;
+		PlayerPosition[player] = playerPosition;
+		contentPane.revalidate();
+		contentPane.repaint();
+
+	}
 	public void  nextPlayerMessage(int n) {
 		JOptionPane.showMessageDialog(contentPane, "Player "+n+", It's your turn!");
 	}
