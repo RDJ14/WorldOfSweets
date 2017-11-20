@@ -9,11 +9,13 @@ import javax.swing.*; //for borderfactory
 import java.awt.event.*; 
 import java.awt.Color;
 import java.net.URL;
+import java.util.Random;
 
 public class GameBoard extends JFrame {
 	Border border = BorderFactory.createLineBorder(Color.black, 2);
 	private JLayeredPane contentPane;
 	boolean turnTaken = false;
+	JLabel specialSquares[] = new JLabel[5];
 	JPanel[][] board;
 	JPanel[] Board;
 	JButton[] players;
@@ -22,11 +24,11 @@ public class GameBoard extends JFrame {
 	int p;
 	int w = 7;
 	int h = 7;
-	final int chocolateSpot = 9;
-	final int cookieSpot = 15;
-	final int icecreamSpot = 22;
-	final int licoriceSpot = 29;
-	final int mintSpot = 38;
+	int chocolateSpot = 8;
+	int cookieSpot = 14;
+	int icecreamSpot = 23;
+	int licoriceSpot = 29;
+	int mintSpot = 38;
 	String cc="BLACK";
 	Color blue = Color.BLUE;
 	Color yellow = Color.YELLOW;
@@ -124,11 +126,64 @@ public String getStringColor() {
 
 	public void boardFlipColors() {
 		int color = 0;
+		int count = 0;
 		for(int i = 0; i <h;i++) {
 			for(int j = 0;j<w;j++) {
-				if(specialSpot(color)) {
-					
+				if(specialSpot(count)) {
+					board[i][j].setBackground(Color.WHITE);
+					if(count == licoriceSpot) {
+						URL chocolate = Deck.class.getClassLoader().getResource("images/licorice.png");
+						ImageIcon housePic = new ImageIcon(chocolate); //absolute path just for testing
+						Image img = housePic.getImage();
+						Image newImage = img.getScaledInstance(150, 120, java.awt.Image.SCALE_SMOOTH);
+						housePic = new ImageIcon(newImage);
+						JLabel label = new JLabel("", housePic, JLabel.CENTER);
+						specialSquares[0]=label;
+						board[i][j].add(label, BorderLayout.CENTER);
+					}
+					if(count == icecreamSpot) {
+						URL chocolate = Deck.class.getClassLoader().getResource("images/icecream.png");
+						ImageIcon housePic = new ImageIcon(chocolate); //absolute path just for testing
+						Image img = housePic.getImage();
+						Image newImage = img.getScaledInstance(150, 120, java.awt.Image.SCALE_SMOOTH);
+						housePic = new ImageIcon(newImage);
+						JLabel label = new JLabel("", housePic, JLabel.CENTER);
+						specialSquares[1]=label;
+						board[i][j].add(label, BorderLayout.CENTER);
+					}
+					if(count == mintSpot) {
+						URL chocolate = Deck.class.getClassLoader().getResource("images/mint.png");
+						ImageIcon housePic = new ImageIcon(chocolate); //absolute path just for testing
+						Image img = housePic.getImage();
+						Image newImage = img.getScaledInstance(150, 120, java.awt.Image.SCALE_SMOOTH);
+						housePic = new ImageIcon(newImage);
+						JLabel label = new JLabel("", housePic, JLabel.CENTER);
+						board[i][j].add(label, BorderLayout.CENTER);
+						specialSquares[2]=label;
+					}
+					if(count == cookieSpot) {
+						URL chocolate = Deck.class.getClassLoader().getResource("images/cookie.png");
+						ImageIcon housePic = new ImageIcon(chocolate); //absolute path just for testing
+						Image img = housePic.getImage();
+						Image newImage = img.getScaledInstance(150, 120, java.awt.Image.SCALE_SMOOTH);
+						housePic = new ImageIcon(newImage);
+						JLabel label = new JLabel("", housePic, JLabel.CENTER);
+						board[i][j].add(label, BorderLayout.CENTER);
+						specialSquares[3]=label;
+					}
+					if(count==chocolateSpot) {
+
+						URL chocolate = Deck.class.getClassLoader().getResource("images/chocolate.png");
+						ImageIcon housePic = new ImageIcon(chocolate); //absolute path just for testing
+						Image img = housePic.getImage();
+						Image newImage = img.getScaledInstance(150, 120, java.awt.Image.SCALE_SMOOTH);
+						housePic = new ImageIcon(newImage);
+						JLabel label = new JLabel("", housePic, JLabel.CENTER);
+						board[i][j].add(label, BorderLayout.CENTER);
+						specialSquares[4]=label;
+					}
 				}
+				else {
 					if(color%5 == 0) {
 						board[i][j].setBackground(Color.RED);
 					}
@@ -145,6 +200,8 @@ public String getStringColor() {
 						board[i][j].setBackground(Color.ORANGE);
 					}
 					color++;
+				}
+				count++;		
 			}
 			
 		}
@@ -228,10 +285,17 @@ public String getStringColor() {
 		}
 	}
 	
+	
 	public GameBoard(int players) {
 
 		//resizing left image
-		p = players; 
+		p = players;
+		Random rng = new Random();
+		licoriceSpot = licoriceSpot +rng.nextInt(3);
+		icecreamSpot += rng.nextInt(3);
+		mintSpot += rng.nextInt(3);
+		cookieSpot += rng.nextInt(3);
+		chocolateSpot += rng.nextInt(3);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//setBounds(100, 100, 773, 548);
 		setBounds(100, 100, 1000, 1000);
@@ -277,10 +341,50 @@ public String getStringColor() {
 		contentPane.repaint();
 		
 	}
+	public void specialSquare(String square, int player) {
+		int pos = PlayerPosition[player];
+		JButton b = players[player];
+		b.setVisible(false);
+		JButton comp = new JButton(Integer.toString(player+1));
+		ActionListener buttonListener = new ButtonListener();
+		comp.addActionListener(buttonListener);
+		int posToMove = 0;
+		if(square=="LICORICE") {
+			posToMove = licoriceSpot;
+			specialSquares[0].add(comp);
+		}
+		if(square=="ICECREAM") {
+			posToMove = icecreamSpot;
+			specialSquares[1].add(comp);
+		}
+		if(square=="MINT") {
+			posToMove = mintSpot;
+			specialSquares[2].add(comp);
+		}
+		if(square=="COOKIE") {
+			posToMove = cookieSpot;
+			specialSquares[3].add(comp);
+		}
+		if(square=="CHOCOLATE") {
+			posToMove = chocolateSpot;
+			specialSquares[4].add(comp);
+		}
+		Board[posToMove].add(comp);
+		specialSquares[0].add(comp);
+		players[player] = comp;
+		PlayerPosition[player] = posToMove;
+		contentPane.revalidate();
+		contentPane.repaint();
+		
+	}
+	
 	public void MovePlayerForward(int n) {
 		
 		int pos = PlayerPosition[n];
 		pos-=1;
+		if(specialSpot(pos)) {
+			pos-=1;
+		}
 		JButton comp = new JButton(Integer.toString(n+1));
 		ActionListener buttonListener = new ButtonListener();
 		comp.addActionListener(buttonListener);
@@ -291,6 +395,25 @@ public String getStringColor() {
 		contentPane.revalidate();
 		contentPane.repaint();
 		players[n] = comp;
+		/*
+		if(specialSpot(pos)) {
+			if(pos==licoriceSpot) {
+				specialSquares[0].add(comp);
+			}
+			if(pos==icecreamSpot) {
+				specialSquares[1].add(comp);
+			}
+			if(pos==mintSpot) {
+				specialSquares[2].add(comp);
+			}
+			if(pos==cookieSpot) {
+				specialSquares[3].add(comp);
+			}
+			if(pos==chocolateSpot) {
+				specialSquares[4].add(comp);
+			}
+		}
+		*/
 		turnTaken = true;
 		if(pos==0) {
 			curColor = Color.DARK_GRAY;
