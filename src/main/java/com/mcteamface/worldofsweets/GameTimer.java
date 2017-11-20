@@ -60,6 +60,7 @@ public class GameTimer implements ActionListener {
         frame.getContentPane().add(timeDisplay);
         frame.pack();
         frame.setVisible(true);
+        //startTime = newStartTime; 
         startTime=System.currentTimeMillis()/1000;
         seconds=1;
         timer=new Timer(1000, this);
@@ -74,7 +75,7 @@ public class GameTimer implements ActionListener {
         elapsed=now-startTime;
         seconds++;
         timeDisplay.setText(elapsed+" Seconds since start");
-        timer.setInitialDelay((int)(newStartTime+seconds*1000-now));
+        timer.setInitialDelay((int)(startTime+seconds*1000-now));
         timer.start();
     }
 }
