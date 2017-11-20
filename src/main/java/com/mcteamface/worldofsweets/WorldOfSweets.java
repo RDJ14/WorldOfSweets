@@ -37,15 +37,15 @@ public class WorldOfSweets{
             JFrame frame = new JFrame();
             testDeck = new Deck();
             testDeck.setVisible(false);
-            if(!testDeck.load()) {
+            board = loadSaveFile();
+            if(board == null) {
               loadGame = false;
               JOptionPane.showMessageDialog(frame,
                   "The save file does not exist or has been corrupted. You can start a new game",
                   "Inane error",
-                  JOptionPane.ERROR_MESSAGE);
-            }
-            board = loadSaveFile();
-            else if(board == null) {
+                  JOptionPane.ERROR_MESSAGE);      
+	    }
+	   else if(!testDeck.load()) {
               loadGame = false;
               JOptionPane.showMessageDialog(frame,
                   "The save file does not exist or has been corrupted. You can start a new game",
