@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+
 //import javax.smartcardio.Card;
 
 //import javax.smartcardio.Card;
@@ -14,6 +16,8 @@ import java.util.ArrayList;
 public class WorldOfSweets{
 
     public static void main(String[] args) {
+    	
+    	GameTimer gt = new GameTimer(); 
     	
       Buttons numPlayersButton = new Buttons();
       int numPlayers = 0;
@@ -32,13 +36,14 @@ public class WorldOfSweets{
       GameBoard board = new GameBoard(numPlayers);
       board.setVisible(true);
 
+      gt.createAndShowGUI();
       boolean gamePlay = true;
       Card drawn;
       int counter = 0;
       int playersTurn = 0;
       while(gamePlay){
 
-
+    	  
         int currentTurn = playersTurn % numPlayers;
         board.nextPlayerMessage(currentTurn+1);
         board.disableAll();
