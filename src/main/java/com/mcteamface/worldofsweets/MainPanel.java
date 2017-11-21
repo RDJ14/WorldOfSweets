@@ -1,17 +1,15 @@
 package com.mcteamface.worldofsweets;
 
 import javax.swing.JPanel;
-import javax.swing.JLabel;
-import java.awt.BorderLayout;
-import java.awt.Color;
 
 class MainPanel extends JPanel {
   public MainPanel() {
-    super(new BorderLayout());
+    super();
 
-    PipeIcon icon = new TopLeftCap(100, Color.gray);
-    JLabel label = new JLabel("", icon, JLabel.CENTER);
-    add(label, BorderLayout.CENTER);
+    add(new GameBoardView());
+    add(new GameTimer());
+
+
     // Model model = new Model();
     // View view = new View(model);
     // Control control = new Control(model, view);
