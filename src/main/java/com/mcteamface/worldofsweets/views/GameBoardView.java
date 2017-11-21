@@ -20,12 +20,20 @@ class GameBoardView extends JPanel {
 	};
 
   private Image mImgBackground;
+  private Image mImgDrawCard;
+  private Image mImgDiscard;
   private List<Piece> mPieces = new ArrayList<Piece>();
 
   public GameBoardView() {
     setLayout(null);
     URL urlBackgroundImg = getClass().getResource("/images/game_board_layout.png");
 		mImgBackground = new ImageIcon(urlBackgroundImg).getImage();
+
+    URL urlDrawCardImg = getClass().getResource("/images/card_back.png");
+		mImgDrawCard = new ImageIcon(urlDrawCardImg).getImage();
+
+    URL urlDiscardImg = getClass().getResource("/images/card_special_cordial.png");
+		mImgDiscard = new ImageIcon(urlDiscardImg).getImage();
 
     setPreferredSize(new Dimension(1088, 682));
 
@@ -68,6 +76,9 @@ class GameBoardView extends JPanel {
 	protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     g.drawImage(mImgBackground, 0, 0, 1088, 682, null);
+    int paddingY = (200 - 143) / 2;
+    g.drawImage(mImgDrawCard, 750 + 50, 465 + paddingY, 83, 143, null);
+    g.drawImage(mImgDiscard, 750 + 83 + 80, 465 + paddingY, 83, 143, null);
 		for (Piece piece: mPieces) {
 			g.drawImage(piece.getImage(), piece.getX(), piece.getY(), piece.getWidth(), piece.getHeight(), null);
 		}
