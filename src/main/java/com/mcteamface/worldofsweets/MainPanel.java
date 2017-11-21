@@ -1,6 +1,7 @@
 package com.mcteamface.worldofsweets;
 
 import javax.swing.JPanel;
+import javax.swing.BoxLayout;
 
 class MainPanel extends JPanel {
   public MainPanel() {
