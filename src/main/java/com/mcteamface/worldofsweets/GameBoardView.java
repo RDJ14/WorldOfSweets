@@ -23,7 +23,10 @@ class GameBoardView extends JPanel {
   public GameBoardView() {
     super(new GameBoardLayout());
 
-    addPiece(0, 0);
+    addPiece(0, 0, 0);
+    addPiece(1, 100, 0);
+    addPiece(2, 200, 0);
+    addPiece(3, 300, 0);
 
     PiecesDragAndDropListener listener = new PiecesDragAndDropListener(this);
 		this.addMouseListener(listener);
@@ -51,8 +54,22 @@ class GameBoardView extends JPanel {
     }
   }
 
-  private void addPiece(int x, int y) {
-    URL urlPieceImg = getClass().getResource("/images/mint.png");
+  private void addPiece(int color, int x, int y) {
+    URL urlPieceImg;
+    switch(color) {
+      case 0:
+        urlPieceImg = getClass().getResource("/images/piece_red.png");
+        break;
+      case 1:
+        urlPieceImg = getClass().getResource("/images/piece_green.png");
+        break;
+      case 2:
+        urlPieceImg = getClass().getResource("/images/piece_blue.png");
+        break;
+      default:
+        urlPieceImg = getClass().getResource("/images/piece_yellow.png");
+        break;
+    }
 		Image img = new ImageIcon(urlPieceImg).getImage();
 		Piece piece = new Piece(img, x, y);
 		mPieces.add(piece);
@@ -66,7 +83,7 @@ class GameBoardView extends JPanel {
 	protected void paintComponent(Graphics g) {
     super.paintComponent(g);
 		for (Piece piece: mPieces) {
-			g.drawImage(piece.getImage(), piece.getX(), piece.getY(), null);
+			g.drawImage(piece.getImage(), piece.getX(), piece.getY(), piece.getWidth() / 2, piece.getHeight() / 2, null);
 		}
 	}
 }
