@@ -35,11 +35,11 @@ public class Piece {
 	}
 
 	public int getWidth() {
-		return img.getHeight(null);
+		return img.getHeight(null) / 2;
 	}
 
 	public int getHeight() {
-		return img.getHeight(null);
+		return img.getHeight(null) / 2;
 	}
 
 }

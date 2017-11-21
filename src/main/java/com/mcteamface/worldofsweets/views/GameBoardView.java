@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import java.awt.Color;
+import java.awt.Dimension;
 
 class GameBoardView extends JPanel {
   private static final Color[] COLOR_ORDER = new Color[] {
@@ -18,40 +19,24 @@ class GameBoardView extends JPanel {
 		Colors.ORANGE.getColor()
 	};
 
+  private Image mImgBackground;
   private List<Piece> mPieces = new ArrayList<Piece>();
 
   public GameBoardView() {
-    super(new GameBoardLayout());
+    setLayout(null);
+    URL urlBackgroundImg = getClass().getResource("/images/game_board_layout.png");
+		mImgBackground = new ImageIcon(urlBackgroundImg).getImage();
 
-    addPiece(0, 0, 0);
-    addPiece(1, 100, 0);
-    addPiece(2, 200, 0);
-    addPiece(3, 300, 0);
+    setPreferredSize(new Dimension(1088, 682));
+
+    addPiece(0, 70, 75);
+    addPiece(1, 70, 115);
+    addPiece(2, 110, 75);
+    addPiece(3, 110, 115);
 
     PiecesDragAndDropListener listener = new PiecesDragAndDropListener(this);
 		this.addMouseListener(listener);
 		this.addMouseMotionListener(listener);
-
-    for (int i = 0; i < 25; i++) {
-      if (i == 0) {
-        add(new BarMiddle(100, Color.gray));
-      } else if (i == 24) {
-        add(new BarMiddle(100, Color.gray));
-      } else {
-        Color color = COLOR_ORDER[(i - 1) % 5];
-        if (i % 14 == 13) {
-          add(new CapTopLeft(100, color));
-        } else if (i % 14 == 6) {
-          add(new CapTopRight(100, color));
-        } else if (i % 14 == 0) {
-          add(new CapBottomLeft(100, color));
-        } else if (i % 14 == 7) {
-          add(new CapBottomRight(100, color));
-        } else {
-          add(new BarMiddle(100, color));
-        }
-      }
-    }
   }
 
   private void addPiece(int color, int x, int y) {
@@ -82,8 +67,9 @@ class GameBoardView extends JPanel {
   @Override
 	protected void paintComponent(Graphics g) {
     super.paintComponent(g);
+    g.drawImage(mImgBackground, 0, 0, 1088, 682, null);
 		for (Piece piece: mPieces) {
-			g.drawImage(piece.getImage(), piece.getX(), piece.getY(), piece.getWidth() / 2, piece.getHeight() / 2, null);
+			g.drawImage(piece.getImage(), piece.getX(), piece.getY(), piece.getWidth(), piece.getHeight(), null);
 		}
 	}
 }
