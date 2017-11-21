@@ -9,6 +9,7 @@ class MainPanel extends JPanel {
 
     add(new GameBoardView());
     add(new GameTimer());
+    add(new Deck());
 
 
     // Model model = new Model();

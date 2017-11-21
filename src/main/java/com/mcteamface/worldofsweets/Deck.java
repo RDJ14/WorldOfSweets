@@ -17,9 +17,6 @@ import java.net.URL;
 //FOR SAVING DECK
 import java.io.*;
 
-
-
-
 public class Deck extends JPanel {
 
   static final int NUMBER_COLORS = 5;
@@ -42,7 +39,6 @@ public class Deck extends JPanel {
 
   public Deck(){
     deck = new ArrayList<Card>();
-    display = new JFrame();
     cardToDraw = 0;
     hasDrawn = false;
     //create single cards
@@ -121,9 +117,7 @@ public class Deck extends JPanel {
       emptyPanel.add(emptyMessage, BorderLayout.SOUTH);
 
 
-      display.add(cardPanel);
-      display.pack();
-      display.setVisible(true);
+      add(cardPanel);
     }
     catch(Exception e){
       System.out.println(e);
@@ -219,10 +213,6 @@ public class Deck extends JPanel {
     return true;
   }
 
-  public void setVisible(boolean flag){
-    display.setVisible(flag);
-  }
-
   protected class drawAction implements ActionListener{
 
     public void actionPerformed(ActionEvent e){
@@ -239,17 +229,11 @@ public class Deck extends JPanel {
         hasDrawn = true;
         if(cardToDraw == DECK_SIZE)
         {
-          display.getContentPane().removeAll();
-          display.add(emptyPanel);
-          display.pack();
-          display.setVisible(true);
+          add(emptyPanel);
         }
       }
       else {
-        display.getContentPane().removeAll();
-        display.add(emptyPanel);
-        display.pack();
-        display.setVisible(true);
+        add(emptyPanel);
       }
     }
 
@@ -264,10 +248,7 @@ public class Deck extends JPanel {
       discardLastCard.discard();
       Collections.shuffle(deck);
       cardToDraw = 0;
-      display.getContentPane().removeAll();
-      display.add(cardPanel);
-      display.pack();
-      display.setVisible(true);
+      add(cardPanel);
     }
 
   }
