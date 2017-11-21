@@ -10,14 +10,5 @@ class MainPanel extends JPanel {
     add(new GameBoardView());
     add(new GameTimer());
     add(new Deck());
-
-
-    // Model model = new Model();
-    // View view = new View(model);
-    // Control control = new Control(model, view);
-    // JLabel label = new JLabel("Guess what color!", JLabel.CENTER);
-    // this.add(label, BorderLayout.NORTH);
-    // this.add(view, BorderLayout.CENTER);
-    // this.add(control, BorderLayout.SOUTH);
   }
 }

@@ -1,8 +1,12 @@
 package com.mcteamface.worldofsweets;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
-import java.awt.GridBagLayout;
+import javax.swing.ImageIcon;
 import java.awt.Color;
 
 class GameBoardView extends JPanel {
@@ -14,8 +18,16 @@ class GameBoardView extends JPanel {
 		Colors.ORANGE.getColor()
 	};
 
+  private List<Piece> mPieces = new ArrayList<Piece>();
+
   public GameBoardView() {
     super(new GameBoardLayout());
+
+    addPiece(0, 0);
+
+    PiecesDragAndDropListener listener = new PiecesDragAndDropListener(this);
+		this.addMouseListener(listener);
+		this.addMouseMotionListener(listener);
 
     for (int i = 0; i < 25; i++) {
       if (i == 0) {
@@ -38,4 +50,23 @@ class GameBoardView extends JPanel {
       }
     }
   }
+
+  private void addPiece(int x, int y) {
+    URL urlPieceImg = getClass().getResource("/images/mint.png");
+		Image img = new ImageIcon(urlPieceImg).getImage();
+		Piece piece = new Piece(img, x, y);
+		mPieces.add(piece);
+	}
+
+  public List<Piece> getPieces() {
+    return mPieces;
+  }
+
+  @Override
+	protected void paintComponent(Graphics g) {
+    super.paintComponent(g);
+		for (Piece piece: mPieces) {
+			g.drawImage(piece.getImage(), piece.getX(), piece.getY(), null);
+		}
+	}
 }
