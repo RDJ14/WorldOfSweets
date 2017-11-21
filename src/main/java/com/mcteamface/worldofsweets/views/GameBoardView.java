@@ -35,7 +35,7 @@ class GameBoardView extends JPanel {
     URL urlDiscardImg = getClass().getResource("/images/card_special_cordial.png");
 		mImgDiscard = new ImageIcon(urlDiscardImg).getImage();
 
-    setPreferredSize(new Dimension(1088, 682));
+    setPreferredSize(new Dimension(mImgBackground.getWidth(null) / 2, mImgBackground.getHeight(null) / 2));
 
     addPiece(0, 70, 75);
     addPiece(1, 70, 115);
@@ -75,10 +75,18 @@ class GameBoardView extends JPanel {
   @Override
 	protected void paintComponent(Graphics g) {
     super.paintComponent(g);
-    g.drawImage(mImgBackground, 0, 0, 1088, 682, null);
-    int paddingY = (200 - 143) / 2;
-    g.drawImage(mImgDrawCard, 750 + 50, 465 + paddingY, 83, 143, null);
-    g.drawImage(mImgDiscard, 750 + 83 + 80, 465 + paddingY, 83, 143, null);
+    /**
+     * The board is a grid of 100x100 pixel tiles with a top-padding of 65px and
+     * a left-padding of 50px.
+     */
+    g.drawImage(mImgBackground, 0, 0, mImgBackground.getWidth(null) / 2, mImgBackground.getHeight(null) / 2, null);
+
+    // The deck is located 7 tiles to the left and 4 tiles down.
+    int cardWidth = mImgDrawCard.getWidth(null) / 2;
+    int cardHeight = mImgDrawCard.getHeight(null) / 2;
+    int paddingY = (200 - cardHeight) / 2;
+    g.drawImage(mImgDrawCard, 750 + 50, 465 + paddingY, cardWidth, cardHeight, null);
+    g.drawImage(mImgDiscard, 750 + cardWidth + 80, 465 + paddingY, cardWidth, cardHeight, null);
 		for (Piece piece: mPieces) {
 			g.drawImage(piece.getImage(), piece.getX(), piece.getY(), piece.getWidth(), piece.getHeight(), null);
 		}
