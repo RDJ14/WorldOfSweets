@@ -57,9 +57,13 @@ public class GameModel {
             player.setLocation(player.getLocation() + 1);
             piece.moveTo(player.getLocation());
             mGameBoardView.repaint();
+            break;
+
+          // It's not their turn.
           } else if (player.checkPiece(piece.getId())) {
             piece.moveTo(player.getLocation());
             mGameBoardView.repaint();
+            break;
           }
         }
       }
