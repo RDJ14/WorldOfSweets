@@ -51,13 +51,15 @@ public class GameModel {
               && player.checkPiece(piece.getId())
               && player.getId().equals(mPlayers.get(0).getId())) {
             mPlayerHasMoved = true;
-            mCurrentCard = null;
 
             // Rotate player order.
             mPlayers.remove(0);
             mPlayers.add(player);
 
-            player.setLocation(player.getLocation() + 1);
+            int newPosition = GameHelperUtil.getNext(player.getLocation(), mCurrentCard);
+            mCurrentCard = null;
+            
+            player.setLocation(newPosition);
             piece.moveTo(player.getLocation());
             mGameBoardView.repaint();
             break;
