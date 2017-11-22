@@ -23,27 +23,18 @@ public class PiecesDragAndDropListener implements MouseListener, MouseMotionList
     int x = evt.getPoint().x;
     int y = evt.getPoint().y;
 
-    // find out which piece to move.
-    // we check the list from top to buttom
-    // (therefore we itereate in reverse order)
-    for (int i = mGameBoard.getPieces().size() - 1; i >= 0; i--) {
+    // Find out which piece to move.
+    for (int i = 0; i < mGameBoard.getPieces().size(); i++) {
       Piece piece = mGameBoard.getPieces().get(i);
 
       if (mouseOverPiece(piece, x, y)) {
-        // calculate offset, because we do not want the drag piece
-        // to jump with it's upper left corner to the current mouse
-        // position
+        // Calculate offset, because we do not want the drag piece to jump with
+        // it's upper left corner to the current mouse position.
         this.dragOffsetX = x - piece.getX();
         this.dragOffsetY = y - piece.getY();
         this.dragPiece = piece;
         break;
       }
-    }
-
-    // move drag piece to the top of the list
-    if (this.dragPiece != null) {
-      mGameBoard.getPieces().remove(this.dragPiece);
-      mGameBoard.getPieces().add(this.dragPiece);
     }
   }
 
