@@ -35,17 +35,26 @@ class GameBoardView extends JPanel {
 
     setPreferredSize(new Dimension(mImgBackground.getWidth(null) / 2, mImgBackground.getHeight(null) / 2));
 
-    addPiece(0, 70, 75);
-    addPiece(1, 70, 115);
-    addPiece(2, 110, 75);
-    addPiece(3, 110, 115);
-
     PiecesDragAndDropListener listener = new PiecesDragAndDropListener(this);
 		this.addMouseListener(listener);
 		this.addMouseMotionListener(listener);
   }
 
-  private void addPiece(int color, int x, int y) {
+  public Piece createPiece() {
+    int number = mPieces.size();
+    switch(number) {
+      case 0:
+        return addPiece(number, 70, 75);
+      case 1:
+        return addPiece(number, 70, 115);
+      case 2:
+        return addPiece(number, 110, 75);
+      default:
+        return addPiece(number, 110, 115);
+    }
+  }
+
+  private Piece addPiece(int color, int x, int y) {
     URL urlPieceImg;
     switch(color) {
       case 0:
@@ -64,6 +73,7 @@ class GameBoardView extends JPanel {
 		Image img = new ImageIcon(urlPieceImg).getImage();
 		Piece piece = new Piece(img, x, y);
 		mPieces.add(piece);
+    return piece;
 	}
 
   public ArrayList<Piece> getPieces() {
@@ -90,8 +100,8 @@ class GameBoardView extends JPanel {
     mCardDrawnListener = listener;
   }
 
-  public void tokenMoved() {
-    mTokenMovedListener.tokenMoved();
+  public void tokenMoved(Piece piece, int x, int y) {
+    mTokenMovedListener.tokenMoved(piece, x, y);
   }
 
   public void addTokenMovedListener(TokenMovedListener listener) {
@@ -103,7 +113,7 @@ class GameBoardView extends JPanel {
   }
 
   public interface TokenMovedListener {
-    void tokenMoved();
+    void tokenMoved(Piece piece, int x, int y);
   }
 
   @Override
@@ -121,7 +131,7 @@ class GameBoardView extends JPanel {
     int paddingY = (200 - cardHeight) / 2;
     g.drawImage(mImgDrawCard, 750 + 50, 465 + paddingY, cardWidth, cardHeight, null);
     g.drawImage(mImgDiscard, 750 + cardWidth + 80, 465 + paddingY, cardWidth, cardHeight, null);
-		for (Piece piece: mPieces) {
+		for (Piece piece : mPieces) {
 			g.drawImage(piece.getImage(), piece.getX(), piece.getY(), piece.getWidth(), piece.getHeight(), null);
 		}
 	}

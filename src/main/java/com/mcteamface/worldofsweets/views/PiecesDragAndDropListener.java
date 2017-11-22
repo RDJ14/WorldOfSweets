@@ -23,10 +23,15 @@ public class PiecesDragAndDropListener implements MouseListener, MouseMotionList
     int x = evt.getPoint().x;
     int y = evt.getPoint().y;
 
-    // Find out which piece to move.
-    for (int i = 0; i < mGameBoard.getPieces().size(); i++) {
-      Piece piece = mGameBoard.getPieces().get(i);
+    int cardWidth = mGameBoard.getDrawCard().getWidth(null) / 2;
+    int cardHeight = mGameBoard.getDrawCard().getHeight(null) / 2;
+    int paddingY = (200 - cardHeight) / 2;
+    if (750 + 50 <= x && 750 + 50 + cardWidth >= x && 465 + paddingY <= y && 465 + paddingY + cardHeight >= y) {
+      mGameBoard.cardDrawn();
+    }
 
+    // Find out which piece to move.
+    for (Piece piece : mGameBoard.getPieces()) {
       if (mouseOverPiece(piece, x, y)) {
         // Calculate offset, because we do not want the drag piece to jump with
         // it's upper left corner to the current mouse position.
@@ -54,9 +59,11 @@ public class PiecesDragAndDropListener implements MouseListener, MouseMotionList
   }
 
   @Override
-  public void mouseReleased(MouseEvent arg0) {
+  public void mouseReleased(MouseEvent evt) {
+    int x = evt.getPoint().x;
+    int y = evt.getPoint().y;
     if (this.dragPiece != null) {
-      mGameBoard.tokenMoved();
+      mGameBoard.tokenMoved(this.dragPiece, x, y);
     }
     this.dragPiece = null;
   }
@@ -72,23 +79,16 @@ public class PiecesDragAndDropListener implements MouseListener, MouseMotionList
 
   @Override
   public void mouseClicked(MouseEvent evt) {
-    int x = evt.getPoint().x;
-    int y = evt.getPoint().y;
-
-    int cardWidth = mGameBoard.getDrawCard().getWidth(null) / 2;
-    int cardHeight = mGameBoard.getDrawCard().getHeight(null) / 2;
-    int paddingY = (200 - cardHeight) / 2;
-    if (750 + 50 <= x && 750 + 50 + cardWidth >= x && 465 + paddingY <= y && 465 + paddingY + cardHeight >= y) {
-      mGameBoard.cardDrawn();
-    }
+    // Ideally I would draw a card here, however if you move the mouse it
+    // doesn't fire reliably.
   }
 
   @Override
-  public void mouseEntered(MouseEvent arg0) {}
+  public void mouseEntered(MouseEvent evt) {}
 
   @Override
-  public void mouseExited(MouseEvent arg0) {}
+  public void mouseExited(MouseEvent evt) {}
 
   @Override
-  public void mouseMoved(MouseEvent arg0) {}
+  public void mouseMoved(MouseEvent evt) {}
 }
