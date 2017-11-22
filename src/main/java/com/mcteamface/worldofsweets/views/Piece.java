@@ -33,15 +33,17 @@ public class Piece {
 	}
 
 	public void moveTo(int position) {
+		// 0 == Start
+		// 53 == Grandmas House
+
 		// 0  -> -> 9
 		// 19 <- <- 10
 		// 20 -> -> 29
 		// 39 <- <- 30
 		// 40 -> 46
 		// 53 <- 47
-    //
-		// 0 == Start
-		// 53 == Grandmas House
+
+		// This could be more elegant.
 		if (position <= 9) {
 			setX(50 + (position * 100) + 20);
 			setY(75);
@@ -61,13 +63,6 @@ public class Piece {
 			setX(50 + ((9 - (position - 44)) * 100) + 20);
 			setY(575);
 		}
-
-
-		// int line = (int) Math.floor(position / WIDTH) % 2;
-		// if (line == 0) {
-		// 	return position;
-		// }
-		// return position + (WIDTH - 1 - (2 * (position % 5)));
 	}
 
 	public void setX(int x) {
