@@ -19,6 +19,7 @@ class GameBoardView extends JPanel {
 		Colors.ORANGE.getColor()
 	};
 
+  private CardDrawnListener mCardDrawnListener;
   private Image mImgBackground;
   private Image mImgDrawCard;
   private Image mImgDiscard;
@@ -70,6 +71,30 @@ class GameBoardView extends JPanel {
 
   public List<Piece> getPieces() {
     return mPieces;
+  }
+
+  public void drawCard() {
+    mCardDrawnListener.cardDrawn();
+  }
+
+  public Image getDrawCard() {
+    return mImgDrawCard;
+  }
+
+  public Image getDiscard() {
+    return mImgDiscard;
+  }
+
+  public void setDiscard(Image image) {
+    mImgDiscard = image;
+  }
+
+  public void addCardDrawnListener(CardDrawnListener listener) {
+    mCardDrawnListener = listener;
+  }
+
+  public interface CardDrawnListener {
+    void cardDrawn();
   }
 
   @Override

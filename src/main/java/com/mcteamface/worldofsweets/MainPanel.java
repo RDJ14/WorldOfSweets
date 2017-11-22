@@ -7,8 +7,10 @@ class MainPanel extends JPanel {
   public MainPanel() {
     super();
 
-    add(new GameBoardView());
-    // add(new GameTimer());
-    // add(new Deck());
+    GameBoardView gameBoardView = new GameBoardView();
+    add(gameBoardView);
+
+    // Initialize deck model.
+    new DeckModel(gameBoardView);
   }
 }
