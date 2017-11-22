@@ -47,8 +47,11 @@ public class GameModel {
       public void tokenMoved(Piece piece, int x, int y) {
         for (PlayerModel player : mPlayers) {
           // Find the player of the piece and check if it's their turn.
-          if (player.checkPiece(piece.getId()) && player.getId().equals(mPlayers.get(0).getId())) {
+          if (mCurrentCard != null
+              && player.checkPiece(piece.getId())
+              && player.getId().equals(mPlayers.get(0).getId())) {
             mPlayerHasMoved = true;
+            mCurrentCard = null;
 
             // Rotate player order.
             mPlayers.remove(0);
