@@ -1,7 +1,5 @@
 package com.mcteamface.worldofsweets;
 
-import javax.swing.ImageIcon;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -10,53 +8,41 @@ public class DeckModel {
   public static final int NUM_DOUBLE = 2;
   public static final int NUM_SPECIAL = 1;
 
-  private GameBoardView mGameBoardView;
-  private ArrayList<Cards> mCards = new ArrayList<Cards>();
+  private ArrayList<Card> mCards = new ArrayList<Card>();
 
-  public DeckModel(GameBoardView gameBoardView) {
-    mGameBoardView = gameBoardView;
+  public DeckModel() {
     initDeck();
-    initListeners();
   }
 
   private void initDeck() {
     for (int i = 0; i < NUM_SINGLE; i++) {
-      mCards.add(Cards.RED);
-      mCards.add(Cards.YELLOW);
-      mCards.add(Cards.BLUE);
-      mCards.add(Cards.GREEN);
-      mCards.add(Cards.ORANGE);
+      mCards.add(Card.RED);
+      mCards.add(Card.YELLOW);
+      mCards.add(Card.BLUE);
+      mCards.add(Card.GREEN);
+      mCards.add(Card.ORANGE);
     }
 
     for (int i = 0; i < NUM_DOUBLE; i++) {
-      mCards.add(Cards.DOUBLE_RED);
-      mCards.add(Cards.DOUBLE_YELLOW);
-      mCards.add(Cards.DOUBLE_BLUE);
-      mCards.add(Cards.DOUBLE_GREEN);
-      mCards.add(Cards.DOUBLE_ORANGE);
+      mCards.add(Card.DOUBLE_RED);
+      mCards.add(Card.DOUBLE_YELLOW);
+      mCards.add(Card.DOUBLE_BLUE);
+      mCards.add(Card.DOUBLE_GREEN);
+      mCards.add(Card.DOUBLE_ORANGE);
     }
 
     for (int i = 0; i < NUM_SPECIAL; i++) {
-      mCards.add(Cards.SPECIAL_LOLLIPOP);
-      mCards.add(Cards.SPECIAL_CORDIAL);
-      mCards.add(Cards.SPECIAL_CANDY_CANE);
-      mCards.add(Cards.SPECIAL_GUM_DROP);
-      mCards.add(Cards.SPECIAL_NOUGAT);
+      mCards.add(Card.SPECIAL_LOLLIPOP);
+      mCards.add(Card.SPECIAL_CORDIAL);
+      mCards.add(Card.SPECIAL_CANDY_CANE);
+      mCards.add(Card.SPECIAL_GUM_DROP);
+      mCards.add(Card.SPECIAL_NOUGAT);
     }
 
     Collections.shuffle(mCards);
   }
 
-  private void initListeners() {
-    mGameBoardView.addCardDrawnListener(new GameBoardView.CardDrawnListener() {
-      @Override
-      public void cardDrawn() {
-        if (mCards.size() == 0) {
-          return;
-        }
-        mGameBoardView.setDiscard(mCards.remove(0).getImage());
-        mGameBoardView.repaint();
-      }
-    });
+  public Card dequeCard() {
+    return mCards.remove(0);
   }
 }

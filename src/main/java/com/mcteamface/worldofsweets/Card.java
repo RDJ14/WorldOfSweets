@@ -4,7 +4,7 @@ import javax.swing.ImageIcon;
 import java.net.URL;
 import java.awt.Image;
 
-public enum Cards {
+public enum Card {
   RED("/images/card_single_red.png"),
   YELLOW("/images/card_single_yellow.png"),
   BLUE("/images/card_single_blue.png"),
@@ -23,7 +23,7 @@ public enum Cards {
 
   private final String stringLocation;
 
-  private Cards(final String stringLocation) {
+  private Card(final String stringLocation) {
     this.stringLocation = stringLocation;
   }
 

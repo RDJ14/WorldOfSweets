@@ -23,13 +23,6 @@ public class PiecesDragAndDropListener implements MouseListener, MouseMotionList
     int x = evt.getPoint().x;
     int y = evt.getPoint().y;
 
-    int cardWidth = mGameBoard.getDrawCard().getWidth(null) / 2;
-    int cardHeight = mGameBoard.getDrawCard().getHeight(null) / 2;
-    int paddingY = (200 - cardHeight) / 2;
-    if (750 + 50 <= x && 750 + 50 + cardWidth >= x && 465 + paddingY <= y && 465 + paddingY + cardHeight >= y) {
-      mGameBoard.drawCard();
-    }
-
     // find out which piece to move.
     // we check the list from top to buttom
     // (therefore we itereate in reverse order)
@@ -71,6 +64,9 @@ public class PiecesDragAndDropListener implements MouseListener, MouseMotionList
 
   @Override
   public void mouseReleased(MouseEvent arg0) {
+    if (this.dragPiece != null) {
+      mGameBoard.tokenMoved();
+    }
     this.dragPiece = null;
   }
 
@@ -84,7 +80,17 @@ public class PiecesDragAndDropListener implements MouseListener, MouseMotionList
   }
 
   @Override
-  public void mouseClicked(MouseEvent arg0) {}
+  public void mouseClicked(MouseEvent evt) {
+    int x = evt.getPoint().x;
+    int y = evt.getPoint().y;
+
+    int cardWidth = mGameBoard.getDrawCard().getWidth(null) / 2;
+    int cardHeight = mGameBoard.getDrawCard().getHeight(null) / 2;
+    int paddingY = (200 - cardHeight) / 2;
+    if (750 + 50 <= x && 750 + 50 + cardWidth >= x && 465 + paddingY <= y && 465 + paddingY + cardHeight >= y) {
+      mGameBoard.cardDrawn();
+    }
+  }
 
   @Override
   public void mouseEntered(MouseEvent arg0) {}

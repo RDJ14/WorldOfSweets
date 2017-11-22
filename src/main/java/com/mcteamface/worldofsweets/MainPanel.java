@@ -1,7 +1,6 @@
 package com.mcteamface.worldofsweets;
 
 import javax.swing.JPanel;
-import javax.swing.BoxLayout;
 
 class MainPanel extends JPanel {
   public MainPanel() {
@@ -10,7 +9,7 @@ class MainPanel extends JPanel {
     GameBoardView gameBoardView = new GameBoardView();
     add(gameBoardView);
 
-    // Initialize deck model.
-    new DeckModel(gameBoardView);
+    // Initialize game.
+    new GameModel(gameBoardView);
   }
 }

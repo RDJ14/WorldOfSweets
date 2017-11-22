@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import java.awt.Color;
@@ -20,10 +19,11 @@ class GameBoardView extends JPanel {
 	};
 
   private CardDrawnListener mCardDrawnListener;
+  private TokenMovedListener mTokenMovedListener;
   private Image mImgBackground;
   private Image mImgDrawCard;
   private Image mImgDiscard;
-  private List<Piece> mPieces = new ArrayList<Piece>();
+  private ArrayList<Piece> mPieces = new ArrayList<Piece>();
 
   public GameBoardView() {
     setLayout(null);
@@ -66,11 +66,11 @@ class GameBoardView extends JPanel {
 		mPieces.add(piece);
 	}
 
-  public List<Piece> getPieces() {
+  public ArrayList<Piece> getPieces() {
     return mPieces;
   }
 
-  public void drawCard() {
+  public void cardDrawn() {
     mCardDrawnListener.cardDrawn();
   }
 
@@ -90,8 +90,20 @@ class GameBoardView extends JPanel {
     mCardDrawnListener = listener;
   }
 
+  public void tokenMoved() {
+    mTokenMovedListener.tokenMoved();
+  }
+
+  public void addTokenMovedListener(TokenMovedListener listener) {
+    mTokenMovedListener = listener;
+  }
+
   public interface CardDrawnListener {
     void cardDrawn();
+  }
+
+  public interface TokenMovedListener {
+    void tokenMoved();
   }
 
   @Override
