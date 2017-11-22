@@ -33,9 +33,6 @@ class GameBoardView extends JPanel {
     URL urlDrawCardImg = getClass().getResource("/images/card_back.png");
 		mImgDrawCard = new ImageIcon(urlDrawCardImg).getImage();
 
-    URL urlDiscardImg = getClass().getResource("/images/card_special_cordial.png");
-		mImgDiscard = new ImageIcon(urlDiscardImg).getImage();
-
     setPreferredSize(new Dimension(mImgBackground.getWidth(null) / 2, mImgBackground.getHeight(null) / 2));
 
     addPiece(0, 70, 75);
