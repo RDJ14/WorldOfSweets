@@ -6,7 +6,6 @@ public class GameModel {
   private GameBoardView mGameBoardView;
   private DeckModel mDeck;
   private Card mCurrentCard;
-  private PlayerModel mCurrentPlayer;
   private ArrayList<PlayerModel> mPlayers = new ArrayList<PlayerModel>();
   private boolean mPlayerHasMoved;
 
@@ -18,7 +17,6 @@ public class GameModel {
 
     PlayerModel player1 = new PlayerModel("Bob");
     player1.assignPiece(mGameBoardView.createPiece().getId());
-    mCurrentPlayer = player1;
     mPlayers.add(player1);
 
     PlayerModel player2 = new PlayerModel("Alice");
@@ -49,8 +47,13 @@ public class GameModel {
       public void tokenMoved(Piece piece, int x, int y) {
         for (PlayerModel player : mPlayers) {
           // Find the player of the piece and check if it's their turn.
-          if (player.checkPiece(piece.getId()) && player.getId().equals(mCurrentPlayer.getId())) {
+          if (player.checkPiece(piece.getId()) && player.getId().equals(mPlayers.get(0).getId())) {
             mPlayerHasMoved = true;
+
+            // Rotate player order.
+            mPlayers.remove(0);
+            mPlayers.add(player);
+
             player.setLocation(player.getLocation() + 1);
             piece.moveTo(player.getLocation());
             mGameBoardView.repaint();

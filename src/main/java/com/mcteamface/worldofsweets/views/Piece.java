@@ -4,6 +4,9 @@ import java.awt.Image;
 import java.util.UUID;
 
 public class Piece {
+	private final int mInitialX;
+	private final int mInitialY;
+
 	private String mId;
 	private Image mImg;
 	private int mX;
@@ -12,6 +15,8 @@ public class Piece {
 	public Piece(Image img, int x, int y) {
 		mId = UUID.randomUUID().toString();
 		mImg = img;
+		mInitialX = x;
+		mInitialY = y;
 		mX = x;
 		mY = y;
 	}
@@ -45,23 +50,23 @@ public class Piece {
 
 		// This could be more elegant.
 		if (position <= 9) {
-			setX(50 + (position * 100) + 20);
-			setY(75);
+			setX(mInitialX + (position * 100));
+			setY(mInitialY);
 		} else if (position <= 19) {
-			setX(50 + ((9 - (position % 10)) * 100) + 20);
-			setY(175);
+			setX(mInitialX + ((9 - (position % 10)) * 100));
+			setY(100 + mInitialY);
 		} else if (position <= 29) {
-			setX(50 + ((position % 10) * 100) + 20);
-			setY(275);
+			setX(mInitialX + ((position % 10) * 100));
+			setY(200 + mInitialY);
 		} else if (position <= 39) {
-			setX(50 + ((9 - (position % 10)) * 100) + 20);
-			setY(375);
+			setX(mInitialX + ((9 - (position % 10)) * 100));
+			setY(300 + mInitialY);
 		} else if (position <= 46) {
-			setX(50 + ((position % 10) * 100) + 20);
-			setY(475);
+			setX(mInitialX + ((position % 10) * 100));
+			setY(400 + mInitialY);
 		} else if (position <= 53) {
-			setX(50 + ((9 - (position - 44)) * 100) + 20);
-			setY(575);
+			setX(mInitialX + ((9 - (position - 44)) * 100));
+			setY(500 + mInitialY);
 		}
 	}
 
