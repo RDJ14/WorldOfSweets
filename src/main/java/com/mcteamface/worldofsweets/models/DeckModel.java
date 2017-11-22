@@ -51,6 +51,9 @@ public class DeckModel {
     mGameBoardView.addCardDrawnListener(new GameBoardView.CardDrawnListener() {
       @Override
       public void cardDrawn() {
+        if (mCards.size() == 0) {
+          return;
+        }
         mGameBoardView.setDiscard(mCards.remove(0).getImage());
         mGameBoardView.repaint();
       }
