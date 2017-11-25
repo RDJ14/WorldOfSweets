@@ -7,6 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.ButtonGroup;
 import java.awt.GridLayout;
 import javax.swing.JTextField;
+import java.util.ArrayList;
+import javax.swing.SwingUtilities;
 
 class MainPanel extends JPanel {
   private static enum NumberOfPlayers {
@@ -39,10 +41,10 @@ class MainPanel extends JPanel {
     }
   }
 
+  ArrayList<String> mPlayers = new ArrayList<String>();
+
   public MainPanel() {
     super();
-
-    int numberOfPlayers = 0;
 
     JRadioButton r1 = new JRadioButton(NumberOfPlayers.TWO.toString());
     r1.setSelected(true);
@@ -73,7 +75,7 @@ class MainPanel extends JPanel {
     if (result == JOptionPane.YES_OPTION) {
       String text = RadioButtonUtils.getSelectedButtonText(group);
 
-      numberOfPlayers = NumberOfPlayers.fromString(text).toInt();
+      int numberOfPlayers = NumberOfPlayers.fromString(text).toInt();
 
       for (int i = 1; i <= numberOfPlayers; i++) {
         JPanel playerSetupPanel = new JPanel();
@@ -91,7 +93,7 @@ class MainPanel extends JPanel {
         );
 
         if (playerSetupResult == JOptionPane.YES_OPTION) {
-
+          mPlayers.add(playerSetupTextField.getText());
         } else {
           System.exit(0);
         }
@@ -104,6 +106,19 @@ class MainPanel extends JPanel {
     add(gameBoardView);
 
     // Initialize game.
-    new GameModel(gameBoardView, numberOfPlayers);
+    new GameModel(gameBoardView, mPlayers);
+
+    // Run this after the game boots up.
+    SwingUtilities.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        JOptionPane.showMessageDialog(
+          null,
+          "It's " + mPlayers.get(0) + "'s turn! \nPlease click on the deck to draw a card. Then move your piece to the matching tile.",
+          "World of Sweets",
+          JOptionPane.PLAIN_MESSAGE
+        );
+      }
+    });
   }
 }

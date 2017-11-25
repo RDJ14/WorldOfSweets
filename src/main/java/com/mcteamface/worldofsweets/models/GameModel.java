@@ -1,6 +1,7 @@
 package com.mcteamface.worldofsweets;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class GameModel {
   private GameBoardView mGameBoardView;
@@ -9,25 +10,17 @@ public class GameModel {
   private ArrayList<PlayerModel> mPlayers = new ArrayList<PlayerModel>();
   private boolean mPlayerHasMoved;
 
-  public GameModel(GameBoardView gameBoardView, int numberOfPlayers) {
+  public GameModel(GameBoardView gameBoardView, ArrayList<String> players) {
     // Start out as true so we can draw a card.
     mPlayerHasMoved = true;
     mGameBoardView = gameBoardView;
     mDeck = new DeckModel();
 
-    for (int i = 0; i < numberOfPlayers; i++) {
-      PlayerModel player = new PlayerModel("Bob");
+    for (String playerName : players) {
+      PlayerModel player = new PlayerModel(playerName);
       player.assignPiece(mGameBoardView.createPiece().getId());
       mPlayers.add(player);
     }
-
-    // PlayerModel player1 = new PlayerModel("Bob");
-    // player1.assignPiece(mGameBoardView.createPiece().getId());
-    // mPlayers.add(player1);
-    //
-    // PlayerModel player2 = new PlayerModel("Alice");
-    // player2.assignPiece(mGameBoardView.createPiece().getId());
-    // mPlayers.add(player2);
 
     initListeners();
   }
@@ -68,6 +61,23 @@ public class GameModel {
             player.setLocation(newPosition);
             piece.moveTo(player.getLocation());
             mGameBoardView.repaint();
+
+            if (newPosition == GameHelperUtil.getBoardLength() - 1) {
+              JOptionPane.showMessageDialog(
+                null,
+                player.getName() + " wins!",
+                "World of Sweets",
+                JOptionPane.PLAIN_MESSAGE
+              );
+              System.exit(0);
+            }
+
+            JOptionPane.showMessageDialog(
+              null,
+              "It's " + mPlayers.get(0).getName() + "'s turn!",
+              "World of Sweets",
+              JOptionPane.PLAIN_MESSAGE
+            );
             break;
 
           // It's not their turn.

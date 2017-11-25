@@ -11,6 +11,10 @@ public class GameHelperUtil {
     Spot.YELLOW, Spot.BLUE, Spot.GREEN, Spot.ORANGE, Spot.RED, Spot.YELLOW, Spot.GRANDMA
   };
 
+  public static int getBoardLength() {
+    return board.length;
+  }
+
   public static int getNext(int currentSpot, Card card) {
     // Start at position + 1 incase we are on that color.
     int numFound = 0;

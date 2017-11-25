@@ -18,6 +18,10 @@ public class PlayerModel {
 		return mId;
 	}
 
+  public String getName() {
+		return mName;
+	}
+
   public void assignPiece(String pieceId) {
     mPieceId = pieceId;
   }
