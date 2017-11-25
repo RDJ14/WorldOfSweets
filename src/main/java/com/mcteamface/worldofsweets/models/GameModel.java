@@ -9,19 +9,25 @@ public class GameModel {
   private ArrayList<PlayerModel> mPlayers = new ArrayList<PlayerModel>();
   private boolean mPlayerHasMoved;
 
-  public GameModel(GameBoardView gameBoardView) {
+  public GameModel(GameBoardView gameBoardView, int numberOfPlayers) {
     // Start out as true so we can draw a card.
     mPlayerHasMoved = true;
     mGameBoardView = gameBoardView;
     mDeck = new DeckModel();
 
-    PlayerModel player1 = new PlayerModel("Bob");
-    player1.assignPiece(mGameBoardView.createPiece().getId());
-    mPlayers.add(player1);
+    for (int i = 0; i < numberOfPlayers; i++) {
+      PlayerModel player = new PlayerModel("Bob");
+      player.assignPiece(mGameBoardView.createPiece().getId());
+      mPlayers.add(player);
+    }
 
-    PlayerModel player2 = new PlayerModel("Alice");
-    player2.assignPiece(mGameBoardView.createPiece().getId());
-    mPlayers.add(player2);
+    // PlayerModel player1 = new PlayerModel("Bob");
+    // player1.assignPiece(mGameBoardView.createPiece().getId());
+    // mPlayers.add(player1);
+    //
+    // PlayerModel player2 = new PlayerModel("Alice");
+    // player2.assignPiece(mGameBoardView.createPiece().getId());
+    // mPlayers.add(player2);
 
     initListeners();
   }
@@ -58,7 +64,7 @@ public class GameModel {
 
             int newPosition = GameHelperUtil.getNext(player.getLocation(), mCurrentCard);
             mCurrentCard = null;
-            
+
             player.setLocation(newPosition);
             piece.moveTo(player.getLocation());
             mGameBoardView.repaint();
