@@ -19,7 +19,8 @@ public enum Card {
   SPECIAL_CORDIAL("/images/card_special_cordial.png"),
   SPECIAL_CANDY_CANE("/images/card_special_candycane.png"),
   SPECIAL_GUM_DROP("/images/card_special_gumdrop.png"),
-  SPECIAL_NOUGAT("/images/card_special_nougat.png");
+  SPECIAL_NOUGAT("/images/card_special_nougat.png"),
+  SKIP("/images/card_skip.png");
 
   private final String stringLocation;
 

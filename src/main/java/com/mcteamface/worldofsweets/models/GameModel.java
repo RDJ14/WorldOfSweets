@@ -94,6 +94,21 @@ public class GameModel implements Serializable {
           }
           mGameBoardView.setDiscard(mCurrentCard.getImage());
           mGameBoardView.repaint();
+
+          if (mCurrentCard == Card.SKIP) {
+            mPlayerHasMoved = true;
+            mCurrentCard = null;
+            PlayerModel player = mPlayers.remove(0);
+            mPlayers.add(player);
+
+            JOptionPane.showMessageDialog(
+              null,
+              "It's " + mPlayers.get(0).getName() + "'s turn!",
+              "World of Sweets",
+              JOptionPane.PLAIN_MESSAGE
+            );
+          }
+
         }
       }
     });

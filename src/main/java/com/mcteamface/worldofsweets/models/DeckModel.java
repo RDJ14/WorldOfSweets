@@ -8,6 +8,7 @@ public class DeckModel implements Serializable {
   public static final int NUM_SINGLE = 10;
   public static final int NUM_DOUBLE = 2;
   public static final int NUM_SPECIAL = 1;
+  public static final int NUM_SKIP = 5;
 
   private ArrayList<Card> mCards = new ArrayList<Card>();
 
@@ -38,6 +39,10 @@ public class DeckModel implements Serializable {
       mCards.add(Card.SPECIAL_CANDY_CANE);
       mCards.add(Card.SPECIAL_GUM_DROP);
       mCards.add(Card.SPECIAL_NOUGAT);
+    }
+
+    for (int i = 0; i < NUM_SKIP; i++) {
+      mCards.add(Card.SKIP);
     }
 
     Collections.shuffle(mCards);
