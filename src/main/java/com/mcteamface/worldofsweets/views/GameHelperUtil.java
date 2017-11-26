@@ -16,6 +16,45 @@ public class GameHelperUtil {
   }
 
   public static int getNext(int currentSpot, Card card) {
+    // We want to move to the special spot, not the next one.
+    switch (card) {
+      case SPECIAL_LOLLIPOP:
+        for (int i = 0; i < board.length; i++) {
+          if (board[i].equals(Spot.SPECIAL_LOLLIPOP)) {
+            return i;
+          }
+        }
+        break;
+      case SPECIAL_CORDIAL:
+        for (int i = 0; i < board.length; i++) {
+          if (board[i].equals(Spot.SPECIAL_CORDIAL)) {
+            return i;
+          }
+        }
+        break;
+      case SPECIAL_CANDY_CANE:
+        for (int i = 0; i < board.length; i++) {
+          if (board[i].equals(Spot.SPECIAL_CANDY_CANE)) {
+            return i;
+          }
+        }
+        break;
+      case SPECIAL_GUM_DROP:
+        for (int i = 0; i < board.length; i++) {
+          if (board[i].equals(Spot.SPECIAL_GUM_DROP)) {
+            return i;
+          }
+        }
+        break;
+      case SPECIAL_NOUGAT:
+        for (int i = 0; i < board.length; i++) {
+          if (board[i].equals(Spot.SPECIAL_NOUGAT)) {
+            return i;
+          }
+        }
+        break;
+    }
+
     // Start at position + 1 incase we are on that color.
     int numFound = 0;
     for (int i = currentSpot + 1; i < board.length; i++) {
@@ -81,31 +120,6 @@ public class GameHelperUtil {
             return i;
           } else if (board[i].equals(Spot.ORANGE)) {
             numFound++;
-          }
-          break;
-        case SPECIAL_LOLLIPOP:
-          if (board[i].equals(Spot.SPECIAL_LOLLIPOP)) {
-            return i;
-          }
-          break;
-        case SPECIAL_CORDIAL:
-          if (board[i].equals(Spot.SPECIAL_CORDIAL)) {
-            return i;
-          }
-          break;
-        case SPECIAL_CANDY_CANE:
-          if (board[i].equals(Spot.SPECIAL_CANDY_CANE)) {
-            return i;
-          }
-          break;
-        case SPECIAL_GUM_DROP:
-          if (board[i].equals(Spot.SPECIAL_GUM_DROP)) {
-            return i;
-          }
-          break;
-        case SPECIAL_NOUGAT:
-          if (board[i].equals(Spot.SPECIAL_NOUGAT)) {
-            return i;
           }
           break;
       }
