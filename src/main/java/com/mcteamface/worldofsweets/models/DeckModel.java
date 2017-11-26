@@ -2,8 +2,9 @@ package com.mcteamface.worldofsweets;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.io.Serializable;
 
-public class DeckModel {
+public class DeckModel implements Serializable {
   public static final int NUM_SINGLE = 10;
   public static final int NUM_DOUBLE = 2;
   public static final int NUM_SPECIAL = 1;

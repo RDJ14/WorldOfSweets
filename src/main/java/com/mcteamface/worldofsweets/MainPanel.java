@@ -1,6 +1,7 @@
 package com.mcteamface.worldofsweets;
 
 import javax.swing.JPanel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JLabel;
@@ -9,6 +10,8 @@ import java.awt.GridLayout;
 import javax.swing.JTextField;
 import java.util.ArrayList;
 import javax.swing.SwingUtilities;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 class MainPanel extends JPanel {
   private static enum NumberOfPlayers {
@@ -45,6 +48,9 @@ class MainPanel extends JPanel {
 
   public MainPanel() {
     super();
+    final GameModel gameModel;
+    GameBoardView gameBoardView = new GameBoardView();
+    add(gameBoardView);
 
     JRadioButton r1 = new JRadioButton(NumberOfPlayers.TWO.toString());
     r1.setSelected(true);
@@ -98,27 +104,35 @@ class MainPanel extends JPanel {
           System.exit(0);
         }
       }
+
+      gameModel = new GameModel(gameBoardView, mPlayers);
+
+      // Run this after the game boots up.
+      SwingUtilities.invokeLater(new Runnable() {
+        @Override
+        public void run() {
+          JOptionPane.showMessageDialog(
+            null,
+            "It's " + mPlayers.get(0) + "'s turn! \nPlease click on the deck to draw a card. Then move your piece to the matching tile.",
+            "World of Sweets",
+            JOptionPane.PLAIN_MESSAGE
+          );
+        }
+      });
+    } else if (result == JOptionPane.NO_OPTION) {
+      gameModel = GameModel.load(gameBoardView);
     } else {
+      gameModel = null; // To satisfy compiler.
       System.exit(0);
     }
 
-    GameBoardView gameBoardView = new GameBoardView();
-    add(gameBoardView);
-
-    // Initialize game.
-    new GameModel(gameBoardView, mPlayers);
-
-    // Run this after the game boots up.
-    SwingUtilities.invokeLater(new Runnable() {
-      @Override
-      public void run() {
-        JOptionPane.showMessageDialog(
-          null,
-          "It's " + mPlayers.get(0) + "'s turn! \nPlease click on the deck to draw a card. Then move your piece to the matching tile.",
-          "World of Sweets",
-          JOptionPane.PLAIN_MESSAGE
-        );
-      }
-    });
+    if (gameModel != null) {
+      Runtime.getRuntime().addShutdownHook(new Thread() {
+        @Override
+        public void run() {
+          gameModel.serialize();
+        }
+      });
+    }
   }
 }

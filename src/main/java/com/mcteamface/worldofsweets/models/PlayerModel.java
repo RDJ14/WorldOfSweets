@@ -1,8 +1,9 @@
 package com.mcteamface.worldofsweets;
 
 import java.util.UUID;
+import java.io.Serializable;
 
-public class PlayerModel {
+public class PlayerModel implements Serializable {
   private String mId;
   private String mName;
   private String mPieceId;

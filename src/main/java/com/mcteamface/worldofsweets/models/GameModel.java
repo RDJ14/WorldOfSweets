@@ -2,11 +2,20 @@ package com.mcteamface.worldofsweets;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import java.io.Serializable;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.lang.ClassNotFoundException;
 
-public class GameModel {
-  private GameBoardView mGameBoardView;
+public class GameModel implements Serializable {
+  // We don't need a serialized gameboard so we mark it transient.
+  private transient GameBoardView mGameBoardView;
   private DeckModel mDeck;
   private Card mCurrentCard;
+  private Card mLastDrawCard; // For reloading class.
   private ArrayList<PlayerModel> mPlayers = new ArrayList<PlayerModel>();
   private boolean mPlayerHasMoved;
 
@@ -25,6 +34,53 @@ public class GameModel {
     initListeners();
   }
 
+  private void addGameBoard(GameBoardView gameBoardView) {
+    mGameBoardView = gameBoardView;
+
+    for (PlayerModel player : mPlayers) {
+      Piece piece = mGameBoardView.createPiece();
+      player.assignPiece(piece.getId());
+      piece.moveTo(player.getLocation());
+    }
+
+    mGameBoardView.setDiscard(mLastDrawCard.getImage());
+    mGameBoardView.repaint();
+    initListeners();
+  }
+
+  public static GameModel load(GameBoardView gameBoardView) {
+    try {
+      FileInputStream fileIn = new FileInputStream("/tmp/game.ser");
+      ObjectInputStream in = new ObjectInputStream(fileIn);
+      GameModel gameModel = (GameModel) in.readObject();
+      in.close();
+      fileIn.close();
+
+      gameModel.addGameBoard(gameBoardView);
+
+      return gameModel;
+    } catch (IOException i) {
+      i.printStackTrace();
+      return null;
+    } catch (ClassNotFoundException c) {
+      System.out.println("GameModel class not found");
+      c.printStackTrace();
+      return null;
+    }
+  }
+
+  public void serialize() {
+    try {
+      FileOutputStream fileOut = new FileOutputStream("/tmp/game.ser");
+      ObjectOutputStream out = new ObjectOutputStream(fileOut);
+      out.writeObject(this);
+      out.close();
+      fileOut.close();
+    } catch (IOException i) {
+      i.printStackTrace();
+    }
+  }
+
   private void initListeners() {
     mGameBoardView.addCardDrawnListener(new GameBoardView.CardDrawnListener() {
       @Override
@@ -32,6 +88,7 @@ public class GameModel {
         if (mPlayerHasMoved) {
           mPlayerHasMoved = false;
           mCurrentCard = mDeck.dequeCard();
+          mLastDrawCard = mCurrentCard;
           if (mCurrentCard == null) {
             return;
           }
