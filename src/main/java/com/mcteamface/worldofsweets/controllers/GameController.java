@@ -9,17 +9,25 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.lang.ClassNotFoundException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
 
 public class GameController implements Serializable {
   // We don't need a serialized gameboard so we mark it transient.
   private transient GameBoardView mGameBoardView;
+  private transient Timer mTimer;
   private DeckModel mDeck;
+  private long mLastClockedTime;
+  private long mElapsedTime;
   private Card mCurrentCard;
   private Card mLastDrawCard; // For reloading class.
   private ArrayList<PlayerModel> mPlayers = new ArrayList<PlayerModel>();
   private boolean mPlayerHasMoved;
 
   public GameController(GameBoardView gameBoardView, ArrayList<String> players) {
+    mLastClockedTime = System.currentTimeMillis() / 1000;
+
     // Start out as true so we can draw a card.
     mPlayerHasMoved = true;
     mGameBoardView = gameBoardView;
@@ -35,6 +43,8 @@ public class GameController implements Serializable {
   }
 
   private void addGameBoard(GameBoardView gameBoardView) {
+    mLastClockedTime = System.currentTimeMillis() / 1000;
+
     mGameBoardView = gameBoardView;
 
     for (PlayerModel player : mPlayers) {
@@ -43,7 +53,11 @@ public class GameController implements Serializable {
       piece.moveTo(player.getLocation());
     }
 
-    mGameBoardView.setDiscard(mLastDrawCard.getImage());
+    // On the first move if nobody draws a card and they close and load the game
+    // last drawn card will be null.
+    if (mLastDrawCard != null) {
+      mGameBoardView.setDiscard(mLastDrawCard.getImage());
+    }
     mGameBoardView.repaint();
     initListeners();
   }
@@ -82,6 +96,17 @@ public class GameController implements Serializable {
   }
 
   private void initListeners() {
+    mTimer = new Timer(1000, new ActionListener() {
+      @Override
+    	public void actionPerformed(ActionEvent e) {
+    		long now = System.currentTimeMillis() / 1000;
+    		mElapsedTime += now - mLastClockedTime;
+        mLastClockedTime = now;
+        System.out.println(mElapsedTime);
+    	}
+    });
+    mTimer.start();
+
     mGameBoardView.addCardDrawnListener(new GameBoardView.CardDrawnListener() {
       @Override
       public void cardDrawn() {
