@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 
 class GameBoardView extends JPanel {
   private static final Color[] COLOR_ORDER = new Color[] {
@@ -134,5 +135,10 @@ class GameBoardView extends JPanel {
 		for (Piece piece : mPieces) {
 			g.drawImage(piece.getImage(), piece.getX(), piece.getY(), piece.getWidth(), piece.getHeight(), null);
 		}
+
+    // Start of timer UI.
+    g.setColor(Color.black);
+    g.setFont(new Font("SanSerif", Font.PLAIN, 16));
+    g.drawString("Timer goes here", 900, 50);
 	}
 }
