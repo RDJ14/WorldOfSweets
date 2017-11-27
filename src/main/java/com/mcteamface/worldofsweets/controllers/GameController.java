@@ -10,7 +10,7 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.lang.ClassNotFoundException;
 
-public class GameModel implements Serializable {
+public class GameController implements Serializable {
   // We don't need a serialized gameboard so we mark it transient.
   private transient GameBoardView mGameBoardView;
   private DeckModel mDeck;
@@ -19,7 +19,7 @@ public class GameModel implements Serializable {
   private ArrayList<PlayerModel> mPlayers = new ArrayList<PlayerModel>();
   private boolean mPlayerHasMoved;
 
-  public GameModel(GameBoardView gameBoardView, ArrayList<String> players) {
+  public GameController(GameBoardView gameBoardView, ArrayList<String> players) {
     // Start out as true so we can draw a card.
     mPlayerHasMoved = true;
     mGameBoardView = gameBoardView;
@@ -48,22 +48,22 @@ public class GameModel implements Serializable {
     initListeners();
   }
 
-  public static GameModel load(GameBoardView gameBoardView) {
+  public static GameController load(GameBoardView gameBoardView) {
     try {
       FileInputStream fileIn = new FileInputStream("/tmp/game.ser");
       ObjectInputStream in = new ObjectInputStream(fileIn);
-      GameModel gameModel = (GameModel) in.readObject();
+      GameController gameController = (GameController) in.readObject();
       in.close();
       fileIn.close();
 
-      gameModel.addGameBoard(gameBoardView);
+      gameController.addGameBoard(gameBoardView);
 
-      return gameModel;
+      return gameController;
     } catch (IOException i) {
       i.printStackTrace();
       return null;
     } catch (ClassNotFoundException c) {
-      System.out.println("GameModel class not found");
+      System.out.println("GameController class not found");
       c.printStackTrace();
       return null;
     }

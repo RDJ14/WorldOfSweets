@@ -48,7 +48,7 @@ class MainPanel extends JPanel {
 
   public MainPanel() {
     super();
-    final GameModel gameModel;
+    final GameController gameController;
     GameBoardView gameBoardView = new GameBoardView();
     add(gameBoardView);
 
@@ -105,7 +105,7 @@ class MainPanel extends JPanel {
         }
       }
 
-      gameModel = new GameModel(gameBoardView, mPlayers);
+      gameController = new GameController(gameBoardView, mPlayers);
 
       // Run this after the game boots up.
       SwingUtilities.invokeLater(new Runnable() {
@@ -120,17 +120,17 @@ class MainPanel extends JPanel {
         }
       });
     } else if (result == JOptionPane.NO_OPTION) {
-      gameModel = GameModel.load(gameBoardView);
+      gameController = GameController.load(gameBoardView);
     } else {
-      gameModel = null; // To satisfy compiler.
+      gameController = null; // To satisfy compiler.
       System.exit(0);
     }
 
-    if (gameModel != null) {
+    if (gameController != null) {
       Runtime.getRuntime().addShutdownHook(new Thread() {
         @Override
         public void run() {
-          gameModel.serialize();
+          gameController.serialize();
         }
       });
     }
