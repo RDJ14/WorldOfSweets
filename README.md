@@ -12,7 +12,7 @@ CS1530 Group Project
 - Creates a `GameSetupController` with the `GameBoardView` as an argument
 
 ### Controllers
->Controllers are in charge of taking the `Models` and translating them into `Views`
+>`Controllers` are in charge of taking the `Models` and translating them into `Views`
 
 `GameSetupController.java`
 - Deals with all of the popups
@@ -31,6 +31,19 @@ CS1530 Group Project
   - Update the draw card pile
 
 ### Views
+>`Views` are very dumb with no logic, the `Controllers` are responsible for telling it what to do
+
+`GameBoardView.java`
+- Renders a png file as the gameboard
+- Emits events that `GameController` is listening to
+  - `addTokenMovedListener()`
+    - This event is sent when the player moves a piece
+    - The only information sent is the Piece moved, and the x/y coords
+    - It is up to the `GameController` to decide if it's a valid move
+  - `addCardDrawnListener()`
+    - This event is sent when the player clicks the card
+    - The `GameController` asks the `DeckModel` for a new card
+    - The `GameController` then tells the `GameBoardView` to render this card
 
 ### Models
 
