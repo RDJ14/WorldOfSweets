@@ -12,7 +12,7 @@ CS1530 Group Project
 - Creates a `GameSetupController` with the `GameBoardView` as an argument
 
 ### Controllers
-Controllers are in charge of taking the `Models` and translating them into `Views`
+>Controllers are in charge of taking the `Models` and translating them into `Views`
 
 `GameSetupController.java`
 - Deals with all of the popups
