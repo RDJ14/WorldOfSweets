@@ -46,4 +46,12 @@ CS1530 Group Project
     - The `GameController` then tells the `GameBoardView` to render this card
 
 ### Models
-
+`PlayerModel.java`
+- Holds information about the player
+  - A `String` player id;
+  - A `String` player name;
+  - A `String` piece id;
+  - An `int` representation of the current location on the board
+  
+`DeckModel.java`
+- Its only job is to keep track of all the cards in the pile and to return a drawn card when asked
