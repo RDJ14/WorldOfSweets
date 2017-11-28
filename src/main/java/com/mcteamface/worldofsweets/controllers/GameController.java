@@ -12,6 +12,7 @@ import java.lang.ClassNotFoundException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
+import java.text.SimpleDateFormat;
 
 public class GameController implements Serializable {
   // We don't need a serialized gameboard so we mark it transient.
@@ -39,6 +40,12 @@ public class GameController implements Serializable {
       mPlayers.add(player);
     }
 
+    // Draw time of zero, because it will take a second for the first time to be
+    // rendered.
+    SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
+    mGameBoardView.setRightLabel("Time: " + sdf.format(0));
+    mGameBoardView.repaint();
+
     initListeners();
   }
 
@@ -58,6 +65,12 @@ public class GameController implements Serializable {
     if (mLastDrawCard != null) {
       mGameBoardView.setDiscard(mLastDrawCard.getImage());
     }
+
+    // Draw elapsed time, because it will take a second for the first time to be
+    // rendered.
+    SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
+    mGameBoardView.setRightLabel("Time: " + sdf.format(mElapsedTime * 1000));
+
     mGameBoardView.repaint();
     initListeners();
   }
@@ -102,7 +115,9 @@ public class GameController implements Serializable {
     		long now = System.currentTimeMillis() / 1000;
     		mElapsedTime += now - mLastClockedTime;
         mLastClockedTime = now;
-        System.out.println(mElapsedTime);
+        SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
+        mGameBoardView.setRightLabel("Time: " + sdf.format(mElapsedTime * 1000));
+        mGameBoardView.repaint();
     	}
     });
     mTimer.start();

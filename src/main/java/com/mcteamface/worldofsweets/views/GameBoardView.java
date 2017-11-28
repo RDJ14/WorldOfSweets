@@ -1,6 +1,8 @@
 package com.mcteamface.worldofsweets;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.Image;
 import java.net.URL;
 import java.util.ArrayList;
@@ -9,6 +11,7 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 
 class GameBoardView extends JPanel {
   private static final Color[] COLOR_ORDER = new Color[] {
@@ -24,6 +27,7 @@ class GameBoardView extends JPanel {
   private Image mImgBackground;
   private Image mImgDrawCard;
   private Image mImgDiscard;
+  private String mRightLabel = "";
   private ArrayList<Piece> mPieces = new ArrayList<Piece>();
 
   public GameBoardView() {
@@ -109,6 +113,10 @@ class GameBoardView extends JPanel {
     mTokenMovedListener = listener;
   }
 
+  public void setRightLabel(String rightLabel) {
+    mRightLabel = rightLabel;
+  }
+
   public interface CardDrawnListener {
     void cardDrawn();
   }
@@ -120,11 +128,24 @@ class GameBoardView extends JPanel {
   @Override
 	protected void paintComponent(Graphics g) {
     super.paintComponent(g);
+    Graphics2D g2 = (Graphics2D) g;
+
+    g2.setRenderingHint(
+      RenderingHints.KEY_INTERPOLATION,
+      RenderingHints.VALUE_INTERPOLATION_BILINEAR
+    );
+
+    g2.setRenderingHint(
+      RenderingHints.KEY_TEXT_ANTIALIASING,
+      RenderingHints.VALUE_TEXT_ANTIALIAS_ON
+    );
+
     /**
      * The board is a grid of 100x100 pixel tiles with a top-padding of 65px and
      * a left-padding of 50px.
      */
-    g.drawImage(mImgBackground, 0, 0, mImgBackground.getWidth(null) / 2, mImgBackground.getHeight(null) / 2, null);
+    int windowWidth = mImgBackground.getWidth(null) / 2;
+    g.drawImage(mImgBackground, 0, 0, windowWidth, mImgBackground.getHeight(null) / 2, null);
 
     // The deck is located 7 tiles to the left and 4 tiles down.
     int cardWidth = mImgDrawCard.getWidth(null) / 2;
@@ -138,7 +159,13 @@ class GameBoardView extends JPanel {
 
     // Start of timer UI.
     g.setColor(Color.black);
-    g.setFont(new Font("SanSerif", Font.PLAIN, 16));
-    g.drawString("Timer goes here", 900, 50);
+    Font font = new Font("SanSerif", Font.PLAIN, 16);
+    g.setFont(font);
+    FontMetrics fm = g.getFontMetrics(font);
+    int labelWidth = fm.stringWidth(mRightLabel);
+    int labelHeight = fm.getHeight();
+    // 38 is the right board padding.
+    // 65 is the top board padding, I should make these things constants.
+    g.drawString(mRightLabel, (windowWidth - labelWidth) - 38, (65 - labelHeight) / 2 + fm.getAscent());
 	}
 }
