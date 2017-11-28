@@ -14,12 +14,12 @@ CS1530 Group Project
 ### Controllers
 `GameSetupController`
 - Deals with all of the popups
--- How many players
--- What's their name
--- Are they AI
+  - How many players
+  - What's their name
+  - Are they AI
 - Starts a new `GameController` object if it's a new game
 - Loads the old `GameController` that was serialized if they decide to load the game
--- The `GameController` is passed the `GameBoardView` and a list of `PlayerModel`
+  - The `GameController` is passed the `GameBoardView` and a list of `PlayerModel`
 
 `GameController`
 - In charge of listening to any action events coming from the `GameBoardView`
