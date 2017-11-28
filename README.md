@@ -55,3 +55,10 @@ CS1530 Group Project
   
 `DeckModel.java`
 - Its only job is to keep track of all the cards in the pile and to return a drawn card when asked
+
+### Misc
+`GameHelperUtil.java`
+- Helper method for finding spots on the board
+- `getNext(int currentSpot, Card card)`
+  - Given a location on the board it finds the next spot on the board that matches the given card
+  - It loops through an `array` representation of the board `{ Spot.START, Spot.RED, Spot.YELLOW, etc... }`
