@@ -61,6 +61,6 @@ CS1530 Group Project
 ### Misc
 `GameHelperUtil.java`
 - Helper method for finding spots on the board
-- `getNext(int currentSpot, Card card)`
+- `int getNext(int currentSpot, Card card)`
   - Given a location on the board it finds the next spot on the board that matches the given card
   - It loops through an `array` representation of the board `{ Spot.START, Spot.RED, Spot.YELLOW, etc... }`
