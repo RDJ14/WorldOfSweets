@@ -1,149 +1,35 @@
 package com.mcteamface.worldofsweets;
 
-import javax.swing.*;
-import java.awt.BorderLayout;
-import java.awt.image.BufferedImage;
-import java.lang.Enum;
+import javax.swing.ImageIcon;
 import java.net.URL;
+import java.awt.Image;
 
-enum Color{
-  RED,
-  YELLOW,
-  BLUE,
-  GREEN,
-  ORANGE
-}
+public enum Card {
+  RED("/images/card_single_red.png"),
+  YELLOW("/images/card_single_yellow.png"),
+  BLUE("/images/card_single_blue.png"),
+  GREEN("/images/card_single_green.png"),
+  ORANGE("/images/card_single_orange.png"),
+  DOUBLE_RED("/images/card_double_red.png"),
+  DOUBLE_YELLOW("/images/card_double_yellow.png"),
+  DOUBLE_BLUE("/images/card_double_blue.png"),
+  DOUBLE_GREEN("/images/card_double_green.png"),
+  DOUBLE_ORANGE("/images/card_double_orange.png"),
+  SPECIAL_LOLLIPOP("/images/card_special_lollipop.png"),
+  SPECIAL_CORDIAL("/images/card_special_cordial.png"),
+  SPECIAL_CANDY_CANE("/images/card_special_candycane.png"),
+  SPECIAL_GUM_DROP("/images/card_special_gumdrop.png"),
+  SPECIAL_NOUGAT("/images/card_special_nougat.png"),
+  SKIP("/images/card_skip.png");
 
-enum SpecialType{
-  RUSH,
-  SWAP
-}
+  private final String stringLocation;
 
-public class Card{
-
-  boolean single;
-  Color color;
-  SpecialType type;
-  boolean isSpecial;
-  JFrame display;
-
-  public Card(boolean single, Color color){
-      this.single = single;
-      this.color = color;
-      this.isSpecial = false;
-      URL color_image_location = null;
-      String color_text = " ";
-      switch(this.color){
-        case RED:
-          if(single){
-            color_image_location = Deck.class.getClassLoader().getResource("images/Red-single.png");
-            color_text = "red single";
-          }
-          else{
-            color_image_location = Deck.class.getClassLoader().getResource("images/Red-double.png");
-            color_text = "red double";
-          }
-          break;
-        case YELLOW:
-          if(single){
-            color_image_location = Deck.class.getClassLoader().getResource("images/Yellow-single.png");
-            color_text = "yellow single";
-          }
-          else{
-            color_image_location = Deck.class.getClassLoader().getResource("images/Yellow-double.png");
-            color_text = "yellow double";
-          }
-          break;
-        case BLUE:
-          if(single){
-            color_image_location = Deck.class.getClassLoader().getResource("images/Blue-single.png");
-            color_text = "blue single";
-          }
-          else{
-            color_image_location = Deck.class.getClassLoader().getResource("images/Blue-Double.png");
-            color_text = "blue double";
-          }
-          break;
-        case GREEN:
-          if(single){
-            color_image_location = Deck.class.getClassLoader().getResource("images/Green-single.png");
-            color_text = "green single";
-          }
-          else{
-            color_image_location = Deck.class.getClassLoader().getResource("images/Green-double.png");
-            color_text = "green double";
-          }
-          break;
-        case ORANGE:
-          if(single){
-            color_image_location = Deck.class.getClassLoader().getResource("images/Orange-single.png");
-            color_text = "orange single";
-          }
-          else{
-            color_image_location = Deck.class.getClassLoader().getResource("images/Orange-double.png");
-            color_text = "orange double";
-          }
-          break;
-      }
-      display = new JFrame();
-      JPanel panel = new JPanel(new BorderLayout());
-      ImageIcon color_image = new ImageIcon(color_image_location);
-      JLabel label = new JLabel("", color_image, JLabel.CENTER);
-      JLabel you_drew = new JLabel("Your drew a " + color_text + "!");
-      panel.add(label, BorderLayout.CENTER);
-      panel.add(you_drew, BorderLayout.SOUTH);
-      display.add(panel);
-      display.pack();
-      display.setVisible(false);
+  private Card(final String stringLocation) {
+    this.stringLocation = stringLocation;
   }
 
-  public Card(SpecialType type){
-    this.type = type;
-    this.isSpecial = true;
-    URL image_location = null;
-    String color_text = " ";
-    switch(type){
-      case RUSH:
-        image_location = Deck.class.getClassLoader().getResource("images/SugarRush.png");
-        color_text = "Sugar Rush! Move forward as if this was a card of the same color tile you are on.)";
-        break;
-      case SWAP:
-        image_location = Deck.class.getClassLoader().getResource("images/Swap.png");
-        color_text = "Cand Mix Up! Switch places with the player directly in front of you!";
-        break;
-    }
-    display = new JFrame();
-    JPanel panel = new JPanel(new BorderLayout());
-    ImageIcon color_image = new ImageIcon(image_location);
-    JLabel label = new JLabel("", color_image, JLabel.CENTER);
-    JLabel you_drew = new JLabel(color_text);
-    panel.add(label, BorderLayout.CENTER);
-    panel.add(you_drew, BorderLayout.SOUTH);
-    display.add(panel);
-    display.pack();
-    display.setVisible(false);
-  }
-
-  public void draw(){
-    display.setVisible(true);
-    return;
-  }
-
-  public void discard(){
-    display.setVisible(false);
-    display.dispose();
-    return;
-  }
-
-  public Color getColor(){
-    return this.color;
-  }
-
-  public boolean isSingle(){
-    return single;
-  }
-
-  public boolean isSpecial(){
-    return isSpecial;
+  public Image getImage() {
+    URL url = getClass().getResource(stringLocation);
+    return new ImageIcon(url).getImage();
   }
 }

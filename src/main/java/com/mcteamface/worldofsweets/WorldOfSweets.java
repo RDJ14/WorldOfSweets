@@ -1,17 +1,30 @@
 package com.mcteamface.worldofsweets;
 
-import java.util.ArrayList;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
-public class WorldOfSweets {
+/**
+ * Boot up the game. There should be no need to modify this.
+ * Touch it and I'll chop your fingers off.
+ */
+public class WorldOfSweets extends JFrame {
+  public WorldOfSweets(String title) {
+    super(title);
+    setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+    add(new MainPanel());
+
+    pack();
+    setLocationRelativeTo(null);
+    setVisible(true);
+  }
+
   public static void main(String[] args) {
-    ChoosePlayersActivity numPlayersButton = new ChoosePlayersActivity();
-
-    numPlayersButton.addPlayersChosenListener(new ChoosePlayersActivity.PlayersChosenListener() {
-			@Override
-			public void playersChosen(int numPlayers) {
-        numPlayersButton.dispose();
-        GameActivity GameActivity = new GameActivity(numPlayers);
-			}
-		});
+    SwingUtilities.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        new WorldOfSweets("World of Sweets");
+      }
+    });
   }
 }

@@ -95,22 +95,50 @@ public class CardTest{
     assert(orangeDouble.isSingle() == false);
     orangeDouble.discard();
   }
+
   @Test
-  public void sugarRushTest(){
-    Card sugarRush = new Card(SpecialType.RUSH);
-    sugarRush.draw();
-    assert(sugarRush.isSpecial());
-    assert(sugarRush.type == SpecialType.RUSH);
-    sugarRush.discard();
+  public void licoriceTest(){
+    Card licorice = new Card(SpecialType.LICORICE);
+    licorice.draw();
+    assert(licorice.isSpecial());
+    assert(licorice.type == SpecialType.LICORICE);
+    licorice.discard();
   }
 
   @Test
-  public void candySwapTest(){
-    Card candySwap = new Card(SpecialType.SWAP);
-    candySwap.draw();
-    assert(candySwap.isSpecial());
-    assert(candySwap.type == SpecialType.SWAP);
-    candySwap.discard();
+  public void mintTest(){
+    Card mint = new Card(SpecialType.MINT);
+    mint.draw();
+    assert(mint.isSpecial());
+    assert(mint.type == SpecialType.MINT);
+    mint.discard();
+  }
+
+  @Test
+  public void iceCreamTest(){
+    Card iceCream = new Card(SpecialType.ICECREAM);
+    iceCream.draw();
+    assert(iceCream.isSpecial());
+    assert(iceCream.type == SpecialType.ICECREAM);
+    iceCream.discard();
+  }
+
+  @Test
+  public void chocolateTest(){
+    Card choc = new Card(SpecialType.CHOCOLATE);
+    choc.draw();
+    assert(choc.isSpecial());
+    assert(choc.type == SpecialType.CHOCOLATE);
+    choc.discard();
+  }
+
+  @Test
+  public void skipTest(){
+    Card skip = new Card(SpecialType.SKIP);
+    skip.draw();
+    assert(skip.isSpecial());
+    assert(skip.type == SpecialType.SKIP);
+    skip.discard();
   }
 
 }
