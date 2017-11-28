@@ -24,9 +24,9 @@ CS1530 Group Project
 `GameController`
 - In charge of listening to any action events coming from the `GameBoardView`
 - Also in charge of manipulating the `GameBoardView`
--- Move player to spot 2
--- Update timer text
--- Update the draw card pile
+  - Move player to spot 2
+  - Update timer text
+  - Update the draw card pile
 
 ### Views
 
