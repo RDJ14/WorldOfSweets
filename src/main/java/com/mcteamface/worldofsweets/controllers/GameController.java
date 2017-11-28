@@ -23,10 +23,11 @@ public class GameController implements Serializable {
   private long mElapsedTime;
   private Card mCurrentCard;
   private Card mLastDrawCard; // For reloading class.
+  private ArrayList<PlayerModel> mInitialLineup = new ArrayList<PlayerModel>();
   private ArrayList<PlayerModel> mPlayers = new ArrayList<PlayerModel>();
   private boolean mPlayerHasMoved;
 
-  public GameController(GameBoardView gameBoardView, ArrayList<String> players) {
+  public GameController(GameBoardView gameBoardView, ArrayList<PlayerModel> players) {
     mLastClockedTime = System.currentTimeMillis() / 1000;
 
     // Start out as true so we can draw a card.
@@ -34,10 +35,10 @@ public class GameController implements Serializable {
     mGameBoardView = gameBoardView;
     mDeck = new DeckModel();
 
-    for (String playerName : players) {
-      PlayerModel player = new PlayerModel(playerName);
+    for (PlayerModel player : players) {
       player.assignPiece(mGameBoardView.createPiece().getId());
       mPlayers.add(player);
+      mInitialLineup.add(player);
     }
 
     // Draw time of zero, because it will take a second for the first time to be
@@ -54,7 +55,7 @@ public class GameController implements Serializable {
 
     mGameBoardView = gameBoardView;
 
-    for (PlayerModel player : mPlayers) {
+    for (PlayerModel player : mInitialLineup) {
       Piece piece = mGameBoardView.createPiece();
       player.assignPiece(piece.getId());
       piece.moveTo(player.getLocation());
@@ -199,6 +200,13 @@ public class GameController implements Serializable {
             break;
           }
         }
+      }
+    });
+
+    Runtime.getRuntime().addShutdownHook(new Thread() {
+      @Override
+      public void run() {
+        serialize();
       }
     });
   }
