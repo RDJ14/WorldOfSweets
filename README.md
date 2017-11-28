@@ -46,6 +46,7 @@ CS1530 Group Project
     - The `GameController` then tells the `GameBoardView` to render this card
 
 ### Models
+>`Models` don't have much logic, they are just there to hold information
 `PlayerModel.java`
 - Holds information about the player
   - A `String` player id;
