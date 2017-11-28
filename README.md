@@ -14,7 +14,7 @@ CS1530 Group Project
 ### Controllers
 Controllers are in charge of taking the `Models` and translating them into `Views`
 
-`GameSetupController`
+`GameSetupController.java`
 - Deals with all of the popups
   - How many players?
   - What's their name?
@@ -23,7 +23,7 @@ Controllers are in charge of taking the `Models` and translating them into `View
 - Loads the old `GameController` that was serialized if they decide to load the game
   - The `GameController` is passed the `GameBoardView` and a list of `PlayerModel`
 
-`GameController`
+`GameController.java`
 - In charge of listening to any action events coming from the `GameBoardView`
 - Also in charge of manipulating the `GameBoardView`
   - Move player to spot X
