@@ -109,6 +109,65 @@ public class GameController implements Serializable {
     }
   }
 
+  private void drawCard() {
+      mPlayerHasMoved = false;
+      mCurrentCard = mDeck.dequeCard();
+      mLastDrawCard = mCurrentCard;
+      if (mCurrentCard == null) {
+        return;
+      }
+      mGameBoardView.setDiscard(mCurrentCard.getImage());
+      mGameBoardView.repaint();
+
+  }
+
+  private void makeMove(Piece piece) {
+    mPlayerHasMoved = true;
+
+    // Rotate player order.
+    PlayerModel player = mPlayers.remove(0);
+    mPlayers.add(player);
+
+    int newPosition = GameHelperUtil.getNext(player.getLocation(), mCurrentCard);
+    mCurrentCard = null;
+
+    player.setLocation(newPosition);
+
+    if (piece != null) {
+      piece.moveTo(player.getLocation());
+    }
+    mGameBoardView.repaint();
+
+    if (newPosition == GameHelperUtil.getBoardLength() - 1) {
+      JOptionPane.showMessageDialog(
+        null,
+        player.getName() + " wins!",
+        "World of Sweets",
+        JOptionPane.PLAIN_MESSAGE
+      );
+      System.exit(0);
+    }
+
+    PlayerModel nextPlayer = mPlayers.get(0);
+    JOptionPane.showMessageDialog(
+      null,
+      "It's " + nextPlayer.getName() + "'s turn!",
+      "World of Sweets",
+      JOptionPane.PLAIN_MESSAGE
+    );
+
+    if (mPlayers.get(0).isAI()) {
+      drawCard();
+      // We might want to just add the piece to the player instead of an id.
+      for (Piece nextPiece : mGameBoardView.getPieces()) {
+        if (nextPlayer.checkPiece(nextPiece.getId())) {
+          makeMove(nextPiece);
+          break;
+        }
+      }
+    }
+  }
+
   private void initListeners() {
     mTimer = new Timer(1000, new ActionListener() {
       @Override
@@ -127,29 +186,13 @@ public class GameController implements Serializable {
       @Override
       public void cardDrawn() {
         if (mPlayerHasMoved) {
-          mPlayerHasMoved = false;
-          mCurrentCard = mDeck.dequeCard();
-          mLastDrawCard = mCurrentCard;
-          if (mCurrentCard == null) {
-            return;
-          }
-          mGameBoardView.setDiscard(mCurrentCard.getImage());
-          mGameBoardView.repaint();
+          drawCard();
 
+          // If it's a skip card tokenMoved() will never be called.
           if (mCurrentCard == Card.SKIP) {
-            mPlayerHasMoved = true;
-            mCurrentCard = null;
-            PlayerModel player = mPlayers.remove(0);
-            mPlayers.add(player);
-
-            JOptionPane.showMessageDialog(
-              null,
-              "It's " + mPlayers.get(0).getName() + "'s turn!",
-              "World of Sweets",
-              JOptionPane.PLAIN_MESSAGE
-            );
+            // We don't really have a piece that needs to move, so pass null.
+            makeMove(null);
           }
-
         }
       }
     });
@@ -159,38 +202,12 @@ public class GameController implements Serializable {
       public void tokenMoved(Piece piece, int x, int y) {
         for (PlayerModel player : mPlayers) {
           // Find the player of the piece and check if it's their turn.
-          if (mCurrentCard != null
-              && player.checkPiece(piece.getId())
-              && player.getId().equals(mPlayers.get(0).getId())) {
-            mPlayerHasMoved = true;
-
-            // Rotate player order.
-            mPlayers.remove(0);
-            mPlayers.add(player);
-
-            int newPosition = GameHelperUtil.getNext(player.getLocation(), mCurrentCard);
-            mCurrentCard = null;
-
-            player.setLocation(newPosition);
-            piece.moveTo(player.getLocation());
-            mGameBoardView.repaint();
-
-            if (newPosition == GameHelperUtil.getBoardLength() - 1) {
-              JOptionPane.showMessageDialog(
-                null,
-                player.getName() + " wins!",
-                "World of Sweets",
-                JOptionPane.PLAIN_MESSAGE
-              );
-              System.exit(0);
-            }
-
-            JOptionPane.showMessageDialog(
-              null,
-              "It's " + mPlayers.get(0).getName() + "'s turn!",
-              "World of Sweets",
-              JOptionPane.PLAIN_MESSAGE
-            );
+          if (
+            mCurrentCard != null
+            && player.checkPiece(piece.getId())
+            && player.getId().equals(mPlayers.get(0).getId())
+          ) {
+            makeMove(piece);
             break;
 
           // It's not their turn.

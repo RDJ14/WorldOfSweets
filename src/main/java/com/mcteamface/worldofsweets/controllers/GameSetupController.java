@@ -67,7 +67,9 @@ class GameSetupController {
         );
 
         if (playerSetupResult == JOptionPane.YES_OPTION) {
-          players.add(new PlayerModel(playerSetupTextField.getText()));
+          PlayerModel player = new PlayerModel(playerSetupTextField.getText());
+          player.setAI(playerSetupCheckBox.isSelected());
+          players.add(player);
         } else {
           System.exit(0);
         }
