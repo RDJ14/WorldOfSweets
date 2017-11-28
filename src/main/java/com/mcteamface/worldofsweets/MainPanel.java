@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JLabel;
+import javax.swing.JCheckBox;
 import javax.swing.ButtonGroup;
 import java.awt.GridLayout;
 import javax.swing.JTextField;
@@ -86,11 +87,13 @@ class MainPanel extends JPanel {
       for (int i = 1; i <= numberOfPlayers; i++) {
         JPanel playerSetupPanel = new JPanel();
         JTextField playerSetupTextField = new JTextField(10);
+        JCheckBox playerSetupCheckBox = new JCheckBox("AI");
         Object[] playerSetupOptions = { "Next", "Cancel" };
 
         playerSetupPanel.setLayout(new GridLayout(0, 1));
         playerSetupPanel.add(new JLabel("Player " + i + " please enter your name:"));
         playerSetupPanel.add(playerSetupTextField);
+        playerSetupPanel.add(playerSetupCheckBox);
 
         int playerSetupResult = JOptionPane.showOptionDialog(
           null, playerSetupPanel, "World of Sweets",
