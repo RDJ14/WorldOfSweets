@@ -58,8 +58,8 @@ public class GameHelperUtil {
 	    // Start at position - 1 incase we are on that color.
 	    int numFound = 0;
 	    for (int i = currentSpot - 1; i > 0; i--) {
-	      if (board[i].equals(Spot.GRANDMA)) {
-	        return board.length - 1;
+	      if (board[i].equals(Spot.START)) {
+	        return i;
 	      }
 	      switch (card) {
 	        case RED:
@@ -174,7 +174,7 @@ public class GameHelperUtil {
     int numFound = 0;
     for (int i = currentSpot + 1; i < board.length; i++) {
       if (board[i].equals(Spot.GRANDMA)) {
-        return board.length - 1;
+        return i;
       }
       switch (card) {
         case RED:
