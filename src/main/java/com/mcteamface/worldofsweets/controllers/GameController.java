@@ -200,12 +200,7 @@ public class GameController implements Serializable {
       @Override
       public void boomerangUsed() {
         if (mPlayerHasMoved && mPlayers.get(0).hasBoomerang()) {
-          // Rotate player order.
-          PlayerModel player = mPlayers.remove(0);
-          mPlayers.add(player);
-
-          player.useBoomerang();
-          System.out.println("BOOMERANG!!!!");
+          mPlayers.get(0).useBoomerang();
           mAboutToRang = true;
         }
       }
@@ -215,15 +210,19 @@ public class GameController implements Serializable {
       @Override
       public void tokenMoved(Piece piece, int x, int y) {
         if (mAboutToRang) {
-          for (PlayerModel player : mPlayers) {
+          for (PlayerModel boomerangedPlayer : mPlayers) {
             // Find the player of the piece and make sure they aren't boomeranging themselves.
-            if (player.checkPiece(piece.getId()) && !player.getId().equals(mPlayers.get(0).getId())) {
+            if (boomerangedPlayer.checkPiece(piece.getId()) && !boomerangedPlayer.getId().equals(mPlayers.get(0).getId())) {
               mAboutToRang = false;
+              // Rotate player order.
+              PlayerModel player = mPlayers.remove(0);
+              mPlayers.add(player);
+
               drawCard();
-              int newPosition = GameHelperUtil.getPrevious(player.getLocation(), mCurrentCard);
+              int newPosition = GameHelperUtil.getPrevious(boomerangedPlayer.getLocation(), mCurrentCard);
               mCurrentCard = null;
-              player.setLocation(newPosition);
-              piece.moveTo(player.getLocation());
+              boomerangedPlayer.setLocation(newPosition);
+              piece.moveTo(boomerangedPlayer.getLocation());
               mGameBoardView.repaint();
 
               // A boomerang counts as a move.
