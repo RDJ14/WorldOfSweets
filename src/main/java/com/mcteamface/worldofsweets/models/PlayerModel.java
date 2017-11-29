@@ -19,6 +19,10 @@ public class PlayerModel implements Serializable {
   }
 
   public boolean hasBoomerang() {
+		return mBoomerangs != 0;
+  }
+
+  public boolean useBoomerang() {
 	  if (mBoomerangs == 0) {
 		  return false;
 	  }

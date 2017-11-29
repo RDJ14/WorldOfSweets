@@ -197,6 +197,24 @@ public class GameController implements Serializable {
       @Override
       public void boomerangUsed() {
         System.out.println("BOOMERANG!!!!");
+        if (mPlayerHasMoved && mPlayers.get(0).hasBoomerang()) {
+          // A boomerang counts as a move.
+          mPlayerHasMoved = true;
+
+          // Rotate player order.
+          PlayerModel player = mPlayers.remove(0);
+          mPlayers.add(player);
+
+          player.useBoomerang();
+
+          // -Choose a player to boomerang- we probably need a callback ugh...
+          // drawCard();
+          // int newPosition = GameHelperUtil.getPrevious(boomerangedPlayer.getLocation(), mCurrentCard);
+          // mCurrentCard = null;
+          // boomerangedPlayer.setLocation(newPosition);
+          // boomerangedPiece.moveTo(boomerangedPlayer.getLocation());
+          // mGameBoardView.repaint();
+        }
       }
     });
 
