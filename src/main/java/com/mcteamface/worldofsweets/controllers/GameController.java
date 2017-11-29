@@ -116,9 +116,7 @@ public class GameController implements Serializable {
       if (mCurrentCard == null) {
         return;
       }
-      mGameBoardView.setDiscard(mCurrentCard.getImage());
-      mGameBoardView.repaint();
-
+      mGameBoardView.animateDiscard(mCurrentCard.getImage());
   }
 
   private void makeMove(Piece piece) {

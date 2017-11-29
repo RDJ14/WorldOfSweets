@@ -13,6 +13,11 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.SwingUtilities;
+
 class GameBoardView extends JPanel {
   private static final Color[] COLOR_ORDER = new Color[] {
 		Colors.RED.getColor(),
@@ -125,6 +130,33 @@ class GameBoardView extends JPanel {
     void tokenMoved(Piece piece, int x, int y);
   }
 
+  private int mRot = 0;
+  private Image mTmpImgDiscard;
+  public void animateDiscard(Image image) {
+    mTmpImgDiscard = image;
+    int fullRotation = 180;
+    int animationStep = 3; // ms
+    int animationDuration = 150; // ms
+    SwingUtilities.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        new Timer(animationStep, new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            if (mRot < fullRotation) {
+              mRot += ((float) animationStep / (float) animationDuration) * fullRotation;
+            } else {
+              mRot = 0;
+              mImgDiscard = image;
+              ((Timer) e.getSource()).stop();
+            }
+            repaint();
+          }
+        }).start();
+      }
+    });
+  }
+
   @Override
 	protected void paintComponent(Graphics g) {
     super.paintComponent(g);
@@ -153,6 +185,21 @@ class GameBoardView extends JPanel {
     int paddingY = (200 - cardHeight) / 2;
     g.drawImage(mImgDrawCard, 750 + 50, 465 + paddingY, cardWidth, cardHeight, null);
     g.drawImage(mImgDiscard, 750 + cardWidth + 80, 465 + paddingY, cardWidth, cardHeight, null);
+
+    if (mRot > 0 && mRot <= 90) {
+      int newWidth = (int) (((double) cardWidth) * Math.cos(Math.toRadians(mRot)));
+      double radius = (30 + (2 * cardWidth)) / 2;
+      int offSet = (int) (radius - radius * Math.cos(Math.toRadians(mRot)));
+
+      g.drawImage(mImgDrawCard, 750 + 50 + offSet, 465 + paddingY, newWidth, cardHeight, null);
+    } else if (mRot > 90 && mRot < 180) {
+      int newWidth = -1 * (int) (((double) cardWidth) * Math.cos(Math.toRadians(mRot)));
+      double radius = 15;
+      int offSet = -1 * (int) (radius * Math.cos(Math.toRadians(mRot)));
+      int outRadius = (30 + (2 * cardWidth)) / 2;
+      g.drawImage(mTmpImgDiscard, 750 + 50 + outRadius + offSet, 465 + paddingY, newWidth, cardHeight, null);
+    }
+
 		for (Piece piece : mPieces) {
 			g.drawImage(piece.getImage(), piece.getX(), piece.getY(), piece.getWidth(), piece.getHeight(), null);
 		}
