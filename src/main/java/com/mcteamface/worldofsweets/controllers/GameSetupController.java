@@ -16,13 +16,14 @@ import java.awt.event.WindowEvent;
 
 class GameSetupController {
   public GameSetupController(GameBoardView gameBoardView) {
+	boolean strategic = false;
     ArrayList<PlayerModel> players = new ArrayList<PlayerModel>();
 
     JRadioButton r1 = new JRadioButton(NumberOfPlayers.TWO.toString());
     r1.setSelected(true);
     JRadioButton r2 = new JRadioButton(NumberOfPlayers.THREE.toString());
     JRadioButton r3 = new JRadioButton(NumberOfPlayers.FOUR.toString());
-
+    JRadioButton r4 = new JRadioButton("Strategic Mode");
     final JPanel panel = new JPanel();
 
     final ButtonGroup group = new ButtonGroup();
@@ -35,6 +36,7 @@ class GameSetupController {
     panel.add(r1);
     panel.add(r2);
     panel.add(r3);
+    panel.add(r4);
 
     Object[] options = { "Next", "Load Saved Game", "Cancel" };
 
@@ -46,7 +48,9 @@ class GameSetupController {
 
     if (result == JOptionPane.YES_OPTION) {
       String text = RadioButtonUtils.getSelectedButtonText(group);
-
+      if(r4.isSelected()) {
+    	strategic = true;  
+      }
       int numberOfPlayers = NumberOfPlayers.fromString(text).toInt();
 
       for (int i = 1; i <= numberOfPlayers; i++) {
@@ -75,7 +79,7 @@ class GameSetupController {
         }
       }
 
-      new GameController(gameBoardView, players);
+      new GameController(gameBoardView, players, strategic);
 
       // Run this after the game boots up.
       SwingUtilities.invokeLater(new Runnable() {
