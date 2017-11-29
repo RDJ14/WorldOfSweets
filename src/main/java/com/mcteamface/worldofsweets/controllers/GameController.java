@@ -20,6 +20,7 @@ public class GameController implements Serializable {
   private transient Timer mTimer;
   private DeckModel mDeck;
   private boolean mStrategic;
+  private boolean mAboutToRang;
   private long mLastClockedTime;
   private long mElapsedTime;
   private Card mCurrentCard;
@@ -29,6 +30,8 @@ public class GameController implements Serializable {
   private boolean mPlayerHasMoved;
 
   public GameController(GameBoardView gameBoardView, ArrayList<PlayerModel> players, boolean strategic) {
+    mAboutToRang = false;
+
     mLastClockedTime = System.currentTimeMillis() / 1000;
     mStrategic = strategic;
     // Start out as true so we can draw a card.
@@ -196,24 +199,14 @@ public class GameController implements Serializable {
     mGameBoardView.addBoomerangUsedListener(new GameBoardView.BoomerangUsedListener() {
       @Override
       public void boomerangUsed() {
-        System.out.println("BOOMERANG!!!!");
         if (mPlayerHasMoved && mPlayers.get(0).hasBoomerang()) {
-          // A boomerang counts as a move.
-          mPlayerHasMoved = true;
-
           // Rotate player order.
           PlayerModel player = mPlayers.remove(0);
           mPlayers.add(player);
 
           player.useBoomerang();
-
-          // -Choose a player to boomerang- we probably need a callback ugh...
-          // drawCard();
-          // int newPosition = GameHelperUtil.getPrevious(boomerangedPlayer.getLocation(), mCurrentCard);
-          // mCurrentCard = null;
-          // boomerangedPlayer.setLocation(newPosition);
-          // boomerangedPiece.moveTo(boomerangedPlayer.getLocation());
-          // mGameBoardView.repaint();
+          System.out.println("BOOMERANG!!!!");
+          mAboutToRang = true;
         }
       }
     });
@@ -221,6 +214,24 @@ public class GameController implements Serializable {
     mGameBoardView.addTokenMovedListener(new GameBoardView.TokenMovedListener() {
       @Override
       public void tokenMoved(Piece piece, int x, int y) {
+        if (mAboutToRang) {
+          for (PlayerModel player : mPlayers) {
+            // Find the player of the piece and make sure they aren't boomeranging themselves.
+            if (player.checkPiece(piece.getId()) && !player.getId().equals(mPlayers.get(0).getId())) {
+              mAboutToRang = false;
+              drawCard();
+              int newPosition = GameHelperUtil.getPrevious(player.getLocation(), mCurrentCard);
+              mCurrentCard = null;
+              player.setLocation(newPosition);
+              piece.moveTo(player.getLocation());
+              mGameBoardView.repaint();
+
+              // A boomerang counts as a move.
+              mPlayerHasMoved = true;
+            }
+          }
+        }
+
         for (PlayerModel player : mPlayers) {
           // Find the player of the piece and check if it's their turn.
           if (
