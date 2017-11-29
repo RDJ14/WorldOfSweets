@@ -124,6 +124,9 @@ public class GameController implements Serializable {
   }
 
   private void makeMove(Piece piece) {
+	  if(piece==null&&mAboutToRang) {
+		  mAboutToRang=false;
+	  }
 	if(!mAboutToRang) {
 	    mPlayerHasMoved = true;
 
