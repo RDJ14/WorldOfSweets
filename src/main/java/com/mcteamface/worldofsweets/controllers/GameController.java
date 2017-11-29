@@ -217,8 +217,17 @@ public class GameController implements Serializable {
 
     mGameBoardView.addBoomerangUsedListener(new GameBoardView.BoomerangUsedListener() {
       @Override
+      
       public void boomerangUsed() {
-       if(mAboutToRang) {
+    	  if(!mStrategic) {
+              JOptionPane.showMessageDialog(
+             	      null,
+             	      "You aren't playing strategic mode!",
+             	      "World of Sweets",
+             	      JOptionPane.PLAIN_MESSAGE
+             	    );
+          }
+    	  else if(mAboutToRang) {
            JOptionPane.showMessageDialog(
          	      null,
          	      "You are already holding a boomerang",
