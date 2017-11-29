@@ -29,6 +29,7 @@ class GameBoardView extends JPanel {
 
   private CardDrawnListener mCardDrawnListener;
   private TokenMovedListener mTokenMovedListener;
+  private BoomerangUsedListener mBoomerangUsedListener;
   private Image mImgBackground;
   private Image mImgDrawCard;
   private Image mImgDiscard;
@@ -90,10 +91,6 @@ class GameBoardView extends JPanel {
     return mPieces;
   }
 
-  public void cardDrawn() {
-    mCardDrawnListener.cardDrawn();
-  }
-
   public Image getDrawCard() {
     return mImgDrawCard;
   }
@@ -106,24 +103,40 @@ class GameBoardView extends JPanel {
     mImgDiscard = image;
   }
 
-  public void addCardDrawnListener(CardDrawnListener listener) {
-    mCardDrawnListener = listener;
+  public void setRightLabel(String rightLabel) {
+    mRightLabel = rightLabel;
+  }
+
+  public void cardDrawn() {
+    mCardDrawnListener.cardDrawn();
+  }
+
+  public void boomerangUsed() {
+    mBoomerangUsedListener.boomerangUsed();
   }
 
   public void tokenMoved(Piece piece, int x, int y) {
     mTokenMovedListener.tokenMoved(piece, x, y);
   }
 
+  public void addCardDrawnListener(CardDrawnListener listener) {
+    mCardDrawnListener = listener;
+  }
+
+  public void addBoomerangUsedListener(BoomerangUsedListener listener) {
+    mBoomerangUsedListener = listener;
+  }
+
   public void addTokenMovedListener(TokenMovedListener listener) {
     mTokenMovedListener = listener;
   }
 
-  public void setRightLabel(String rightLabel) {
-    mRightLabel = rightLabel;
-  }
-
   public interface CardDrawnListener {
     void cardDrawn();
+  }
+
+  public interface BoomerangUsedListener {
+    void boomerangUsed();
   }
 
   public interface TokenMovedListener {
@@ -185,6 +198,9 @@ class GameBoardView extends JPanel {
     int paddingY = (200 - cardHeight) / 2;
     g.drawImage(mImgDrawCard, 750 + 50, 465 + paddingY, cardWidth, cardHeight, null);
     g.drawImage(mImgDiscard, 750 + cardWidth + 80, 465 + paddingY, cardWidth, cardHeight, null);
+
+    // Temporary Boomerang slot
+    g.drawImage(mImgDrawCard, 150, 0, 300, 65, null);
 
     if (mRot > 0 && mRot <= 90) {
       int newWidth = (int) (((double) cardWidth) * Math.cos(Math.toRadians(mRot)));

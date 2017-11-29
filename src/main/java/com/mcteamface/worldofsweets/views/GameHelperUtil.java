@@ -14,12 +14,9 @@ public class GameHelperUtil {
   public static int getBoardLength() {
     return board.length;
   }
-  
-  
 
-
-  public static int getBack(int currentSpot, Card card) {
-	// We want to move to the special spot, not the next one.
+  public static int getPrevious(int currentSpot, Card card) {
+	   // We want to move to the special spot, not the next one.
 	    switch (card) {
 	      case SPECIAL_LOLLIPOP:
 	        for (int i = 0; i < board.length; i++) {
@@ -60,7 +57,7 @@ public class GameHelperUtil {
 
 	    // Start at position - 1 incase we are on that color.
 	    int numFound = 0;
-	    for (int i = currentSpot-1; i > 0; i--) {
+	    for (int i = currentSpot - 1; i > 0; i--) {
 	      if (board[i].equals(Spot.GRANDMA)) {
 	        return board.length - 1;
 	      }

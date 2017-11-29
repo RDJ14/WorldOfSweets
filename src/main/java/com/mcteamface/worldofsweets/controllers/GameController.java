@@ -19,12 +19,7 @@ public class GameController implements Serializable {
   private transient GameBoardView mGameBoardView;
   private transient Timer mTimer;
   private DeckModel mDeck;
-  //Add by Malek
-  
-  boolean strategic;
-  boolean boomerangUsed = false;
-  
-  //End Added by Malek
+  private boolean mStrategic;
   private long mLastClockedTime;
   private long mElapsedTime;
   private Card mCurrentCard;
@@ -33,9 +28,9 @@ public class GameController implements Serializable {
   private ArrayList<PlayerModel> mPlayers = new ArrayList<PlayerModel>();
   private boolean mPlayerHasMoved;
 
-  public GameController(GameBoardView gameBoardView, ArrayList<PlayerModel> players, boolean isStrategic) {
+  public GameController(GameBoardView gameBoardView, ArrayList<PlayerModel> players, boolean strategic) {
     mLastClockedTime = System.currentTimeMillis() / 1000;
-    strategic = isStrategic;
+    mStrategic = strategic;
     // Start out as true so we can draw a card.
     mPlayerHasMoved = true;
     mGameBoardView = gameBoardView;
@@ -116,13 +111,13 @@ public class GameController implements Serializable {
   }
 
   private void drawCard() {
-      mPlayerHasMoved = false;
-      mCurrentCard = mDeck.dequeCard();
-      mLastDrawCard = mCurrentCard;
-      if (mCurrentCard == null) {
-        return;
-      }
-      mGameBoardView.animateDiscard(mCurrentCard.getImage());
+    mPlayerHasMoved = false;
+    mCurrentCard = mDeck.dequeCard();
+    mLastDrawCard = mCurrentCard;
+    if (mCurrentCard == null) {
+      return;
+    }
+    mGameBoardView.animateDiscard(mCurrentCard.getImage());
   }
 
   private void makeMove(Piece piece) {
@@ -131,35 +126,23 @@ public class GameController implements Serializable {
     // Rotate player order.
     PlayerModel player = mPlayers.remove(0);
     mPlayers.add(player);
-    //Added this - Malek
-    if(strategic && boomerangUsed) {
-    	PlayerModel boomerangPlayer = mPlayers.get(0);
-    	int newPosition = GameHelperUtil.getBack(boomerangPlayer.getLocation(), mCurrentCard);
-    	boomerangPlayer.setLocation(newPosition);
-    	piece.moveTo(boomerangPlayer.getLocation());
-    	boomerangUsed = false;
+
+    int newPosition = GameHelperUtil.getNext(player.getLocation(), mCurrentCard);
+    mCurrentCard = null;
+
+    player.setLocation(newPosition);
+    piece.moveTo(player.getLocation());
+    mGameBoardView.repaint();
+
+    if (newPosition == GameHelperUtil.getBoardLength() - 1) {
+      JOptionPane.showMessageDialog(
+        null,
+        player.getName() + " wins!",
+        "World of Sweets",
+        JOptionPane.PLAIN_MESSAGE
+      );
+      System.exit(0);
     }
-    //End added this - Malek
-    //else is original, none strategic functionality
-    else {
-        int newPosition = GameHelperUtil.getNext(player.getLocation(), mCurrentCard);
-        mCurrentCard = null;
-
-        player.setLocation(newPosition);
-        piece.moveTo(player.getLocation());
-        mGameBoardView.repaint();
-
-        if (newPosition == GameHelperUtil.getBoardLength() - 1) {
-          JOptionPane.showMessageDialog(
-            null,
-            player.getName() + " wins!",
-            "World of Sweets",
-            JOptionPane.PLAIN_MESSAGE
-          );
-          System.exit(0);
-        }
-    }
-
 
     PlayerModel nextPlayer = mPlayers.get(0);
     JOptionPane.showMessageDialog(
@@ -207,6 +190,13 @@ public class GameController implements Serializable {
             makeMove(null);
           }
         }
+      }
+    });
+
+    mGameBoardView.addBoomerangUsedListener(new GameBoardView.BoomerangUsedListener() {
+      @Override
+      public void boomerangUsed() {
+        System.out.println("BOOMERANG!!!!");
       }
     });
 

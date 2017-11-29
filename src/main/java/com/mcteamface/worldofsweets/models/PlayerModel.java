@@ -9,21 +9,23 @@ public class PlayerModel implements Serializable {
   private String mPieceId;
   private int mLocation;
   private boolean mAI;
-  private int boomerangs;
+  private int mBoomerangs;
+
   public PlayerModel(String name) {
     mId = UUID.randomUUID().toString();
     mName = name;
     mLocation = 0;
-    boomerangs = 3;
+    mBoomerangs = 3;
   }
 
-  public boolean getBoomerang() {
-	  if(boomerangs == 0) {
+  public boolean hasBoomerang() {
+	  if (mBoomerangs == 0) {
 		  return false;
 	  }
-	  boomerangs --;
+	  mBoomerangs--;
 	  return true;
   }
+
   public String getId() {
 		return mId;
 	}

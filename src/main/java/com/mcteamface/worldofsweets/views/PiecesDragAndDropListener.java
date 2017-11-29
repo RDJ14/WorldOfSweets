@@ -30,6 +30,10 @@ public class PiecesDragAndDropListener implements MouseListener, MouseMotionList
       mGameBoard.cardDrawn();
     }
 
+    if (150 <= x && 300 + 150 >= x && 0 <= y && 65 >= y) {
+      mGameBoard.boomerangUsed();
+    }
+
     // Find out which piece to move.
     for (Piece piece : mGameBoard.getPieces()) {
       if (mouseOverPiece(piece, x, y)) {
