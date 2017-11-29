@@ -8,6 +8,7 @@ public class PlayerModel implements Serializable {
   private String mName;
   private String mPieceId;
   private int mLocation;
+  private boolean mAI;
 
   public PlayerModel(String name) {
     mId = UUID.randomUUID().toString();
@@ -37,5 +38,13 @@ public class PlayerModel implements Serializable {
 
   public int getLocation() {
     return mLocation;
+  }
+
+  public void setAI(boolean ai) {
+    mAI = ai;
+  }
+
+  public boolean isAI() {
+    return mAI;
   }
 }

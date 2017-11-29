@@ -18,6 +18,8 @@ public class GameHelperUtil {
   public static int getNext(int currentSpot, Card card) {
     // We want to move to the special spot, not the next one.
     switch (card) {
+      case SKIP:
+        return currentSpot;
       case SPECIAL_LOLLIPOP:
         for (int i = 0; i < board.length; i++) {
           if (board[i].equals(Spot.SPECIAL_LOLLIPOP)) {
