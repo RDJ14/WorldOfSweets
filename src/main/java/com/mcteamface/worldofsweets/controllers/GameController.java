@@ -124,63 +124,47 @@ public class GameController implements Serializable {
   }
 
   private void makeMove(Piece piece) {
-	if(!mAboutToRang) {
-	    mPlayerHasMoved = true;
+    mPlayerHasMoved = true;
 
-	    // Rotate player order.
-	    PlayerModel player = mPlayers.remove(0);
-	    mPlayers.add(player);
+    // Rotate player order.
+    PlayerModel player = mPlayers.remove(0);
+    mPlayers.add(player);
 
-	    int newPosition = GameHelperUtil.getNext(player.getLocation(), mCurrentCard);
-	    mCurrentCard = null;
+    int newPosition = GameHelperUtil.getNext(player.getLocation(), mCurrentCard);
+    mCurrentCard = null;
 
-	    player.setLocation(newPosition);
-	    piece.moveTo(player.getLocation());
-	    mGameBoardView.repaint();
+    player.setLocation(newPosition);
+    piece.moveTo(player.getLocation());
+    mGameBoardView.repaint();
 
-	    if (newPosition == GameHelperUtil.getBoardLength() - 1) {
-	      JOptionPane.showMessageDialog(
-	        null,
-	        player.getName() + " wins!",
-	        "World of Sweets",
-	        JOptionPane.PLAIN_MESSAGE
-	      );
-	      System.exit(0);
-	    }
+    if (newPosition == GameHelperUtil.getBoardLength() - 1) {
+      JOptionPane.showMessageDialog(
+        null,
+        player.getName() + " wins!",
+        "World of Sweets",
+        JOptionPane.PLAIN_MESSAGE
+      );
+      System.exit(0);
+    }
 
-	    PlayerModel nextPlayer = mPlayers.get(0);
-	    JOptionPane.showMessageDialog(
-	      null,
-	      "It's " + nextPlayer.getName() + "'s turn!",
-	      "World of Sweets",
-	      JOptionPane.PLAIN_MESSAGE
-	    );
+    PlayerModel nextPlayer = mPlayers.get(0);
+    JOptionPane.showMessageDialog(
+      null,
+      "It's " + nextPlayer.getName() + "'s turn!",
+      "World of Sweets",
+      JOptionPane.PLAIN_MESSAGE
+    );
 
-	    if (mPlayers.get(0).isAI()) {
-	      drawCard();
-	      // We might want to just add the piece to the player instead of an id.
-	      for (Piece nextPiece : mGameBoardView.getPieces()) {
-	        if (nextPlayer.checkPiece(nextPiece.getId())) {
-	          makeMove(nextPiece);
-	          break;
-	        }
-	      }
-	    }
-	}
-	else {
-		JOptionPane.showMessageDialog(
-       	      null,
-       	      "Can't move your own piece while boomeranging",
-       	      "World of Sweets",
-       	      JOptionPane.PLAIN_MESSAGE
-       	    );
-		PlayerModel player = mPlayers.get(0);
-		player.setLocation(player.getLocation());
-	    piece.moveTo(player.getLocation());
-	    mGameBoardView.repaint();
-	}
-	
-
+    if (mPlayers.get(0).isAI()) {
+      drawCard();
+      // We might want to just add the piece to the player instead of an id.
+      for (Piece nextPiece : mGameBoardView.getPieces()) {
+        if (nextPlayer.checkPiece(nextPiece.getId())) {
+          makeMove(nextPiece);
+          break;
+        }
+      }
+    }
   }
 
   private void initListeners() {
@@ -215,31 +199,9 @@ public class GameController implements Serializable {
     mGameBoardView.addBoomerangUsedListener(new GameBoardView.BoomerangUsedListener() {
       @Override
       public void boomerangUsed() {
-       if(mAboutToRang) {
-           JOptionPane.showMessageDialog(
-         	      null,
-         	      "You are already holding a boomerang",
-         	      "World of Sweets",
-         	      JOptionPane.PLAIN_MESSAGE
-         	    );
-       }
-      else if (mPlayerHasMoved && mPlayers.get(0).hasBoomerang()) {
+        if (mPlayerHasMoved && mPlayers.get(0).hasBoomerang()) {
           mPlayers.get(0).useBoomerang();
           mAboutToRang = true;
-          JOptionPane.showMessageDialog(
-        	      null,
-        	      "Using a boomerang!",
-        	      "World of Sweets",
-        	      JOptionPane.PLAIN_MESSAGE
-        	    );
-        }
-        else {
-        	JOptionPane.showMessageDialog(
-          	      null,
-          	      "You have no boomerangs left!",
-          	      "World of Sweets",
-          	      JOptionPane.PLAIN_MESSAGE
-          	    );
         }
       }
     });
@@ -256,7 +218,7 @@ public class GameController implements Serializable {
               PlayerModel player = mPlayers.remove(0);
               mPlayers.add(player);
 
-              //drawCard();
+              drawCard();
               int newPosition = GameHelperUtil.getPrevious(boomerangedPlayer.getLocation(), mCurrentCard);
               mCurrentCard = null;
               boomerangedPlayer.setLocation(newPosition);

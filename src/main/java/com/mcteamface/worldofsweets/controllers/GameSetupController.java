@@ -76,7 +76,7 @@ class GameSetupController {
           System.exit(0);
         }
       }
-      System.out.println(strategic.isSelected());
+
       new GameController(gameBoardView, players, strategic.isSelected());
 
       // Run this after the game boots up.
