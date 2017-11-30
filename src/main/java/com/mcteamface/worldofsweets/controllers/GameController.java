@@ -268,13 +268,6 @@ public class GameController implements Serializable {
 
               // A boomerang counts as a move.
               mPlayerHasMoved = true;
-      	    PlayerModel nextPlayer = mPlayers.get(0);
-    	    JOptionPane.showMessageDialog(
-    	      null,
-    	      "It's " + nextPlayer.getName() + "'s turn!",
-    	      "World of Sweets",
-    	      JOptionPane.PLAIN_MESSAGE
-    	    );
             }
           }
         }
