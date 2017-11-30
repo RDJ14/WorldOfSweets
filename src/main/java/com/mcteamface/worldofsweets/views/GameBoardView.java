@@ -33,8 +33,11 @@ class GameBoardView extends JPanel {
   private Image mImgBackground;
   private Image mImgDrawCard;
   private Image mImgDiscard;
+  private Image mImgBoomerang;
+  private Image mImgBoomerangUsed;
   private String mRightLabel = "";
   private ArrayList<Piece> mPieces = new ArrayList<Piece>();
+  private int mBoomerangs;
 
   public GameBoardView() {
     setLayout(null);
@@ -43,6 +46,14 @@ class GameBoardView extends JPanel {
 
     URL urlDrawCardImg = getClass().getResource("/images/card_back.png");
 		mImgDrawCard = new ImageIcon(urlDrawCardImg).getImage();
+
+    URL urlBoomerangImg = getClass().getResource("/images/boomerang.png");
+		mImgBoomerang = new ImageIcon(urlBoomerangImg).getImage();
+
+    URL urlBoomerangUsedImg = getClass().getResource("/images/boomerang_used.png");
+		mImgBoomerangUsed = new ImageIcon(urlBoomerangUsedImg).getImage();
+
+    mBoomerangs = 3;
 
     setPreferredSize(new Dimension(mImgBackground.getWidth(null) / 2, mImgBackground.getHeight(null) / 2));
 
@@ -199,8 +210,12 @@ class GameBoardView extends JPanel {
     g.drawImage(mImgDrawCard, 750 + 50, 465 + paddingY, cardWidth, cardHeight, null);
     g.drawImage(mImgDiscard, 750 + cardWidth + 80, 465 + paddingY, cardWidth, cardHeight, null);
 
-    // Temporary Boomerang slot
-    g.drawImage(mImgDrawCard, 150, 0, 300, 65, null);
+    // Boomerangs
+    if (mBoomerangs > 0) {
+      g.drawImage(mImgBoomerang, 150, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);
+      g.drawImage(mImgBoomerang, 200, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);
+      g.drawImage(mImgBoomerang, 250, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);
+    }
 
     if (mRot > 0 && mRot <= 90) {
       int newWidth = (int) (((double) cardWidth) * Math.cos(Math.toRadians(mRot)));

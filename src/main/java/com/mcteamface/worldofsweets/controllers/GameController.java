@@ -200,7 +200,7 @@ public class GameController implements Serializable {
     mGameBoardView.addBoomerangUsedListener(new GameBoardView.BoomerangUsedListener() {
       @Override
       public void boomerangUsed() {
-        if (mPlayerHasMoved && mPlayers.get(0).hasBoomerang()) {
+        if (mPlayerHasMoved && mPlayers.get(0).hasBoomerang() && !mAboutToRang) {
           mPlayers.get(0).useBoomerang();
           mAboutToRang = true;
           JOptionPane.showMessageDialog(
