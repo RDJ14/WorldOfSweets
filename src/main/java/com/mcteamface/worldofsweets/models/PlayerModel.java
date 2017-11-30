@@ -15,8 +15,13 @@ public class PlayerModel implements Serializable {
     mId = UUID.randomUUID().toString();
     mName = name;
     mLocation = 0;
-    mBoomerangs = 3;
+    mBoomerangs = 0;
   }
+
+  public void setBoomerangs(int boomerangs) {
+		mBoomerangs = boomerangs;
+  }
+
 
   public boolean hasBoomerang() {
 		return mBoomerangs != 0;

@@ -19,7 +19,6 @@ public class GameController implements Serializable {
   private transient GameBoardView mGameBoardView;
   private transient Timer mTimer;
   private DeckModel mDeck;
-  private boolean mStrategic;
   private boolean mAboutToRang;
   private long mLastClockedTime;
   private long mElapsedTime;
@@ -33,7 +32,6 @@ public class GameController implements Serializable {
     mAboutToRang = false;
 
     mLastClockedTime = System.currentTimeMillis() / 1000;
-    mStrategic = strategic;
     // Start out as true so we can draw a card.
     mPlayerHasMoved = true;
     mGameBoardView = gameBoardView;
@@ -41,6 +39,9 @@ public class GameController implements Serializable {
 
     for (PlayerModel player : players) {
       player.assignPiece(mGameBoardView.createPiece().getId());
+      if (strategic) {
+        player.setBoomerangs(3);
+      }
       mPlayers.add(player);
       mInitialLineup.add(player);
     }
@@ -202,6 +203,12 @@ public class GameController implements Serializable {
         if (mPlayerHasMoved && mPlayers.get(0).hasBoomerang()) {
           mPlayers.get(0).useBoomerang();
           mAboutToRang = true;
+          JOptionPane.showMessageDialog(
+            null,
+            "Boomerang activated!\nClick on a player to move them back.",
+            "World of Sweets",
+            JOptionPane.PLAIN_MESSAGE
+          );
         }
       }
     });
@@ -209,6 +216,7 @@ public class GameController implements Serializable {
     mGameBoardView.addTokenMovedListener(new GameBoardView.TokenMovedListener() {
       @Override
       public void tokenMoved(Piece piece, int x, int y) {
+        // If 'aboutToRang' is true, we are clicking on a player to move back.
         if (mAboutToRang) {
           for (PlayerModel boomerangedPlayer : mPlayers) {
             // Find the player of the piece and make sure they aren't boomeranging themselves.
@@ -227,6 +235,13 @@ public class GameController implements Serializable {
 
               // A boomerang counts as a move.
               mPlayerHasMoved = true;
+
+              JOptionPane.showMessageDialog(
+                null,
+                "It's " + mPlayers.get(0).getName() + "'s turn!",
+                "World of Sweets",
+                JOptionPane.PLAIN_MESSAGE
+              );
             }
           }
         }
