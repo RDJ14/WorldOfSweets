@@ -63,6 +63,10 @@ class GameBoardView extends JPanel {
 		this.addMouseMotionListener(listener);
   }
 
+  public void setBoomerangs(int boomerangs) {
+    mBoomerangs = boomerangs;
+  }
+
   public void isStrategic(boolean strategic) {
     mStrategic = strategic;
   }
@@ -217,9 +221,23 @@ class GameBoardView extends JPanel {
 
     // Boomerangs
     if (mStrategic) {
-      g.drawImage(mImgBoomerang, 150, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);
-      g.drawImage(mImgBoomerang, 200, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);
-      g.drawImage(mImgBoomerang, 250, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);
+      if (mBoomerangs >= 1) {
+        g.drawImage(mImgBoomerang, 150, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);
+      } else {
+        g.drawImage(mImgBoomerangUsed, 150, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);
+      }
+
+      if (mBoomerangs >= 2) {
+        g.drawImage(mImgBoomerang, 200, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);
+      } else {
+        g.drawImage(mImgBoomerangUsed, 200, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);
+      }
+
+      if (mBoomerangs >= 3) {
+        g.drawImage(mImgBoomerang, 250, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);
+      } else {
+        g.drawImage(mImgBoomerangUsed, 250, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);
+      }
     }
 
     if (mRot > 0 && mRot <= 90) {

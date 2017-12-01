@@ -81,6 +81,8 @@ public class GameController implements Serializable {
 
     mGameBoardView.isStrategic(mStrategic);
 
+    invalidateBoomerangs();
+
     // Draw elapsed time, because it will take a second for the first time to be
     // rendered.
     SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
@@ -124,16 +126,18 @@ public class GameController implements Serializable {
   }
 
   private void drawCard() {
-    mPlayerHasMoved = false;
-    mCurrentCard = mDeck.dequeCard();
-    mLastDrawCard = mCurrentCard;
-    if (mCurrentCard == null) {
-      return;
+    if (mPlayerHasMoved && !mAboutToRang) {
+      mPlayerHasMoved = false;
+      mCurrentCard = mDeck.dequeCard();
+      mLastDrawCard = mCurrentCard;
+      if (mCurrentCard == null) {
+        return;
+      }
+
+      enableCurrentPiece();
+
+      mGameBoardView.animateDiscard(mCurrentCard.getImage());
     }
-
-    enableCurrentPiece();
-
-    mGameBoardView.animateDiscard(mCurrentCard.getImage());
   }
 
   public void enableCurrentPiece() {
@@ -164,6 +168,12 @@ public class GameController implements Serializable {
     mGameBoardView.repaint();
   }
 
+  public void invalidateBoomerangs() {
+    int boomerangs = mPlayers.get(0).getBoomerangs();
+    mGameBoardView.setBoomerangs(boomerangs);
+    mGameBoardView.repaint();
+  }
+
   private void makeMove(Piece piece) {
     mPlayerHasMoved = true;
 
@@ -181,6 +191,7 @@ public class GameController implements Serializable {
     mGameBoardView.repaint();
 
     disableAllPieces();
+    invalidateBoomerangs();
 
     if (newPosition == GameHelperUtil.getBoardLength() - 1) {
       JOptionPane.showMessageDialog(
@@ -244,6 +255,7 @@ public class GameController implements Serializable {
     mGameBoardView.addBoomerangUsedListener(new GameBoardView.BoomerangUsedListener() {
       @Override
       public void boomerangUsed() {
+        System.out.println("moved: " + mPlayerHasMoved + ", has: " + mPlayers.get(0).hasBoomerang() + ", aboutToRang: " + mAboutToRang);
         if (mPlayerHasMoved && mPlayers.get(0).hasBoomerang() && !mAboutToRang) {
           mPlayers.get(0).useBoomerang();
           mAboutToRang = true;
@@ -282,6 +294,7 @@ public class GameController implements Serializable {
               mPlayerHasMoved = true;
 
               disableAllPieces();
+              invalidateBoomerangs();
 
               JOptionPane.showMessageDialog(
                 null,

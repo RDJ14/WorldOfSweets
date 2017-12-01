@@ -22,6 +22,9 @@ public class PlayerModel implements Serializable {
 		mBoomerangs = boomerangs;
   }
 
+  public int getBoomerangs() {
+		return mBoomerangs;
+  }
 
   public boolean hasBoomerang() {
 		return mBoomerangs != 0;
