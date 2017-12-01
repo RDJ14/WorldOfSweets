@@ -12,11 +12,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
-
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.SwingUtilities;
+import java.awt.AlphaComposite;
 
 class GameBoardView extends JPanel {
   private static final Color[] COLOR_ORDER = new Color[] {
@@ -231,12 +231,18 @@ class GameBoardView extends JPanel {
       g.drawImage(mTmpImgDiscard, 750 + 50 + outRadius + offSet, 465 + paddingY, newWidth, cardHeight, null);
     }
 
+    AlphaComposite transparent = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
+    AlphaComposite opaque = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f);
 		for (Piece piece : mPieces) {
+      if (!piece.isEnabled()) {
+        g2.setComposite(transparent);
+      }
 			g.drawImage(piece.getImage(), piece.getX(), piece.getY(), piece.getWidth(), piece.getHeight(), null);
+      g2.setComposite(opaque);
 		}
 
     // Start of timer UI.
-    g.setColor(Color.black);
+    g.setColor(new Color(82, 82, 82));
     Font font = new Font("SanSerif", Font.PLAIN, 16);
     g.setFont(font);
     FontMetrics fm = g.getFontMetrics(font);

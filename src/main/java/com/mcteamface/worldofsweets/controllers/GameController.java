@@ -38,7 +38,9 @@ public class GameController implements Serializable {
     mDeck = new DeckModel();
 
     for (PlayerModel player : players) {
-      player.assignPiece(mGameBoardView.createPiece().getId());
+      Piece piece = mGameBoardView.createPiece();
+      piece.setEnabled(false);
+      player.assignPiece(piece.getId());
       if (strategic) {
         player.setBoomerangs(3);
       }
@@ -62,6 +64,7 @@ public class GameController implements Serializable {
 
     for (PlayerModel player : mInitialLineup) {
       Piece piece = mGameBoardView.createPiece();
+      piece.setEnabled(mPlayers.get(0).getId().equals(player.getId()) && !mPlayerHasMoved);
       player.assignPiece(piece.getId());
       piece.moveTo(player.getLocation());
     }
@@ -121,7 +124,38 @@ public class GameController implements Serializable {
     if (mCurrentCard == null) {
       return;
     }
+
+    enableCurrentPiece();
+
     mGameBoardView.animateDiscard(mCurrentCard.getImage());
+  }
+
+  public void enableCurrentPiece() {
+    for (Piece piece : mGameBoardView.getPieces()) {
+      if (mPlayers.get(0).checkPiece(piece.getId())) {
+        piece.setEnabled(true);
+        mGameBoardView.repaint();
+        break;
+      }
+    }
+  }
+
+  public void enableAllButCurrentPiece() {
+    for (Piece piece : mGameBoardView.getPieces()) {
+      if (mPlayers.get(0).checkPiece(piece.getId())) {
+        piece.setEnabled(false);
+      } else {
+        piece.setEnabled(true);
+      }
+    }
+    mGameBoardView.repaint();
+  }
+
+  public void disableAllPieces() {
+    for (Piece piece : mGameBoardView.getPieces()) {
+      piece.setEnabled(false);
+    }
+    mGameBoardView.repaint();
   }
 
   private void makeMove(Piece piece) {
@@ -135,8 +169,12 @@ public class GameController implements Serializable {
     mCurrentCard = null;
 
     player.setLocation(newPosition);
-    piece.moveTo(player.getLocation());
+    if (piece != null) {
+      piece.moveTo(player.getLocation());
+    }
     mGameBoardView.repaint();
+
+    disableAllPieces();
 
     if (newPosition == GameHelperUtil.getBoardLength() - 1) {
       JOptionPane.showMessageDialog(
@@ -209,6 +247,7 @@ public class GameController implements Serializable {
             "World of Sweets",
             JOptionPane.PLAIN_MESSAGE
           );
+          enableAllButCurrentPiece();
         }
       }
     });
@@ -235,6 +274,8 @@ public class GameController implements Serializable {
 
               // A boomerang counts as a move.
               mPlayerHasMoved = true;
+
+              disableAllPieces();
 
               JOptionPane.showMessageDialog(
                 null,
