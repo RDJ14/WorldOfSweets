@@ -38,6 +38,7 @@ class GameBoardView extends JPanel {
   private String mRightLabel = "";
   private ArrayList<Piece> mPieces = new ArrayList<Piece>();
   private int mBoomerangs;
+  private boolean mStrategic;
 
   public GameBoardView() {
     setLayout(null);
@@ -60,6 +61,10 @@ class GameBoardView extends JPanel {
     PiecesDragAndDropListener listener = new PiecesDragAndDropListener(this);
 		this.addMouseListener(listener);
 		this.addMouseMotionListener(listener);
+  }
+
+  public void isStrategic(boolean strategic) {
+    mStrategic = strategic;
   }
 
   public Piece createPiece() {
@@ -211,7 +216,7 @@ class GameBoardView extends JPanel {
     g.drawImage(mImgDiscard, 750 + cardWidth + 80, 465 + paddingY, cardWidth, cardHeight, null);
 
     // Boomerangs
-    if (mBoomerangs > 0) {
+    if (mStrategic) {
       g.drawImage(mImgBoomerang, 150, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);
       g.drawImage(mImgBoomerang, 200, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);
       g.drawImage(mImgBoomerang, 250, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);

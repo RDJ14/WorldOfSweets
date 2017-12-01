@@ -27,9 +27,11 @@ public class GameController implements Serializable {
   private ArrayList<PlayerModel> mInitialLineup = new ArrayList<PlayerModel>();
   private ArrayList<PlayerModel> mPlayers = new ArrayList<PlayerModel>();
   private boolean mPlayerHasMoved;
+  private boolean mStrategic;
 
   public GameController(GameBoardView gameBoardView, ArrayList<PlayerModel> players, boolean strategic) {
     mAboutToRang = false;
+    mStrategic = strategic;
 
     mLastClockedTime = System.currentTimeMillis() / 1000;
     // Start out as true so we can draw a card.
@@ -47,6 +49,8 @@ public class GameController implements Serializable {
       mPlayers.add(player);
       mInitialLineup.add(player);
     }
+
+    mGameBoardView.isStrategic(mStrategic);
 
     // Draw time of zero, because it will take a second for the first time to be
     // rendered.
@@ -74,6 +78,8 @@ public class GameController implements Serializable {
     if (mLastDrawCard != null) {
       mGameBoardView.setDiscard(mLastDrawCard.getImage());
     }
+
+    mGameBoardView.isStrategic(mStrategic);
 
     // Draw elapsed time, because it will take a second for the first time to be
     // rendered.
