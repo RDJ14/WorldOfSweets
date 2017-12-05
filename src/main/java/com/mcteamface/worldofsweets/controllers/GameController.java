@@ -19,6 +19,7 @@ public class GameController implements Serializable {
   private transient GameBoardView mGameBoardView;
   private transient Timer mTimer;
   private DeckModel mDeck;
+  private boolean mAboutToRang;
   private long mLastClockedTime;
   private long mElapsedTime;
   private Card mCurrentCard;
@@ -26,20 +27,30 @@ public class GameController implements Serializable {
   private ArrayList<PlayerModel> mInitialLineup = new ArrayList<PlayerModel>();
   private ArrayList<PlayerModel> mPlayers = new ArrayList<PlayerModel>();
   private boolean mPlayerHasMoved;
+  private boolean mStrategic;
 
-  public GameController(GameBoardView gameBoardView, ArrayList<PlayerModel> players) {
+  public GameController(GameBoardView gameBoardView, ArrayList<PlayerModel> players, boolean strategic) {
+    mAboutToRang = false;
+    mStrategic = strategic;
+
     mLastClockedTime = System.currentTimeMillis() / 1000;
-
     // Start out as true so we can draw a card.
     mPlayerHasMoved = true;
     mGameBoardView = gameBoardView;
     mDeck = new DeckModel();
 
     for (PlayerModel player : players) {
-      player.assignPiece(mGameBoardView.createPiece().getId());
+      Piece piece = mGameBoardView.createPiece();
+      piece.setEnabled(false);
+      player.assignPiece(piece.getId());
+      if (strategic) {
+        player.setBoomerangs(3);
+      }
       mPlayers.add(player);
       mInitialLineup.add(player);
     }
+
+    mGameBoardView.isStrategic(mStrategic);
 
     // Draw time of zero, because it will take a second for the first time to be
     // rendered.
@@ -57,6 +68,7 @@ public class GameController implements Serializable {
 
     for (PlayerModel player : mInitialLineup) {
       Piece piece = mGameBoardView.createPiece();
+      piece.setEnabled(mPlayers.get(0).getId().equals(player.getId()) && !mPlayerHasMoved);
       player.assignPiece(piece.getId());
       piece.moveTo(player.getLocation());
     }
@@ -66,6 +78,10 @@ public class GameController implements Serializable {
     if (mLastDrawCard != null) {
       mGameBoardView.setDiscard(mLastDrawCard.getImage());
     }
+
+    mGameBoardView.isStrategic(mStrategic);
+
+    invalidateBoomerangs();
 
     // Draw elapsed time, because it will take a second for the first time to be
     // rendered.
@@ -110,13 +126,52 @@ public class GameController implements Serializable {
   }
 
   private void drawCard() {
+    if (mPlayerHasMoved && !mAboutToRang) {
       mPlayerHasMoved = false;
       mCurrentCard = mDeck.dequeCard();
       mLastDrawCard = mCurrentCard;
       if (mCurrentCard == null) {
         return;
       }
+
+      enableCurrentPiece();
+
       mGameBoardView.animateDiscard(mCurrentCard.getImage());
+    }
+  }
+
+  public void enableCurrentPiece() {
+    for (Piece piece : mGameBoardView.getPieces()) {
+      if (mPlayers.get(0).checkPiece(piece.getId())) {
+        piece.setEnabled(true);
+        mGameBoardView.repaint();
+        break;
+      }
+    }
+  }
+
+  public void enableAllButCurrentPiece() {
+    for (Piece piece : mGameBoardView.getPieces()) {
+      if (mPlayers.get(0).checkPiece(piece.getId())) {
+        piece.setEnabled(false);
+      } else {
+        piece.setEnabled(true);
+      }
+    }
+    mGameBoardView.repaint();
+  }
+
+  public void disableAllPieces() {
+    for (Piece piece : mGameBoardView.getPieces()) {
+      piece.setEnabled(false);
+    }
+    mGameBoardView.repaint();
+  }
+
+  public void invalidateBoomerangs() {
+    int boomerangs = mPlayers.get(0).getBoomerangs();
+    mGameBoardView.setBoomerangs(boomerangs);
+    mGameBoardView.repaint();
   }
   private void dadDrawCard(PlayerModel dad){
     mPlayerHasMoved = false;
@@ -138,11 +193,13 @@ public class GameController implements Serializable {
     mCurrentCard = null;
 
     player.setLocation(newPosition);
-
     if (piece != null) {
       piece.moveTo(player.getLocation());
     }
     mGameBoardView.repaint();
+
+    disableAllPieces();
+    invalidateBoomerangs();
 
     if (newPosition == GameHelperUtil.getBoardLength() - 1) {
       JOptionPane.showMessageDialog(
@@ -209,9 +266,60 @@ public class GameController implements Serializable {
       }
     });
 
+    mGameBoardView.addBoomerangUsedListener(new GameBoardView.BoomerangUsedListener() {
+      @Override
+      public void boomerangUsed() {
+        System.out.println("moved: " + mPlayerHasMoved + ", has: " + mPlayers.get(0).hasBoomerang() + ", aboutToRang: " + mAboutToRang);
+        if (mPlayerHasMoved && mPlayers.get(0).hasBoomerang() && !mAboutToRang) {
+          mPlayers.get(0).useBoomerang();
+          mAboutToRang = true;
+          JOptionPane.showMessageDialog(
+            null,
+            "Boomerang activated!\nClick on a player to move them back.",
+            "World of Sweets",
+            JOptionPane.PLAIN_MESSAGE
+          );
+          enableAllButCurrentPiece();
+        }
+      }
+    });
+
     mGameBoardView.addTokenMovedListener(new GameBoardView.TokenMovedListener() {
       @Override
       public void tokenMoved(Piece piece, int x, int y) {
+        // If 'aboutToRang' is true, we are clicking on a player to move back.
+        if (mAboutToRang) {
+          for (PlayerModel boomerangedPlayer : mPlayers) {
+            // Find the player of the piece and make sure they aren't boomeranging themselves.
+            if (boomerangedPlayer.checkPiece(piece.getId()) && !boomerangedPlayer.getId().equals(mPlayers.get(0).getId())) {
+              mAboutToRang = false;
+              // Rotate player order.
+              PlayerModel player = mPlayers.remove(0);
+              mPlayers.add(player);
+
+              drawCard();
+              int newPosition = GameHelperUtil.getPrevious(boomerangedPlayer.getLocation(), mCurrentCard);
+              mCurrentCard = null;
+              boomerangedPlayer.setLocation(newPosition);
+              piece.moveTo(boomerangedPlayer.getLocation());
+              mGameBoardView.repaint();
+
+              // A boomerang counts as a move.
+              mPlayerHasMoved = true;
+
+              disableAllPieces();
+              invalidateBoomerangs();
+
+              JOptionPane.showMessageDialog(
+                null,
+                "It's " + mPlayers.get(0).getName() + "'s turn!",
+                "World of Sweets",
+                JOptionPane.PLAIN_MESSAGE
+              );
+            }
+          }
+        }
+
         for (PlayerModel player : mPlayers) {
           // Find the player of the piece and check if it's their turn.
           if (

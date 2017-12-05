@@ -36,6 +36,9 @@ class GameSetupController {
     panel.add(r2);
     panel.add(r3);
 
+    JCheckBox strategic = new JCheckBox("Strategic Mode");
+    panel.add(strategic);
+
     Object[] options = { "Next", "Load Saved Game", "Cancel" };
 
     int result = JOptionPane.showOptionDialog(
@@ -46,7 +49,6 @@ class GameSetupController {
 
     if (result == JOptionPane.YES_OPTION) {
       String text = RadioButtonUtils.getSelectedButtonText(group);
-
       int numberOfPlayers = NumberOfPlayers.fromString(text).toInt();
 
       for (int i = 1; i <= numberOfPlayers; i++) {
@@ -75,7 +77,7 @@ class GameSetupController {
         }
       }
 
-      new GameController(gameBoardView, players);
+      new GameController(gameBoardView, players, strategic.isSelected());
 
       // Run this after the game boots up.
       SwingUtilities.invokeLater(new Runnable() {

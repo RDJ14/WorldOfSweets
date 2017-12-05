@@ -12,11 +12,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
-
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.SwingUtilities;
+import java.awt.AlphaComposite;
 
 class GameBoardView extends JPanel {
   private static final Color[] COLOR_ORDER = new Color[] {
@@ -29,11 +29,16 @@ class GameBoardView extends JPanel {
 
   private CardDrawnListener mCardDrawnListener;
   private TokenMovedListener mTokenMovedListener;
+  private BoomerangUsedListener mBoomerangUsedListener;
   private Image mImgBackground;
   private Image mImgDrawCard;
   private Image mImgDiscard;
+  private Image mImgBoomerang;
+  private Image mImgBoomerangUsed;
   private String mRightLabel = "";
   private ArrayList<Piece> mPieces = new ArrayList<Piece>();
+  private int mBoomerangs;
+  private boolean mStrategic;
 
   public GameBoardView() {
     setLayout(null);
@@ -43,11 +48,27 @@ class GameBoardView extends JPanel {
     URL urlDrawCardImg = getClass().getResource("/images/card_back.png");
 		mImgDrawCard = new ImageIcon(urlDrawCardImg).getImage();
 
+    URL urlBoomerangImg = getClass().getResource("/images/boomerang.png");
+		mImgBoomerang = new ImageIcon(urlBoomerangImg).getImage();
+
+    URL urlBoomerangUsedImg = getClass().getResource("/images/boomerang_used.png");
+		mImgBoomerangUsed = new ImageIcon(urlBoomerangUsedImg).getImage();
+
+    mBoomerangs = 3;
+
     setPreferredSize(new Dimension(mImgBackground.getWidth(null) / 2, mImgBackground.getHeight(null) / 2));
 
     PiecesDragAndDropListener listener = new PiecesDragAndDropListener(this);
 		this.addMouseListener(listener);
 		this.addMouseMotionListener(listener);
+  }
+
+  public void setBoomerangs(int boomerangs) {
+    mBoomerangs = boomerangs;
+  }
+
+  public void isStrategic(boolean strategic) {
+    mStrategic = strategic;
   }
 
   public Piece createPiece() {
@@ -90,10 +111,6 @@ class GameBoardView extends JPanel {
     return mPieces;
   }
 
-  public void cardDrawn() {
-    mCardDrawnListener.cardDrawn();
-  }
-
   public Image getDrawCard() {
     return mImgDrawCard;
   }
@@ -106,24 +123,40 @@ class GameBoardView extends JPanel {
     mImgDiscard = image;
   }
 
-  public void addCardDrawnListener(CardDrawnListener listener) {
-    mCardDrawnListener = listener;
+  public void setRightLabel(String rightLabel) {
+    mRightLabel = rightLabel;
+  }
+
+  public void cardDrawn() {
+    mCardDrawnListener.cardDrawn();
+  }
+
+  public void boomerangUsed() {
+    mBoomerangUsedListener.boomerangUsed();
   }
 
   public void tokenMoved(Piece piece, int x, int y) {
     mTokenMovedListener.tokenMoved(piece, x, y);
   }
 
+  public void addCardDrawnListener(CardDrawnListener listener) {
+    mCardDrawnListener = listener;
+  }
+
+  public void addBoomerangUsedListener(BoomerangUsedListener listener) {
+    mBoomerangUsedListener = listener;
+  }
+
   public void addTokenMovedListener(TokenMovedListener listener) {
     mTokenMovedListener = listener;
   }
 
-  public void setRightLabel(String rightLabel) {
-    mRightLabel = rightLabel;
-  }
-
   public interface CardDrawnListener {
     void cardDrawn();
+  }
+
+  public interface BoomerangUsedListener {
+    void boomerangUsed();
   }
 
   public interface TokenMovedListener {
@@ -186,6 +219,27 @@ class GameBoardView extends JPanel {
     g.drawImage(mImgDrawCard, 750 + 50, 465 + paddingY, cardWidth, cardHeight, null);
     g.drawImage(mImgDiscard, 750 + cardWidth + 80, 465 + paddingY, cardWidth, cardHeight, null);
 
+    // Boomerangs
+    if (mStrategic) {
+      if (mBoomerangs >= 1) {
+        g.drawImage(mImgBoomerang, 150, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);
+      } else {
+        g.drawImage(mImgBoomerangUsed, 150, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);
+      }
+
+      if (mBoomerangs >= 2) {
+        g.drawImage(mImgBoomerang, 200, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);
+      } else {
+        g.drawImage(mImgBoomerangUsed, 200, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);
+      }
+
+      if (mBoomerangs >= 3) {
+        g.drawImage(mImgBoomerang, 250, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);
+      } else {
+        g.drawImage(mImgBoomerangUsed, 250, 0, mImgBoomerang.getWidth(null) / 2, mImgBoomerang.getHeight(null) / 2, null);
+      }
+    }
+
     if (mRot > 0 && mRot <= 90) {
       int newWidth = (int) (((double) cardWidth) * Math.cos(Math.toRadians(mRot)));
       double radius = (30 + (2 * cardWidth)) / 2;
@@ -200,12 +254,18 @@ class GameBoardView extends JPanel {
       g.drawImage(mTmpImgDiscard, 750 + 50 + outRadius + offSet, 465 + paddingY, newWidth, cardHeight, null);
     }
 
+    AlphaComposite transparent = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
+    AlphaComposite opaque = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f);
 		for (Piece piece : mPieces) {
+      if (!piece.isEnabled()) {
+        g2.setComposite(transparent);
+      }
 			g.drawImage(piece.getImage(), piece.getX(), piece.getY(), piece.getWidth(), piece.getHeight(), null);
+      g2.setComposite(opaque);
 		}
 
     // Start of timer UI.
-    g.setColor(Color.black);
+    g.setColor(new Color(82, 82, 82));
     Font font = new Font("SanSerif", Font.PLAIN, 16);
     g.setFont(font);
     FontMetrics fm = g.getFontMetrics(font);

@@ -12,6 +12,8 @@ public class Piece {
 	private int mX;
 	private int mY;
 
+	private boolean mEnabled;
+
 	public Piece(Image img, int x, int y) {
 		mId = UUID.randomUUID().toString();
 		mImg = img;
@@ -19,6 +21,15 @@ public class Piece {
 		mInitialY = y;
 		mX = x;
 		mY = y;
+		mEnabled = true;
+	}
+
+	public void setEnabled(boolean enabled) {
+		mEnabled = enabled;
+	}
+
+	public boolean isEnabled() {
+		return mEnabled;
 	}
 
 	public String getId() {
