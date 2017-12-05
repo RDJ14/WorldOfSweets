@@ -118,7 +118,15 @@ public class GameController implements Serializable {
       }
       mGameBoardView.animateDiscard(mCurrentCard.getImage());
   }
-
+  private void dadDrawCard(PlayerModel dad){
+    mPlayerHasMoved = false;
+    mCurrentCard = mDeck.dequeDadCard(dad);
+    mLastDrawCard = mCurrentCard;
+    if(mCurrentCard == null){
+      return;
+    }
+    mGameBoardView.animateDiscard(mCurrentCard.getImage());
+  }
   private void makeMove(Piece piece) {
     mPlayerHasMoved = true;
 
@@ -155,7 +163,11 @@ public class GameController implements Serializable {
     );
 
     if (mPlayers.get(0).isAI()) {
-      drawCard();
+      if(mPlayers.get(0).getName().equals("Dad")){
+        dadDrawCard(mPlayers.get(0));
+      } else{
+        drawCard();
+      }
       // We might want to just add the piece to the player instead of an id.
       for (Piece nextPiece : mGameBoardView.getPieces()) {
         if (nextPlayer.checkPiece(nextPiece.getId())) {
@@ -184,7 +196,9 @@ public class GameController implements Serializable {
       @Override
       public void cardDrawn() {
         if (mPlayerHasMoved) {
-          drawCard();
+          if(mPlayers.get(0).getName().equals("Dad")){
+            dadDrawCard(mPlayers.get(0));
+          } else drawCard();
 
           // If it's a skip card tokenMoved() will never be called.
           if (mCurrentCard == Card.SKIP) {
