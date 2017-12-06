@@ -94,7 +94,7 @@ public class GameController implements Serializable {
 
   public static GameController load(GameBoardView gameBoardView) {
     try {
-      FileInputStream fileIn = new FileInputStream("/tmp/game.ser");
+      FileInputStream fileIn = new FileInputStream("game.ser");
       ObjectInputStream in = new ObjectInputStream(fileIn);
       GameController gameController = (GameController) in.readObject();
       in.close();
@@ -115,7 +115,7 @@ public class GameController implements Serializable {
 
   public void serialize() {
     try {
-      FileOutputStream fileOut = new FileOutputStream("/tmp/game.ser");
+      FileOutputStream fileOut = new FileOutputStream("game.ser");
       ObjectOutputStream out = new ObjectOutputStream(fileOut);
       out.writeObject(this);
       out.close();
