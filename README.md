@@ -1,5 +1,5 @@
 # WorldOfSweets
-CS1530 Group Project
+CS1530 Group Project - Candy Land Clone
 
 ## Architecture
 
